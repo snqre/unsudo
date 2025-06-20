@@ -1,0 +1,8 @@
+package.name = "lo_bit"
+package.version = "0.1.0"
+package.edition = "2024"
+dependencies.paste.version = ">=1.0.0, <2.0.0"
+dependencies.delegate.version = ">=0.0.0, < 1.0.0"
+features.default = ["no_std"]
+features.no_std = []
+features.std = []
