@@ -1,31 +1,9 @@
 use dioxus::prelude::*;
 use wasm_bindgen::prelude::*;
+use gloo_timers::callback;
 use gloo_utils::format::JsValueSerdeExt as _;
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_name = animate_with_react_spring)]
-    fn animate() -> js_sys::Array;
-}
-
-pub type Get = Box<dyn Fn() -> f64>;
-pub type Set = Box<dyn Fn(f64, Config)>;
-
-pub fn sync() -> (Get, Set) {
-    let ar: js_sys::Array = animate();
-    let js_get: js_sys::Function = ar.get(0).unchecked_into();
-    let js_set: js_sys::Function = ar.get(1).unchecked_into();
-    let get: Get = Box::new(move || {
-        let val: JsValue = js_get.call0(&JsValue::NULL).unwrap();
-        val.as_f64().unwrap()
-    });
-    let set: Set = Box::new(move |new_value: f64, cfg: Config| {
-        let cfg_js: JsValue = JsValue::from_serde(&cfg).unwrap();
-        js_set.call2(&JsValue::NULL, &JsValue::from(new_value), &cfg_js).unwrap();
-    });
-    (get, set)
-}
-
+#[derive(Clone)]
 #[derive(serde::Serialize)]
 pub struct Config {
 
@@ -131,27 +109,87 @@ pub struct Config {
     pub round: Option<f64>
 }
 
-pub fn use_spring() -> (Signal<f64>, Box<dyn Fn(f64, Config)>) {
-    let signal: Signal<f64> = use_signal(|| 0.0f64);
-    let ar = animate();
-    let js_get: js_sys::Function = ar.get(0).unchecked_into();
-    let js_set: js_sys::Function = ar.get(1).unchecked_into();
-    let get = {
-        let js_get = js_get.to_owned();
-        let signal = signal.to_owned();
-        
-        use_effect(move || {
-            let internal = Interval::new(16, move || {
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_name = register)]
+    fn register(initial_value: JsValue, config: JsValue) -> u32;
 
+    #[wasm_bindgen(js_name = get)]
+    fn get(key: JsValue) -> f64;
+
+    #[wasm_bindgen(js_name = set)]
+    fn set(key: JsValue, value: JsValue, config: JsValue);
+
+    #[wasm_bindgen(js_name = cleanup)]
+    fn clean_up(key: JsValue);
+}
+
+pub fn use_react_spring(initial_value: f64, cfg: Option<Config>, sync_rate: u32) -> Option<Signal<f64>> {
+    let sig: Signal<f64> = use_signal(|| initial_value);
+
+    use_hook(move || {
+        let cfg_opt: Option<Config> = cfg.clone();
+        let mut sig: Signal<f64> = sig.to_owned();
+        let key: Option<JsValue> = if let Some(js_cfg) = cfg_opt.and_then(|cfg| cfg_to_js(&cfg)) {
+            let cfg: JsValue = js_cfg;
+            let val: JsValue = initial_value.into();
+            let key: u32 = register(val, cfg);
+            let js_key: JsValue = JsValue::from(key);
+            let _: callback::Interval = callback::Interval::new(sync_rate, {
+                let key: JsValue = js_key.clone();
+                move || {
+                    let val = get(key.clone());
+                    sig.set(val);
+                }
             });
-        });
+            Some(js_key)
+        } else {
+            None
+        };
+    
+        // Just store the cleanup key, not the interval
+        key
+    });
+
+    Some(sig)
+}
+
+macro_rules! assign {
+    ($js_obj:ident, $cfg:ident, $field:ident) => {
+        if let Some(value) = $cfg.$field {
+            js_sys::Reflect::set(
+                &$js_obj,
+                &JsValue::from_str(stringify!($field)),
+                &JsValue::from_f64(value as f64)
+            ).ok()?;
+        }
     };
-    let set = {
-        let js_set = js_set.to_owned();
-        Box::new(move |new_value: f64, cfg: Config| {
-            let js_cfg = JsValue::from_serde(&cfg).unwrap();
-            js_cfg.call2(&JsValue::NULL, &JsValue::from_f64(new_value), &js_cfg);
-        }) as Box<dyn Fn(f64, Config)>
-    };
-    (signal, set)
+}
+
+fn cfg_to_js(cfg: &Config) -> Option<JsValue> {
+    let js_obj: js_sys::Object = js_sys::Object::new();
+    assign! { js_obj, cfg, tension }
+    assign! { js_obj, cfg, friction }
+    assign! { js_obj, cfg, frequency }
+    assign! { js_obj, cfg, mass }
+    assign! { js_obj, cfg, velocity }
+    assign! { js_obj, cfg, rest_velocity }
+    assign! { js_obj, cfg, precision }
+    assign! { js_obj, cfg, progress }
+    assign! { js_obj, cfg, duration }
+    assign! { js_obj, cfg, bounce }
+    assign! { js_obj, cfg, decay }
+    assign! { js_obj, cfg, round }
+    if let Some(damping) = cfg.damping {
+        let k: &JsValue = &"damping".into();
+        let v: &JsValue = &damping.into();
+        js_sys::Reflect::set(&js_obj, k, v).ok()?;
+    }
+    if let Some(clamp) = cfg.clamp {
+        let k: &JsValue = &"clamp".into();
+        let v: &JsValue = &clamp.into();
+        js_sys::Reflect::set(&js_obj, k, v).ok()?;
+    }
+    let js_obj: JsValue = js_obj.into();
+    Some(js_obj)
 }
