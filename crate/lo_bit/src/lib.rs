@@ -11,6 +11,7 @@ use ::core::fmt as fmt;
 use ::core::result as result;
 
 mod utf8;
+mod map;
 
 pub type Result<T> = core::result::Result<T, Error>;
 
@@ -26,5 +27,3 @@ pub enum Error {
     ZeroChunkSize,
     InvalidUtf8
 }
-
-

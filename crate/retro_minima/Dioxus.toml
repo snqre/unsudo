@@ -1,0 +1,4 @@
+application.web.app.title = "retro_minima"
+web.resource.style = []
+web.resource.script = []
+web.resource.dev.script = []
