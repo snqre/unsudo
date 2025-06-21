@@ -1,51 +1,78 @@
+use dioxus::prelude::*;
 use wasm_bindgen::prelude::*;
+use gloo_utils::format::JsValueSerdeExt as _;
 
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_name = animate_with_react_spring)]
-    fn animate_with_react_spring(key: &str, to: JsValue);
+    fn animate() -> js_sys::Array;
 }
 
-fn use_spring() {
-    let target = js_sys::Object::new();
-    js_sys::Reflect::set(&target, &"opacity".into(), &1.0.into()).unwrap();
-    animate_with_react_spring("from-rust", target.into());
+pub type Get = Box<dyn Fn() -> f64>;
+pub type Set = Box<dyn Fn(f64, Config)>;
+
+pub fn sync() -> (Get, Set) {
+    let ar: js_sys::Array = animate();
+    let js_get: js_sys::Function = ar.get(0).unchecked_into();
+    let js_set: js_sys::Function = ar.get(1).unchecked_into();
+    let get: Get = Box::new(move || {
+        let val: JsValue = js_get.call0(&JsValue::NULL).unwrap();
+        val.as_f64().unwrap()
+    });
+    let set: Set = Box::new(move |new_value: f64, cfg: Config| {
+        let cfg_js: JsValue = JsValue::from_serde(&cfg).unwrap();
+        js_set.call2(&JsValue::NULL, &JsValue::from(new_value), &cfg_js).unwrap();
+    });
+    (get, set)
 }
 
-
+#[derive(serde::Serialize)]
 pub struct Config {
 
     /// With higher tension, the spring will resist bouncing and try harder to stop at its end value.
-    /// 
+    ///
     /// When tension is zero, no animation occurs.
-    /// 
-    /// # Default 
-    /// `170`
-    tension: Option<f64>,
+    ///
+    /// @default 170
+    pub tension: Option<f64>,
 
     /// The damping ratio coefficient, or just the damping ratio when `speed` is defined.
-    /// 
+    ///
+    /// When `speed` is defined, this value should be between 0 and 1.
+    ///
     /// Higher friction means the spring will slow down faster.
-    /// 
-    /// # Default
-    /// `26`
-    friction: f64,
+    ///
+    /// @default 26
+    pub friction: Option<f64>,
 
-    /// The natural frequency (in seconds), which dictates the number of bounces per second when no damping exists.
-    /// 
-    /// When defined, `tension` is derived from this, and `friction` is derived from `tension` and `damping`.
-    frequency: Option<f64>,
+    /// The natural frequency (in seconds), which dictates the number of bounces
+    /// per second when no damping exists.
+    ///
+    /// When defined, `tension` is derived from this, and `friction` is derived
+    /// from `tension` and `damping`.
+    pub frequency: Option<f64>,
 
-    damping: f32,
+    /// The damping ratio, which dictates how the spring slows down.
+    ///
+    /// Set to `0` to never slow down. Set to `1` to slow down without bouncing.
+    /// Between `0` and `1` is for you to explore.
+    ///
+    /// Only works when `frequency` is defined.
+    ///
+    /// @default 1
+    pub damping: Option<f32>,
 
-    mass: Option<f64>,
+    /// Higher mass means more friction is required to slow down.
+    ///
+    /// Defaults to 1, which works fine most of the time.
+    ///
+    /// @default 1
+    pub mass: Option<f64>,
 
-    /**
-     * The initial velocity of one or more values.
-     *
-     * @default 0
-     */
-    velocity: Option<f64>,
+    /// The initial velocity of one or more values.
+    ///
+    /// @default 0
+    pub velocity: Option<f64>,
 
     /// The smallest velocity before the animation is considered "not moving".
     ///
@@ -104,9 +131,27 @@ pub struct Config {
     pub round: Option<f64>
 }
 
+pub fn use_spring() -> (Signal<f64>, Box<dyn Fn(f64, Config)>) {
+    let signal: Signal<f64> = use_signal(|| 0.0f64);
+    let ar = animate();
+    let js_get: js_sys::Function = ar.get(0).unchecked_into();
+    let js_set: js_sys::Function = ar.get(1).unchecked_into();
+    let get = {
+        let js_get = js_get.to_owned();
+        let signal = signal.to_owned();
+        
+        use_effect(move || {
+            let internal = Interval::new(16, move || {
 
-pub struct Bridge;
-
-impl Bridge {
-    pub fn animate_to(&self, )
+            });
+        });
+    };
+    let set = {
+        let js_set = js_set.to_owned();
+        Box::new(move |new_value: f64, cfg: Config| {
+            let js_cfg = JsValue::from_serde(&cfg).unwrap();
+            js_cfg.call2(&JsValue::NULL, &JsValue::from_f64(new_value), &js_cfg);
+        }) as Box<dyn Fn(f64, Config)>
+    };
+    (signal, set)
 }

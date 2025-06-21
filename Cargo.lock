@@ -1406,7 +1406,10 @@ dependencies = [
 name = "ferro_spring"
 version = "0.1.0"
 dependencies = [
+ "dioxus",
+ "gloo-utils",
  "js-sys",
+ "serde",
  "wasm-bindgen",
 ]
 
