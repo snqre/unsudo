@@ -10,7 +10,7 @@ mod reveal;
 mod spiked_button;
 mod zip_line;
 mod horizontal_stripe;
-mod failure_modal;
+mod modal;
 
 #[component]
 fn Main() -> Element {
@@ -30,9 +30,8 @@ fn Main() -> Element {
                 min-height: 100vh;
                 background: linear-gradient(to bottom right, {color::OBSIDIAN}, {color::CARBON});
             "#,
-            failure_modal::FailureModal {
-                failure_modal::Header { "Internal Server Error" }
-                failure_modal::Message { "Your balance is not enough for this transaction. Try again later." }
+            modal::failure::Failure {
+                modal::failure::Message { "IO" }
             }
         }
     }
