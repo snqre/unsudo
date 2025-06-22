@@ -9,6 +9,8 @@ mod form;
 mod reveal;
 mod spiked_button;
 mod zip_line;
+mod horizontal_stripe;
+mod failure_modal;
 
 #[component]
 fn Main() -> Element {
@@ -17,6 +19,7 @@ fn Main() -> Element {
         document::Stylesheet { href: "https://fonts.cdnfonts.com/css/stray" }
         document::Stylesheet { href: "https://fonts.cdnfonts.com/css/br-cobane" }
         document::Stylesheet { href: asset!("asset/css/main.css") }
+        document::Stylesheet { href: asset!("asset/css/stripe_animation.css") }
         div {
             style: r#"
                 display: flex;
@@ -27,8 +30,9 @@ fn Main() -> Element {
                 min-height: 100vh;
                 background: linear-gradient(to bottom right, {color::OBSIDIAN}, {color::CARBON});
             "#,
-            form::DropDown {
-
+            failure_modal::FailureModal {
+                failure_modal::Header { "Internal Server Error" }
+                failure_modal::Message { "Your balance is not enough for this transaction. Try again later." }
             }
         }
     }
