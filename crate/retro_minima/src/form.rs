@@ -15,8 +15,13 @@ pub fn Form(props: FormProps) -> Element {
             style: r#"
                 display: flex;
                 flex-direction: column;
-                justify-content: start;
+                justify-content: center;
                 align-items: center;
+                border-color: {color::OBSIDIAN};
+                border-width: 1px;
+                border-style: solid;
+                padding: 16px;
+                border-radius: 2px;
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }
@@ -81,6 +86,47 @@ pub fn Button() -> Element {
                 }
                 
                 "Hello World"
+            }
+        }
+    }
+}
+
+
+#[component]
+pub fn DropDown() -> Element {
+    rsx! {
+        div {
+            style: r#"
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                min-width: 100%;
+                min-height: auto;
+                color: white;
+                cursor: pointer;
+                color: {color::SILVER};
+                padding: 1px;
+                border-radius: 2px;
+                font-size: 0.25em;
+                font-family: Stray;
+                position: relative;
+                gap: 16px
+            "#,
+            div { 
+                style: r#"
+                    font-family: Alien Skyline; 
+                    font-size: 32em
+                "#, 
+                "unSUDO"
+            }
+            div {
+                style: r#"
+                    font-family: BR Cobane;
+                    font-size: 8em;
+                "#,
+                "Autonomous Decentralized Protocols"
             }
         }
     }
