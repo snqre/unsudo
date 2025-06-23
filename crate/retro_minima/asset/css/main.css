@@ -1,3 +1,16 @@
+:root {
+    --obsidian: #121212;
+    --carbon: #202020;
+    --jet: #404040;
+    --aqua: #357DED;
+    --office-blue: #383F51;
+    --steel: #9D9D9C;
+    --silver: #EFE6DD;
+    --spring: #00A676;
+    --honey: #FF8000;
+    --imperial-red: #FF0004;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -30,4 +43,22 @@
     93%  { opacity: 1; }
     96%  { opacity: 1; }
     100% { opacity: 1; }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--obsidian);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--carbon);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--office-blue);
 }
