@@ -62,3 +62,57 @@
 ::-webkit-scrollbar-thumb:hover {
     background: var(--office-blue);
 }
+
+
+
+
+
+
+
+
+
+.home-page-hero-b-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.home-page-hero-box-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    font-family: br cobane;
+    font-size: 2em;
+    font-weight: normal;
+    color: var(--silver);
+}
+
+.home-page-hero-box-sub-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    font-family: br cobane;
+    font-size: 1em;
+    font-weight: normal;
+    color: var(--silver);
+}
+
+.home-page-hero-box-learn-more-button {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: br cobane;
+    font-size: 1em;
+    font-weight: normal;
+    cursor: pointer;
+    color: var(--silver);
+}
