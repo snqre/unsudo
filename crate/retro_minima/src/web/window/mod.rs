@@ -4,17 +4,11 @@ leak!(
     coordinate
     cursor_coordinate
     device
+    h
     scroll_v_percentage
+    scroll_h_percentage
     w
 );
-
-#[macro_export]
-macro_rules! log {
-    ($msg:expr) => {
-        let msg: ::web_sys::wasm_bindgen::JsValue = $msg.into();
-        ::web_sys::console::error_1(&msg);
-    };
-}
 
 #[macro_export]
 macro_rules! closure {

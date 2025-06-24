@@ -12,6 +12,13 @@ pub enum Device {
     Mobile
 }
 
+/// # Warning
+/// This function is intended for use in WASM (browser) environments only.
+///
+/// There is no guarantee that the event listener will be successfully 
+/// attached, or that any updates will occur if browser APIs fail.
+/// 
+/// Failures happen silently—no errors will be thrown or logged.
 pub fn use_device() -> Signal<Device> {
     let w: Signal<_> = use_w();
     let mut device: Signal<_> = use_signal(|| Device::Laptop);

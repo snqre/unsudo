@@ -7,7 +7,7 @@ use super::*;
 /// attached, or that any updates will occur if browser APIs fail.
 /// 
 /// Failures happen silently—no errors will be thrown or logged.
-pub fn use_scroll_v_percentage() -> Signal<f64> {
+pub fn use_scroll_h_percentage() -> Signal<f64> {
     let scroll: Signal<_> = use_signal(|| 0.0f64);
 
     #[cfg(target_arch = "wasm32")]
@@ -21,10 +21,14 @@ pub fn use_scroll_v_percentage() -> Signal<f64> {
                 if let Some(window) = web_sys::window() {
                     if let Some(document) = window.document() {
                         if let Some(element) = document.document_element() {
-                            let scroll_top: f64 = element.scroll_top() as f64;
-                            let scroll_h: f64 = element.scroll_height() as f64;
-                            let client_h: f64 = element.client_height() as f64;
-                            let percentage: f64 = (scroll_top / (scroll_h - client_h)) * 100.0f64;
+                            let scroll_left: f64 = element.scroll_left() as f64;
+                            let scroll_w: f64 = element.scroll_width() as f64;
+                            let client_w: f64 = element.client_width() as f64;
+                            let percentage = if scroll_w > client_w {
+                                (scroll_left / (scroll_w - client_w)) * 100.0f64
+                            } else {
+                                0.0f64
+                            };
                             let percentage: f64 = percentage.clamp(0.0f64, 100.0f64);
                             scroll.set(percentage);
                         }

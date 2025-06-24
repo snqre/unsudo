@@ -1,11 +1,19 @@
 use super::*;
 
+/// # Warning
+/// This function is intended for use in WASM (browser) environments only.
+///
+/// There is no guarantee that the event listener will be successfully 
+/// attached, or that any updates will occur if browser APIs fail.
+/// 
+/// Failures happen silently—no errors will be thrown or logged.
 pub fn use_cursor_coordinate() -> Signal<Coordinate> {
     let coordinate: Signal<_> = use_signal(|| Coordinate {
         x: 0.0f64,
         y: 0.0f64
     });
 
+    #[cfg(target_arch = "wasm32")]
     use_effect(move || {
         use ::web_sys;
         use ::web_sys::wasm_bindgen::closure;
