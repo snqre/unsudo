@@ -52,16 +52,12 @@ pub fn Section(props: SectionProps) -> Element {
                 overflow-y: hidden;
                 scroll-snap-align: start;
             "#,
-            if props.navbar.is_some() {
-                { props.navbar }
-            } else {
-                div {}
-            }
+            { props.navbar }
             div {
                 style: r#"
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    justify-content: space-between;
                     align-items: center;
                     width: 100%;
                     height: 100%;
@@ -69,11 +65,7 @@ pub fn Section(props: SectionProps) -> Element {
                 "#,
                 { props.children }
             }
-            if props.footer.is_some() {
-                { props.footer }
-            } else {
-                div {}
-            }
+            { props.footer }
         }
     }
 }

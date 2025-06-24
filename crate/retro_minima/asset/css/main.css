@@ -167,3 +167,34 @@
         justify-content: space-between;
     }
 }
+
+
+@keyframes reveal_animation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.reveal {
+    animation: reveal_animation 30s ease-in-out;
+}
+
+
+@keyframes an-float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(-1deg);
+    }
+}
+
+.float {
+    animation: an-float 5s ease-in-out infinite alternate;
+}
