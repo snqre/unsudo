@@ -1,12 +1,103 @@
+
+
 use super::*;
 use crate::web::component::layout::vertical_page;
 use crate::web::component::nav;
 use crate::web::component::icon;
 use crate::web::component::button;
 
+#[derive(Clone)]
+#[repr(u8)]
+enum Device {
+    Laptop4K,
+    LaptopL,
+    Laptop,
+    Tablet,
+    MobileL,
+    MobileM,
+    Mobile
+}
+
+fn use_device() -> Signal<Device> {
+    let w: Signal<f64> = use_w();
+    let mut device: Signal<Device> = use_signal(|| Device::Laptop);
+
+    match w() {
+        w if w >= 2560f64 => device.set(Device::Laptop4K),
+        w if w >= 1440f64 => device.set(Device::LaptopL),
+        w if w >= 1024f64 => device.set(Device::Laptop),
+        w if w >= 768f64 => device.set(Device::Tablet),
+        w if w >= 425f64 => device.set(Device::MobileL),
+        w if w >= 375f64 => device.set(Device::MobileM),
+        _ => device.set(Device::Mobile)
+    }
+
+    device
+}
+
+fn use_w() -> Signal<f64> {
+    let mut w: Signal<f64> = use_signal(|| 0.0f64);
+
+    #[cfg(target_arch = "wasm32")]
+    use_effect(move || {
+        use web_sys::wasm_bindgen::JsCast as _;
+        use web_sys::wasm_bindgen::closure;
+
+        // Function to update the width
+        let mut update_width = move || {
+            let width = web_sys::window()
+                .unwrap()
+                .inner_width()
+                .unwrap()
+                .as_f64()
+                .unwrap();
+            w.set(width);
+        };
+
+        update_width(); // Call initially to set the width
+
+        // Create a Closure for the resize event listener
+        let closure = closure::Closure::wrap(Box::new(move |_event: web_sys::Event| {
+            update_width(); // Call update_width on resize event
+        }) as Box<dyn FnMut(_)>);
+
+        // Attach the resize event listener to the window
+        web_sys::window()
+            .unwrap()
+            .add_event_listener_with_callback("resize", closure.as_ref().unchecked_ref())
+            .unwrap();
+
+        // Don't forget to drop the closure when the effect is dropped
+        closure.forget();
+    });
+
+    w
+}
+
 #[component]
 pub fn HomePage() -> Element {
+    let device: Signal<Device> = use_device();
     rsx! {
+        match device() {
+            Device::Laptop4K | Device::LaptopL | Device::Laptop | Device::Tablet => rsx! {
+                div {
+                    style: format! {
+                        r#"
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            width: 100%;
+                            height: 10px;
+                            background: linear-gradient(to right, {}, {});
+                        "#,
+                        color::SILVER,
+                        color::STEEL
+                    }
+                }
+            },
+            _ => rsx! {}
+        }
         vertical_page::VerticalPage {
             style: r#"
                 background: {color::OBSIDIAN};
@@ -92,17 +183,26 @@ pub fn HomePage() -> Element {
                                         "#
                                     }
                                     div {
-                                        style: r#"
-                                            display: flex;
-                                            flex-direction: row;
-                                            justify-content: start;
-                                            align-items: center;
-                                            width: 100%;
-                                            font-family: br cobane;
-                                            font-size: 4em;
-                                            font-weight: normal;
-                                            color: {color::SILVER};
-                                        "#,
+                                        style: format! {
+                                            r#"
+                                                display: flex;
+                                                flex-direction: row;
+                                                justify-content: start;
+                                                align-items: center;
+                                                width: 100%;
+                                                font-family: br cobane;
+                                                font-size: {};
+                                                font-weight: normal;
+                                                color: {};
+                                            "#,
+                                            match device() {
+                                                Device::Laptop4K => "5em",
+                                                Device::LaptopL => "4em",
+                                                Device::Laptop => "3em",
+                                                _ => "3em"
+                                            },
+                                            color::SILVER
+                                        },
                                         "Empower communities to do the impossible."
                                     }
                                     div {
