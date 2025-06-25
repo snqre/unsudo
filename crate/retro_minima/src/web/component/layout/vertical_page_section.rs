@@ -57,38 +57,44 @@ pub fn VerticalPageSection(props: VerticalPageSectionProps) -> Element {
                     scroll-snap-align: start;
                     {props.wrapper_style.to_owned().unwrap_or_default()}
                 "#,
-                div {
-                    style: r#"
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        min-width: 100%;
-                        {props.top_style.to_owned().unwrap_or_default()}
-                    "#,
-                    { props.top }
+                if let Some(top) = props.top {
+                    div {
+                        style: r#"
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            min-width: 100%;
+                            {props.top_style.to_owned().unwrap_or_default()}
+                        "#,
+                        { top }
+                    }
                 }
-                div {
-                    style: r#"
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 100%;
-                        height: 100%;
-                    "#,
-                    { props.children }
+                if let Some(children) = props.children {
+                    div {
+                        style: r#"
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                            height: 100%;
+                        "#,
+                        { children }
+                    }
                 }
-                div {
-                    style: r#"
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        min-width: 100%;
-                        {props.bottom_style.to_owned().unwrap_or_default()}
-                    "#,
-                    { props.bottom }
+                if let Some(bottom) = props.bottom {
+                    div {
+                        style: r#"
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            min-width: 100%;
+                            {props.bottom_style.to_owned().unwrap_or_default()}
+                        "#,
+                        { bottom }
+                    }
                 }
             }
         }

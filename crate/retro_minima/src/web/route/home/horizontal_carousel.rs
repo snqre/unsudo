@@ -11,19 +11,24 @@ pub fn HorizontalCarousel(props: HorizontalCarouselProps) -> Element {
     let slots = props.slots.clone();
     let all_slots = [slots.clone()].concat();  // Duplicate the slots for infinity effect
     rsx! {
-        div {
-            class: "carousel-box",
+        layout::Row {
             style: r#"
                 width: 100%;
+                min-width: 100%;
+                max-width: 100%;
+                justify-content: start;
                 {props.style.to_owned().unwrap_or_default()}
             "#,
-            div {
-                class: "carousel",
-                for slot in all_slots.iter() {
-                    div {
-                        class: "carousel-item",
-                        { slot }
-                    }
+            layout::Row {
+                style: r#"
+                    width: 100%;
+                    min-width: 100%;
+                    max-width: 100%;
+                    align-items: start;
+                    gap: {web::sequence(2)}px;
+                "#,
+                for slot in slots.iter() {
+                    { slot }
                 }
             }
         }

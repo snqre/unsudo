@@ -4,6 +4,7 @@ use crate::web;
 
 leak!(
     hero_heading
+    horizontal_carousel_highlight
     horizontal_carousel
     social_icon_group
     social_icon
@@ -20,9 +21,6 @@ pub fn Route() -> Element {
                 background: {color::OBSIDIAN};
             "#,
             layout::VerticalPageSection {
-                background: rsx! {
-
-                },
                 top: rsx! {
                     Stripe {}
                     navbar::Container {
@@ -47,6 +45,7 @@ pub fn Route() -> Element {
                     },
                     layout::Col {
                         style: r#"
+                            justify-content: space-between;
                             width: 100%;
                             height: 100%;
                             padding-left: {web::sequence(2)}px;
@@ -184,21 +183,38 @@ pub fn Route() -> Element {
                                 }
                             }
                         }
-                        HorizontalCarousel {
-                            style: r#"
-                                font-size: 2em;
-                                color: white;
-                            "#,
-                            slots: vec![rsx! {
-                                "Heellooooo"
-                            }, rsx! {
-                                "Big Messagee here"
-                            }, rsx! {
-                                "Too much pizzaaa"
-                            }, rsx! {
-                                "Its me again!!!"
-                            }]
-                        }
+                    }
+                    HorizontalCarousel {
+                        style: r#"
+                            width: 100%;
+                            min-width: 100%;
+                            max-width: 100%;
+                            height: 100%;
+                            min-height: 0%;
+                            max-height: 100%;
+                            flex: 1;
+                            padding-left: {web::sequence(2)}px;
+                            padding-right: {web::sequence(2)}px;
+                        "#,
+                        slots: vec![rsx! {
+                            HorizontalCarouselHighlight {
+                                heading: rsx! { "DAOs are the next great form of organisation." },
+                                citation: rsx! { "'Yury Serdich, entrepreneur, Forbes'" },
+                                source: "https://www.forbes.com/sites/davidprosser/2022/08/16/why-punk-master-believes-daos-are-the-future/"
+                            }
+                        }, rsx! {
+                            HorizontalCarouselHighlight {
+                                heading: rsx! { "DAOs are the new limited liability companies…In five years, companies won’t have equity anymore. They’ll have tokens and they’ll be represented as DAOs." },
+                                citation: rsx! { "'Cooper Turley, DAO investor via Cointelegraph'" },
+                                source: "https://cointelegraph.com/magazine/dao-challenge-business-model-become-new-corporate-paradigm/"
+                            }
+                        }, rsx! {
+                            HorizontalCarouselHighlight {
+                                heading: rsx! { "DAOs are a way of democratizing the management structure for the businesses, projects and communities that employ it." },
+                                citation: rsx! { "Forbes Finance Council" },
+                                source: "https://www.forbes.com/councils/forbesfinancecouncil/2022/10/14/the-state-of-daos-and-what-that-can-mean-for-web3/"
+                            }
+                        }]
                     }
                 }
             }

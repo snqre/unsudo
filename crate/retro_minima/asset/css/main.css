@@ -353,18 +353,20 @@
 }
 
 .carousel {
+    z-index: 120;
     display: flex;
-    animation: scroll 60s linear infinite;
-}
-
-.carousel-item {
-    flex-shrink: 0;
-    width: 200px;
+    flex-direction: row;
+    justify-content: start;
+    animation: scroll 240s linear alternate infinite;
+    width: 100%;
+    gap: 20px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 @keyframes scroll {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(0%);
     }
     100% {
         transform: translateX(100%);
