@@ -1,20 +1,19 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct GridItemProps {
-    pub from: Coordinate,
-    pub to: Coordinate,
+pub struct StackItemProps {
+    pub z: u64,
     pub style: Option<String>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn GridItem(props: GridItemProps) -> Element {
+pub fn StackItem(props: StackItemProps) -> Element {
     rsx! {
-        div {
+        Col {
             style: r#"
-                grid-column: {props.from.x} / {props.to.x};
-                grid-row: {props.from.y} / {props.to.y};
+                position: absolute;
+                z-index: {props.z};
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }

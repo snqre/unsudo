@@ -1,20 +1,22 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct GridItemProps {
-    pub from: Coordinate,
-    pub to: Coordinate,
+pub struct AutoColProps {
     pub style: Option<String>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn GridItem(props: GridItemProps) -> Element {
+pub fn AutoCol(props: AutoColProps) -> Element {
     rsx! {
-        div {
+        Col {
             style: r#"
-                grid-column: {props.from.x} / {props.to.x};
-                grid-row: {props.from.y} / {props.to.y};
+                width: 100%;
+                min-width: 100%;
+                max-width: 100%;
+                height: 100%;
+                min-height: 100%;
+                max-height: 100%;
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }

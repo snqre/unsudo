@@ -47,34 +47,29 @@ pub fn Route() -> Element {
                             style: r#"
                                 width: 100%;
                                 min-width: 0%;
-                                max-width: {web::sequence(11u16)}px;
+                                max-width: {web::sequence(11)}px;
                                 height: 100%;
-                                min-height: 400px;
-                                max-height: 400px;
-                                padding: {web::sequence(1u16)}px;
+                                min-height: {web::sequence(8)}px;
+                                max-height: {web::sequence(8)}px;
+                                padding: {web::sequence(1)}px;
                             "#,
-                            layout::AutoGrid {
-                                row_count: 100u64,
-                                col_count: 100u64,
-                                layout::GridItem {
-                                    x_0: 0u64,
-                                    y_0: 0u64,
-                                    x_1: 25u64,
-                                    y_1: 0u64,
-                                    SocialIconGroup {
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/discord.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/github.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/medium.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/telegram.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/x.svg") }
+                            layout::AutoRow {
+                                style: r#"
+                                    justify-content: space-between;
+                                "#,
+                                layout::Col {}
+                                layout::Col {
+                                    layout::Col {
+                                        SvgShape0 {
+                                            w: "{web::sequence(7)}px",
+                                            h: "{web::sequence(7)}px",
+                                            color_0: color::SILVER,
+                                            color_1: color::STEEL
+                                        }
                                     }
-                                }
-                                layout::GridItem {
-                                    x_0: 100u64,
-                                    y_0: 100u64,
-                                    x_1: 75,
-                                    y_1: 10,
-                                    "Hello"
+                                    layout::Row {
+
+                                    }
                                 }
                             }
                         }
@@ -84,6 +79,8 @@ pub fn Route() -> Element {
         }
     }
 }
+
+
 
 
 /**
