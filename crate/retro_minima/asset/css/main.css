@@ -208,3 +208,133 @@
 .shade:hover {
     filter: brightness(100%);
 }
+
+
+ 
+
+
+
+
+.font-size-xxs {
+    font-size: 0.382rem;
+}
+.font-size-xs {
+    font-size: 0.618rem;
+}
+.fs-sm {
+    font-size: 1rem;
+}
+.fs-md {
+    font-size: 1.618rem;
+}
+.fs-lg { 
+    font-size: 2.618rem; 
+}
+.fs-xl { 
+    font-size: 4.236rem; 
+}
+.fs-2xl { 
+    font-size: 6.864rem; 
+}
+.font_size_3xl { 
+    font-size: 11.09rem; 
+}
+
+
+
+:root {
+    --golden-ratio-1: 1.6180339887px;
+    --golden-ratio-2: 2.6180339887px;
+    --golden-ratio-3: 4.2360679774px;
+    --golden-ratio-4: 6.8541019663px;
+    --golden-ratio-5: 11.0901699437px;
+    --golden-ratio-6: 17.9102933023px;
+    --golden-ratio-7: 28.9314622286px;
+    --golden-ratio-8: 46.8553462649px;
+    --golden-ratio-9: 75.7877220267px;
+    --golden-ratio-10: 122.4536989262px;
+    --golden-ratio-11: 197.1329873546px;
+    --golden-ratio-12: 318.5866862808px;
+    --golden-ratio-13: 514.1993306355px;
+    --golden-ratio-14: 832.7860166536px;
+    --golden-ratio-15: 1347.0567027465px;
+    --golden-ratio-16: 2179.0895633520px;
+    --golden-ratio-17: 3526.8252103447px;
+    --golden-ratio-18: 5705.3980793305px;
+    --golden-ratio-19: 9225.7997657953px;
+}
+
+.w-01 { width: var(--golden-ratio-1); }
+.w-02 { width: var(--golden-ratio-2); }
+.w-03 { width: var(--golden-ratio-3); }
+.w-04 { width: var(--golden-ratio-4); }
+.w-05 { width: var()}
+
+.xs-padding {
+    padding: var(--golden-ratio-4);
+}
+
+.xs-padding-top {
+    padding-top: var(--golden-ratio-4);
+}
+
+.xs-padding-bottom {
+    padding-bottom: var(--golden-ratio-4);
+}
+
+.xs-padding-left {
+    padding-left: var(--golden-ratio-4);
+}
+
+.xs-padding-right {
+    padding-right: var(--golden-ratio-4);
+}
+
+
+.sm-padding {
+    padding: var(--golden-ratio-5);
+}
+
+.sm-padding-top {
+    padding-top: var(--golden-ratio-5);
+}
+
+.sm-padding-bottom {
+    padding-bottom: var(--golden-ratio-5);
+}
+
+.sm-padding-bottom {
+
+}
+
+
+
+.md-padding { padding: var(--golden-ratio-6); }
+.lg-padding { padding: var(--golden-ratio-7); }
+.xl-padding { padding: var(--golden-ratio-8); }
+.xl-padding-left { padding-left: var(--golden-ratio-8); }
+.xl-padding-top { padding-top: var(--golden-ratio-8); }
+.xl-padding-right { padding-right: var(--golden-ratio-8); }
+.xl-padding-bottom { padding-bottom: var(--golden-ratio-8); }
+
+
+
+.p-xs {
+    padding: 8px;
+}
+.p-sm {
+    padding: 16px;
+}
+.p-md {
+    padding: 24px;
+}
+.p-lg {
+    padding: 32px;
+}
+.p-xl {
+    padding: 40px;
+}
+
+.w-xs {
+    width: 48px;
+}

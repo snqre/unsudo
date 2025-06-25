@@ -3,6 +3,6 @@ use super::*;
 leak!(
     body
     label
-    large_heading
+    heading
     tiny_label
 );

@@ -37,6 +37,10 @@ pub fn Route() -> Element {
                     },
                     window::Rect {
                         layout::Row {
+                            style: r#"
+                                min-width: 100%;
+                                justify-content: space-between;
+                            "#,
                             layout::Col {
 
                             }
