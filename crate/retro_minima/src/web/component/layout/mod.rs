@@ -1,4 +1,8 @@
 use super::*;
 
-pub mod topological_page;
-pub mod vertical_page;
+leak!(
+    topological_page_section
+    topological_page
+    vertical_page_section
+    vertical_page
+);

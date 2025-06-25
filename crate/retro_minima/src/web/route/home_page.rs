@@ -1,9 +1,5 @@
 use super::*;
-use crate::web::component::counter;
-use crate::web::component::layout::vertical_page;
-use crate::web::component::nav;
-use crate::web::component::icon;
-use crate::web::component::button;
+use crate::web::component::*;
 use crate::web::window;
 use crate::web::easing;
 
@@ -31,13 +27,13 @@ pub fn HomePage() -> Element {
 			},
 			_ => rsx! {}
 		}
-		vertical_page::VerticalPage {
+		layout::VerticalPage {
 			style: r#"
                 background: {color::OBSIDIAN};
                 color: white;
             "#,
-			vertical_page::Section {
-				navbar: rsx! {
+			layout::VerticalPageSection {
+				top: rsx! {
 					nav::Nav {}
 				},
 				div {
@@ -73,11 +69,11 @@ pub fn HomePage() -> Element {
                                 padding: 10px;
                                 gap: 10px;
                             "#,
-							icon::Icon { size: "20px", url: asset!("asset/icon/social/discord.svg") }
-							icon::Icon { size: "20px", url: asset!("asset/icon/social/github.svg") }
-							icon::Icon { size: "20px", url: asset!("asset/icon/social/medium.svg") }
-							icon::Icon { size: "20px", url: asset!("asset/icon/social/telegram.svg") }
-							icon::Icon { size: "20px", url: asset!("asset/icon/social/x.svg") }
+							decor::Icon { size: "20px", url: asset!("asset/icon/social/discord.svg") }
+							decor::Icon { size: "20px", url: asset!("asset/icon/social/github.svg") }
+							decor::Icon { size: "20px", url: asset!("asset/icon/social/medium.svg") }
+							decor::Icon { size: "20px", url: asset!("asset/icon/social/telegram.svg") }
+							decor::Icon { size: "20px", url: asset!("asset/icon/social/x.svg") }
 						}
 						div {
 							style: r#"
@@ -271,7 +267,7 @@ pub fn HomePage() -> Element {
 					}
 				}
 			}
-			vertical_page::Section {
+			layout::VerticalPageSection {
 				div {
 					class: "float reveal",
 					style: r#"
@@ -560,9 +556,9 @@ pub mod laptop_version {
                     not-mobile-m
                     not-mobile-s
                 "#,
-				vertical_page::VerticalPage {
-					vertical_page::Section {
-						navbar: rsx! {
+				layout::VerticalPage {
+					layout::VerticalPageSection {
+						top: rsx! {
 							nav::Nav {}
 						},
 						div {

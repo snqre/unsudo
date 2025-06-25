@@ -198,3 +198,13 @@
 .float {
     animation: an-float 5s ease-in-out infinite alternate;
 }
+
+
+.shade {
+    filter: brightness(90%);
+    transition: filter 0.3 ease;
+}
+
+.shade:hover {
+    filter: brightness(100%);
+}

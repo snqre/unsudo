@@ -3,13 +3,13 @@ use super::*;
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct FormProps {
+pub struct RootProps {
     style: Option<String>,
     children: Option<Element>
 }
 
 #[component]
-pub fn Form(props: FormProps) -> Element {
+pub fn Root(props: RootProps) -> Element {
     rsx! {
         div {
             style: r#"

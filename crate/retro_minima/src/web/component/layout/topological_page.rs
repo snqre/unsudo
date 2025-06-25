@@ -3,7 +3,7 @@ use super::*;
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct TopologicalProps {
+pub struct TopologicalPageProps {
     pub x: u32,
     pub y: u32,
     pub children: Option<Element>
@@ -18,7 +18,7 @@ pub struct TopologicalProps {
 /// - Overlapping sections will display the **last declared** component.
 /// - **Negative positioning (e.g., `(-1, 0)`) is not supported.**
 #[component]
-pub fn Topological(props: TopologicalProps) -> Element {
+pub fn TopologicalPage(props: TopologicalPageProps) -> Element {
     rsx! {
         div {
             style: r#"
@@ -43,48 +43,6 @@ pub fn Topological(props: TopologicalProps) -> Element {
                     left: -{props.x * 100}%;
                     top: -{props.y * 100}%;
                     transition: .5s ease-in;
-                "#,
-                { props.children }
-            }
-        }
-    }
-}
-
-
-#[derive(Props)]
-#[derive(Clone)]
-#[derive(PartialEq)]
-pub struct SectionProps {
-    pub x: u32,
-    pub y: u32,
-    pub style: Option<String>,
-    pub children: Option<Element>
-}
-
-#[component]
-pub fn Section(props: SectionProps) -> Element {
-    rsx! {
-        div {
-            style: r#"
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 100vw;
-                height: 100vh;
-                font-size: 2em;
-                grid-column: {props.x + 1};
-                grid-row: {props.y + 1};
-            "#,
-            div {
-                style: r#"
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100vw;
-                    height: 100vh;
-                    {props.style.to_owned().unwrap_or_default()}
                 "#,
                 { props.children }
             }

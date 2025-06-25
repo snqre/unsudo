@@ -1,5 +1,5 @@
-#![forbid(clippy::unwrap_used)]
 #![allow(clippy::let_with_type_underscore)]
+#![allow(unused)]
 
 macro_rules! leak {
     ($($module:ident)*) => {

@@ -1,4 +1,5 @@
 use super::*;
+mod home;
 pub mod home_page;
 
 use home_page::*;

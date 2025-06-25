@@ -3,7 +3,7 @@ use super::*;
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct Props {
+pub struct HStripeProps {
     pub w: Option<String>,
     pub h: Option<String>,
     pub color: Option<String>,
@@ -11,7 +11,7 @@ pub struct Props {
 }
 
 #[component]
-pub fn HorizontalStripe(props: Props) -> Element {
+pub fn HStripe(props: HStripeProps) -> Element {
     rsx! {
         div {
             style: format!(r#"

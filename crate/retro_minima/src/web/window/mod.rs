@@ -13,7 +13,7 @@ leak!(
 #[macro_export]
 macro_rules! closure {
     ($closure:expr) => {
-        ::web_sys::wasm_bindgen::closure::Closure::wrap(Box::new($closure) as Box<dyn FnMut(_)>);
+        ::web_sys::wasm_bindgen::closure::Closure::wrap(Box::new($closure) as Box<dyn FnMut(_)>)
     };
 }
 
