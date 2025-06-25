@@ -3,7 +3,6 @@ use crate::web::component::*;
 use crate::web;
 
 leak!(
-    hero_case
     hero_heading
     social_icon_group
     social_icon
@@ -25,18 +24,18 @@ pub fn Route() -> Element {
                 },
                 top: rsx! {
                     Stripe {}
-                    navbar::Root {
+                    navbar::Container {
                         left: rsx! {
-                            
-                        },
-                        layout::Row {
-                            style: r#"
-                                min-width: 100%;
-                                gap: {web::sequence(2)}px;
-                            "#,
-                            interface::SimpleButton { "Get Started" }
-                            interface::SimpleButton { "Community" }
-                            interface::SimpleButton { "Whitepaper" }
+                            navbar::Logo {}
+                            layout::Row {
+                                style: r#"
+                                    min-width: 100%;
+                                    gap: {web::sequence(2)}px;
+                                "#,
+                                interface::SimpleButton { "Get Started" }
+                                interface::SimpleButton { "Community" }
+                                interface::SimpleButton { "Whitepaper" }
+                            }
                         }
                     },
                     layout::Col {

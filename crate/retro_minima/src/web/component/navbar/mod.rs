@@ -8,14 +8,14 @@ leak!(
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct RootProps {
+pub struct ContainerProps {
     pub left: Option<Element>,
     pub right: Option<Element>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn Root(props: RootProps) -> Element {
+pub fn Container(props: ContainerProps) -> Element {
     rsx! {
         div {
             style: r#"
@@ -23,7 +23,9 @@ pub fn Root(props: RootProps) -> Element {
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                min-width: 100%;
+                width: 100%;
+                min-width: 0%;
+                max-width: {web::sequence(11)}px;
                 padding: 20px;
             "#,
             div {
