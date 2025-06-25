@@ -1,7 +1,7 @@
 use super::*;
-mod home;
+//mod home;
 
-use home::Route as HomeRoute;
+//use home::Route as HomeRoute;
 
 pub mod home_page;
 
@@ -13,5 +13,5 @@ use home_page::*;
 #[derive(PartialEq)]
 pub enum Route {
     #[route("/")]
-    HomeRoute {}
+    HomePage {}
 }

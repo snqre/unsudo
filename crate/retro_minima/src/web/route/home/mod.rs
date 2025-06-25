@@ -8,6 +8,7 @@ leak!(
     social_icon
     stripe
     svg_shape_0
+    svg_shape_1
 );
 
 #[component]
@@ -24,16 +25,24 @@ pub fn Route() -> Element {
                         left: rsx! {
                             
                         },
-                        div {
+                        layout::Row {
                             style: r#"
-                                display: flex;
-                                flex-direction: row;
                                 min-width: 100%;
                                 gap: 20px;
                             "#,
                             interface::SimpleButton { "Get Started" }
                             interface::SimpleButton { "Community" }
                             interface::SimpleButton { "Whitepaper" }
+                        }
+                    },
+                    window::Rect {
+                        layout::Row {
+                            layout::Col {
+
+                            }
+                            layout::Col {
+                                
+                            }
                         }
                     }
                 }
