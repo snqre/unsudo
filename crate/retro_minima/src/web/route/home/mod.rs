@@ -4,6 +4,7 @@ use crate::web;
 
 leak!(
     hero_heading
+    horizontal_carousel
     social_icon_group
     social_icon
     stripe
@@ -32,9 +33,15 @@ pub fn Route() -> Element {
                                     min-width: 100%;
                                     gap: {web::sequence(2)}px;
                                 "#,
-                                interface::SimpleButton { "Get Started" }
-                                interface::SimpleButton { "Community" }
-                                interface::SimpleButton { "Whitepaper" }
+                                intf::Button {                                                 style: r#"
+                                font-size: {web::sequence(1)}px;
+                            "#,"Get Started" }
+                                intf::Button {                                                 style: r#"
+                                font-size: {web::sequence(1)}px;
+                            "#,"Community" }
+                                intf::Button {                                                 style: r#"
+                                font-size: {web::sequence(1)}px;
+                            "#,"Whitepaper" }
                             }
                         }
                     },
@@ -71,6 +78,7 @@ pub fn Route() -> Element {
                                             height: 100%;
                                             min-height: 100%;
                                             max-height: 100%;
+                                            gap: {web::sequence(2)}px;
                                         "#,
                                         layout::Row {
                                             style: r#"
@@ -88,6 +96,14 @@ pub fn Route() -> Element {
                                             }
                                         }
                                         layout::Col {
+                                            style: r#"
+                                                justify-content: start;
+                                                height: 100%;
+                                                min-height: 0%;
+                                                max-height: 100%;
+                                                flex: 1;
+                                                gap: {web::sequence(1)}px;
+                                            "#,
                                             layout::Row {
                                                 style: r#"
                                                     width: 100%;
@@ -96,10 +112,10 @@ pub fn Route() -> Element {
                                                     justify-content: start;
                                                     font-family: br cobane;
                                                     font-size: {web::sequence(5)}px;
-                                                    font-weight: normal;
+                                                    font-weight: bold;
                                                     color: {color::SILVER};
                                                 "#,
-                                                "Hello World I ibala ba iba a"
+                                                "Trustless by Design. Ruthless in Reliability."
                                             }
                                             layout::Row {
                                                 style: r#"
@@ -108,11 +124,11 @@ pub fn Route() -> Element {
                                                     max-width: 100%;
                                                     justify-content: start;
                                                     font-family: br cobane;
-                                                    font-size: {web::sequence(4)}px;
+                                                    font-size: {web::sequence(2)}px;
                                                     font-weight: normal;
                                                     color: {color::SILVER};
                                                 "#,
-                                                "Some sub heading"
+                                                "The silent layer beneath the loudest DAOs—secure, scalable, sovereign."
                                             }
                                         }
                                         layout::Row {
@@ -145,8 +161,8 @@ pub fn Route() -> Element {
                                         SvgShape0 {
                                             w: "{web::sequence(7)}px",
                                             h: "{web::sequence(7)}px",
-                                            color_0: color::SILVER,
-                                            color_1: color::STEEL
+                                            color_0: color::interpolate((color::OBSIDIAN, color::SILVER), 0.5),
+                                            color_1: color::interpolate((color::OBSIDIAN, color::STEEL), 0.5)
                                         }
                                         layout::Row {
                                             style: r#"
@@ -154,16 +170,34 @@ pub fn Route() -> Element {
                                                 min-width: 100%;
                                                 max-width: 100%;
                                                 justify-content: end;
-                                                font-family: br cobane;
-                                                font-size: {web::sequence(2)};
-                                                font-weight: normal;
-                                                color: {color::SILVER};
                                             "#,
-                                            "Learn More"
+                                            intf::LinkedButton {
+                                                style: r#"
+                                                    font-size: {web::sequence(1)}px;
+                                                "#,
+                                                url: "/",
+                                                leads_to_external_url: true,
+                                                "Learn More"
+                                            }
                                         }
                                     }
                                 }
                             }
+                        }
+                        HorizontalCarousel {
+                            style: r#"
+                                font-size: 2em;
+                                color: white;
+                            "#,
+                            slots: vec![rsx! {
+                                "Heellooooo"
+                            }, rsx! {
+                                "Big Messagee here"
+                            }, rsx! {
+                                "Too much pizzaaa"
+                            }, rsx! {
+                                "Its me again!!!"
+                            }]
                         }
                     }
                 }
