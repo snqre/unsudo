@@ -20,6 +20,9 @@ pub fn Route() -> Element {
                 background: {color::OBSIDIAN};
             "#,
             layout::VerticalPageSection {
+                background: rsx! {
+
+                },
                 top: rsx! {
                     Stripe {}
                     navbar::Root {
@@ -43,7 +46,7 @@ pub fn Route() -> Element {
                             padding-left: {web::sequence(2)}px;
                             padding-right: {web::sequence(2)}px;
                         "#,
-                        component::window_frame::Rect {
+                        component::window::Rect {
                             style: r#"
                                 width: 100%;
                                 min-width: 0%;
@@ -57,7 +60,75 @@ pub fn Route() -> Element {
                                 style: r#"
                                     justify-content: space-between;
                                 "#,
-                                layout::Col {}
+                                layout::Col {
+                                    style: r#"
+                                        height: 100%;
+                                        min-height: 100%;
+                                        max-height: 100%;
+                                    "#,
+                                    layout::Col {
+                                        style: r#"
+                                            justify-content: space-between;
+                                            height: 100%;
+                                            min-height: 100%;
+                                            max-height: 100%;
+                                        "#,
+                                        layout::Row {
+                                            style: r#"
+                                                width: 100%;
+                                                min-width: 100%;
+                                                max-width: 100%;
+                                                justify-content: start;
+                                            "#,
+                                            SocialIconGroup {
+                                                SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/discord.svg") }
+                                                SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/github.svg") }
+                                                SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/medium.svg") }
+                                                SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/telegram.svg") }
+                                                SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/x.svg") }
+                                            }
+                                        }
+                                        layout::Col {
+                                            layout::Row {
+                                                style: r#"
+                                                    width: 100%;
+                                                    min-width: 100%;
+                                                    max-width: 100%;
+                                                    justify-content: start;
+                                                    font-family: br cobane;
+                                                    font-size: {web::sequence(5)}px;
+                                                    font-weight: normal;
+                                                    color: {color::SILVER};
+                                                "#,
+                                                "Hello World I ibala ba iba a"
+                                            }
+                                            layout::Row {
+                                                style: r#"
+                                                    width: 100%;
+                                                    min-width: 100%;
+                                                    max-width: 100%;
+                                                    justify-content: start;
+                                                    font-family: br cobane;
+                                                    font-size: {web::sequence(4)}px;
+                                                    font-weight: normal;
+                                                    color: {color::SILVER};
+                                                "#,
+                                                "Some sub heading"
+                                            }
+                                        }
+                                        layout::Row {
+                                            layout::Row {
+                                                
+                                                decor::HStripe {
+                                                    w: "100%",
+                                                    h: "5px",
+                                                    color: color::IMPERIAL_RED
+                                                }
+                                            }
+                                            "Cta Buttons go here"
+                                        }
+                                    }
+                                }
                                 layout::Col {
                                     style: r#"
                                         height: 100%;
@@ -98,91 +169,9 @@ pub fn Route() -> Element {
                     }
                 }
             }
+            layout::VerticalPageSection {
+
+            }
         }
     }
 }
-
-
-
-
-/**
- *                             layout::Row {
-                                style: r#"
-                                    width: 100%;
-                                    min-width: 100%;
-                                    max-width: 100%;
-                                    height: 100%;
-                                    min-height: 100%;
-                                    max-height: 100%;
-                                    justify-content: space-between;
-                                "#,
-                                layout::Col {
-                                    style: r#"
-                                        height: 100%;
-                                        min-height: 100%;
-                                        max-height: 100%;
-                                        justify-content: start;
-                                        align-items: start;
-                                        flex-grow: 1;
-                                        flex-shrink 1;
-                                    "#,
-                                    SocialIconGroup {
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/discord.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/github.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/medium.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/telegram.svg") }
-                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/x.svg") }
-                                    }
-                                    layout::Col {
-                                        layout::Col {
-                                            style: r#"
-                                                align-items: start;
-                                            "#,
-                                            layout::Row {
-                                                style: r#"
-                                                    font-family: br cobane;
-                                                    font-size: {web::sequence(6u16)}px;
-                                                    font-weight: bold;
-                                                    color: {color::SILVER};
-                                                    justify-content: start;
-                                                "#,
-                                                "Empower the Future"
-                                            }
-                                            layout::Row {
-                                                style: r#"
-                                                    font-family: br cobane;
-                                                    font-size: {web::sequence(3u16)}px;
-                                                    font-weight: normal;
-                                                    color: {color::interpolate((color::OBSIDIAN, color::SILVER), 0.75f32)};
-                                                    justify-content: start;
-                                                "#,
-                                                "Some sub heading..."
-                                            }
-                                        }
-                                        layout::Row {
-    
-                                        }
-                                    }
-                                }
-                                layout::Col {
-                                    style: r#"
-                                        width: 100%;
-                                        min-width: 0%;
-                                        max-width: 100%;
-                                        height: 100%;
-                                        min-height: 100%;
-                                        max-height: 100%;
-                                        flex-grow: 1;
-                                        flex-shrink 1;
-                                        align-items: end;
-                                    "#,
-                                    SvgShape0 {
-                                        w: "{web::sequence(7u16)}px",
-                                        h: "{web::sequence(7u16)}px",
-                                        color_0: color::SILVER,
-                                        color_1: color::STEEL
-                                    }
-                                }
-                            }
- */
-fn t() {}

@@ -26,8 +26,6 @@ pub fn VerticalPageSection(props: VerticalPageSectionProps) -> Element {
                 height: 100vh;
                 min-height: 100vh;
                 max-height: 100vh;
-                overflow-x: hidden;
-                overflow-y: hidden;
             "#,
             StackItem {
                 z: 0,
