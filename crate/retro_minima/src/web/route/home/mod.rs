@@ -29,7 +29,7 @@ pub fn Route() -> Element {
                         layout::Row {
                             style: r#"
                                 min-width: 100%;
-                                gap: {web::sequence(2u16)}px;
+                                gap: {web::sequence(2)}px;
                             "#,
                             interface::SimpleButton { "Get Started" }
                             interface::SimpleButton { "Community" }
@@ -59,16 +59,38 @@ pub fn Route() -> Element {
                                 "#,
                                 layout::Col {}
                                 layout::Col {
+                                    style: r#"
+                                        height: 100%;
+                                        min-height: 100%;
+                                        max-height: 100%;
+                                    "#,
                                     layout::Col {
+                                        style: r#"
+                                            justify-content: space-between;
+                                            height: 100%;
+                                            min-height: 100%;
+                                            max-height: 100%;
+                                        "#,
+                                        layout::Row {}
                                         SvgShape0 {
                                             w: "{web::sequence(7)}px",
                                             h: "{web::sequence(7)}px",
                                             color_0: color::SILVER,
                                             color_1: color::STEEL
                                         }
-                                    }
-                                    layout::Row {
-
+                                        layout::Row {
+                                            style: r#"
+                                                width: 100%;
+                                                min-width: 100%;
+                                                max-width: 100%;
+                                                justify-content: end;
+                                                font-family: br cobane;
+                                                font-size: {web::sequence(2)};
+                                                font-weight: normal;
+                                                color: {color::SILVER};
+                                            "#,
+                                            "Learn More"
+                                        }
                                     }
                                 }
                             }
