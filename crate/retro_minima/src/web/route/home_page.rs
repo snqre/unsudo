@@ -249,6 +249,11 @@ pub fn HomePage() -> Element {
 								"Learn More"
 							}
 						}
+						decor::HStripe {
+							w: "1440px",
+							h: "10px",
+							color: color::IMPERIAL_RED
+						}
 					}
 					div {
 						style: r#"

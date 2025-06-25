@@ -31,6 +31,11 @@ pub fn VerticalPageSection(props: VerticalPageSectionProps) -> Element {
             "#,
             div {
                 style: r#"
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    min-width: 100%;
                     {props.top_style.to_owned().unwrap_or_default()}
                 "#,
                 { props.top }
@@ -49,6 +54,11 @@ pub fn VerticalPageSection(props: VerticalPageSectionProps) -> Element {
             }
             div {
                 style: r#"
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    min-width: 100%;
                     {props.bottom_style.to_owned().unwrap_or_default()}
                 "#,
                 { props.bottom }
