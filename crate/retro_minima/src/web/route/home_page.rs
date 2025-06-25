@@ -1,4 +1,5 @@
 use super::*;
+use crate::web;
 use crate::web::component::*;
 use crate::web::window;
 use crate::web::easing;
@@ -52,8 +53,7 @@ pub fn HomePage() -> Element {
                             justify-content: space-between;
                             align-items: center;
                             width: 100%;
-                            max-width: 1440px;
-                            height: 400px;
+                            max-width: {web::sequence(11u16)}px;
                             border-radius: 2px;
                             border-width: 1px;
                             border-style: solid;
@@ -120,16 +120,11 @@ pub fn HomePage() -> Element {
                                                 align-items: center;
                                                 width: 100%;
                                                 font-family: br cobane;
-                                                font-size: {};
+                                                font-size: {}px;
                                                 font-weight: normal;
                                                 color: {};
                                             "#,
-											match device() {
-												window::Device::Laptop4K => "5em",
-												window::Device::LaptopL => "4em",
-												window::Device::Laptop => "3em",
-												_ => "3em"
-											},
+											web::sequence(5u16),
 											color::SILVER
 										},
 										"Empower communities to do the impossible."
@@ -142,7 +137,7 @@ pub fn HomePage() -> Element {
                                             align-items: center;
                                             width: 100%;
                                             font-family: br cobane;
-                                            font-size: 2em;
+                                            font-size: {web::sequence(4u16)}px;
                                             font-weight: normal;
                                             color: {color::SILVER};
                                         "#,

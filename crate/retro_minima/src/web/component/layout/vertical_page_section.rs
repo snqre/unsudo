@@ -48,7 +48,6 @@ pub fn VerticalPageSection(props: VerticalPageSectionProps) -> Element {
                     align-items: center;
                     width: 100%;
                     height: 100%;
-                    padding: 20px;
                 "#,
                 { props.children }
             }

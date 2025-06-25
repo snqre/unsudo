@@ -17,8 +17,6 @@ pub fn Rect(props: RectProps) -> Element {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                min-width: 10px;
-                min-height: 10px;
                 border-radius: 2px;
                 border-style: solid;
                 border-color: {color::CARBON};

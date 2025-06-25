@@ -13,7 +13,7 @@ pub fn Rect(props: RectProps) -> Element {
     rsx! {
         window_frame::Rect {
             style: r#"
-                background-image: {color::JET}
+                background: {color::JET};
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }

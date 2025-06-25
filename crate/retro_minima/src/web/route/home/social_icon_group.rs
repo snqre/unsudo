@@ -11,13 +11,10 @@ pub struct SocialIconGroupProps {
 #[component]
 pub fn SocialIconGroup(props: SocialIconGroupProps) -> Element {
     rsx! {
-        div {
+        layout::Row {
             style: r#"
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
+                gap: {web::sequence(1u16)}px;
+                {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }
         }
