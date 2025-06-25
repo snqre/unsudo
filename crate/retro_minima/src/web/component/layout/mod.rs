@@ -5,6 +5,7 @@ leak!(
     col
     grid_item
     grid
+    parallax
     row
     topological_page_section
     topological_page

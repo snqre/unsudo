@@ -2,8 +2,8 @@ use super::*;
 
 #[derive(Props, Clone, PartialEq)]
 pub struct AutoGridProps {
-    pub row_count: u32,
-    pub col_count: u32,
+    pub row_count: u64,
+    pub col_count: u64,
     pub style: Option<String>,
     pub children: Option<Element>
 }

@@ -2,10 +2,10 @@ use super::*;
 
 #[derive(Props, Clone, PartialEq)]
 pub struct GridItemProps {
-    pub x_0: String,
-    pub y_0: String,
-    pub x_1: String,
-    pub y_1: String,
+    pub x_0: u64,
+    pub y_0: u64,
+    pub x_1: u64,
+    pub y_1: u64,
     pub style: Option<String>,
     pub children: Option<Element>
 }

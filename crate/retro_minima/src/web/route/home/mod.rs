@@ -48,8 +48,46 @@ pub fn Route() -> Element {
                                 width: 100%;
                                 min-width: 0%;
                                 max-width: {web::sequence(11u16)}px;
+                                height: 100%;
+                                min-height: 400px;
+                                max-height: 400px;
+                                padding: {web::sequence(1u16)}px;
                             "#,
-                            layout::Row {
+                            layout::AutoGrid {
+                                row_count: 100u64,
+                                col_count: 100u64,
+                                layout::GridItem {
+                                    x_0: 0u64,
+                                    y_0: 0u64,
+                                    x_1: 25u64,
+                                    y_1: 0u64,
+                                    SocialIconGroup {
+                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/discord.svg") }
+                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/github.svg") }
+                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/medium.svg") }
+                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/telegram.svg") }
+                                        SocialIcon { size: "{web::sequence(2u16)}px", to: "/", url: asset!("asset/icon/social/x.svg") }
+                                    }
+                                }
+                                layout::GridItem {
+                                    x_0: 100u64,
+                                    y_0: 100u64,
+                                    x_1: 75,
+                                    y_1: 10,
+                                    "Hello"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ *                             layout::Row {
                                 style: r#"
                                     width: 100%;
                                     min-width: 100%;
@@ -127,10 +165,5 @@ pub fn Route() -> Element {
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+ */
+fn t() {}
