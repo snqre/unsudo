@@ -11,6 +11,6 @@ leak!(
     size
 );
 
-pub fn auto() -> String {
-    "auto".to_owned()
-}
+static AUTO: &str = "auto";
+
+type Stylesheet = String;

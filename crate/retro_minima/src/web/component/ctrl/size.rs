@@ -1,19 +1,19 @@
 use super::*;
 
-pub type SizeControlSystem = (Signal<UseSizeConfig>, semantic::Stylesheet<String>);
+pub type SizeControlSystem<'a> = (Signal<SizeConfiguration<'a>>, Stylesheet);
 
 #[derive(Clone, PartialEq)]
-pub struct UseSizeConfig {
-    pub w: String,
-    pub h: String,
-    pub min_w: Option<String>,
-    pub max_w: Option<String>,
-    pub min_h: Option<String>,
-    pub max_h: Option<String>,
+pub struct SizeConfiguration<'a> {
+    pub w: &'a str,
+    pub h: &'a str,
+    pub min_w: Option<&'a str>,
+    pub max_w: Option<&'a str>,
+    pub min_h: Option<&'a str>,
+    pub max_h: Option<&'a str>,
 }
 
-pub fn use_size(init_cfg: UseSizeConfig) -> SizeControlSystem {
-    let cfg: Signal<_> = use_signal(|| init_cfg);
+pub fn use_size(initial_configuration: SizeConfiguration) -> SizeControlSystem {
+    let cfg: Signal<_> = use_signal(|| initial_configuration);
     
     let style: String = format!(
         r#"
@@ -25,11 +25,11 @@ pub fn use_size(init_cfg: UseSizeConfig) -> SizeControlSystem {
             max-height: {};
         "#,
         cfg().w,
-        cfg().min_w.unwrap_or(auto()),
-        cfg().max_w.unwrap_or(auto()),
+        cfg().min_w.unwrap_or(AUTO),
+        cfg().max_w.unwrap_or(AUTO),
         cfg().h,
-        cfg().min_h.unwrap_or(auto()),
-        cfg().max_h.unwrap_or(auto())
+        cfg().min_h.unwrap_or(AUTO),
+        cfg().max_h.unwrap_or(AUTO)
     );
 
     (cfg, style)

@@ -1,17 +1,17 @@
 use super::*;
 
-pub type AbsoluteOffsetControlSystem = (Signal<UseAbsoluteOffsetConfig>, semantic::Stylesheet<String>);
+pub type AbsoluteOffsetControlSystem<'a> = (Signal<AbsoluteOffsetConfiguration<'a>>, Stylesheet);
 
 #[derive(Clone, PartialEq)]
-pub struct UseAbsoluteOffsetConfig {
-    pub l: Option<String>,
-    pub r: Option<String>,
-    pub t: Option<String>,
-    pub b: Option<String>
+pub struct AbsoluteOffsetConfiguration<'a> {
+    pub l: Option<&'a str>,
+    pub r: Option<&'a str>,
+    pub t: Option<&'a str>,
+    pub b: Option<&'a str>
 }
 
-pub fn use_absolute_offset(init_cfg: UseAbsoluteOffsetConfig) -> AbsoluteOffsetControlSystem {
-    let cfg: Signal<_> = use_signal(|| init_cfg);
+pub fn use_absolute_offset(initial_configuration: AbsoluteOffsetConfiguration) -> AbsoluteOffsetControlSystem {
+    let cfg: Signal<_> = use_signal(|| initial_configuration);
 
     let style: String = format!(
         r#"
@@ -20,10 +20,10 @@ pub fn use_absolute_offset(init_cfg: UseAbsoluteOffsetConfig) -> AbsoluteOffsetC
             top: {},
             bottom: {}
         "#,
-        cfg().l.unwrap_or(auto()),
-        cfg().r.unwrap_or(auto()),
-        cfg().t.unwrap_or(auto()),
-        cfg().b.unwrap_or(auto())
+        cfg().l.unwrap_or(AUTO),
+        cfg().r.unwrap_or(AUTO),
+        cfg().t.unwrap_or(AUTO),
+        cfg().b.unwrap_or(AUTO)
     );
 
     (cfg, style)
