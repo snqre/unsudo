@@ -1,5 +1,6 @@
 use super::*;
 
+pub mod ctrl;
 pub mod decor;
 pub mod decor_container;
 pub mod intf;

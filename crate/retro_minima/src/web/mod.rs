@@ -2,6 +2,7 @@ use super::*;
 
 pub mod component;
 pub mod route;
+pub mod semantic;
 
 
 pub mod window;

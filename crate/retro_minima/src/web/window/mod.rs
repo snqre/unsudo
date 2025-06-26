@@ -5,8 +5,9 @@ leak!(
     cursor_coordinate
     device
     h
-    scroll_v_percentage
     scroll_h_percentage
+    scroll_v_percentage
+    use_interval
     w
 );
 

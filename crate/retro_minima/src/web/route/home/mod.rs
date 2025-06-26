@@ -219,7 +219,9 @@ pub fn Route() -> Element {
                 }
             }
             layout::VerticalPageSection {
-
+                layout::HorizontalSlider {
+                    
+                }
             }
         }
     }

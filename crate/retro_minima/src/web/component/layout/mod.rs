@@ -7,6 +7,7 @@ leak!(
     col
     grid_item
     grid
+    horizontal_slider
     parallax
     row
     stack_item
