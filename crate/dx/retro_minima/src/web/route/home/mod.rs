@@ -1,6 +1,6 @@
 use super::*;
 use crate::web::component::*;
-use crate::web;
+use crate::web::hook::window as win;
 
 leak!(
     hero_heading

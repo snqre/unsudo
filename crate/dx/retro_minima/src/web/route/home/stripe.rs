@@ -2,10 +2,11 @@ use super::*;
 
 #[component]
 pub fn Stripe() -> Element {
-	let device: Signal<web::window::Device> = web::window::use_device();
+	let device: Signal<_> = win::use_device();
+    
     rsx! {
 		match device() {
-			web::window::Device::Laptop4K | web::window::Device::LaptopL | web::window::Device::Laptop | web::window::Device::Tablet => rsx! {
+			win::Device::Laptop4K | win::Device::LaptopL | win::Device::Laptop | win::Device::Tablet => rsx! {
 				div {
                     style: r#"
                         display: flex;

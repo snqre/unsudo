@@ -1,0 +1,5 @@
+package.name = "prelude"
+package.version = "0.1.0"
+package.edition = "2024"
+dependencies.modesty.version = "0.1.0"
+dependencies.modesty.path = "/home/opcode/git_repo/low_bit/crate/prim_util/modesty"

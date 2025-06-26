@@ -1,4 +1,8 @@
-workspace.members = ["crate/*"]
+workspace.members = [
+    "crate/dx_hook/window",
+    "crate/prim/prelude",
+    "crate/prim_util/modesty"
+]
 
 [profile]
 

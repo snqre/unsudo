@@ -1,15 +1,10 @@
 use super::*;
 
 pub mod component;
+pub mod hook;
 pub mod route;
-pub mod semantic;
-
-
-pub mod window;
 pub mod color;
 pub mod easing;
-
-
 
 pub fn sequence(k: u16) -> f64 {
     let base: f64 = 8.0f64;
