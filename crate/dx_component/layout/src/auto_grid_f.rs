@@ -1,19 +1,19 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct GridFProps {
-    pub row: String,
-    pub col: String,
+pub struct AutoGridFProps {
+    pub row_count: u32,
+    pub col_count: u32,
     pub style: Option<String>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn GridF(props: GridFProps) -> Element {
+pub fn AutoGridF(props: AutoGridFProps) -> Element {
     rsx! {
-        Grid {
-            row: props.row,
-            col: props.col,
+        AutoGrid {
+            row_count: props.row_count,
+            col_count: props.col_count,
             style: r#"
                 width: 100%;
                 min-width: auto;

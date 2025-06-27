@@ -2,6 +2,8 @@ use ::prelude::*;
 use ::dioxus::prelude::*;
 
 bundle!(
+    auto_grid_f
+    auto_grid
     col_f
     col
     grid_f
