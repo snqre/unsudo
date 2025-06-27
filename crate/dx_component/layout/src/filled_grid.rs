@@ -1,7 +1,7 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct GridFProps {
+pub struct FilledGridProps {
     pub row: String,
     pub col: String,
     pub style: Option<String>,
@@ -9,18 +9,13 @@ pub struct GridFProps {
 }
 
 #[component]
-pub fn GridF(props: GridFProps) -> Element {
+pub fn FilledGrid(props: FilledGridProps) -> Element {
     rsx! {
         Grid {
             row: props.row,
             col: props.col,
             style: r#"
-                width: 100%;
-                min-width: auto;
-                max-width: auto;
-                height: 100%;
-                min-height: auto;
-                max-height: auto;
+                {fill()}
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }

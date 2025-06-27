@@ -1,7 +1,7 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct AutoGridFProps {
+pub struct FilledAutoGridProps {
     pub row_count: u32,
     pub col_count: u32,
     pub style: Option<String>,
@@ -9,18 +9,13 @@ pub struct AutoGridFProps {
 }
 
 #[component]
-pub fn AutoGridF(props: AutoGridFProps) -> Element {
+pub fn FilledAutoGrid(props: FilledAutoGridProps) -> Element {
     rsx! {
         AutoGrid {
             row_count: props.row_count,
             col_count: props.col_count,
             style: r#"
-                width: 100%;
-                min-width: auto;
-                max-width: auto;
-                height: 100%;
-                min-height: auto;
-                max-height: auto;
+                {fill()}
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }
