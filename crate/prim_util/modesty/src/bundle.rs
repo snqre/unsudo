@@ -1,5 +1,5 @@
 #[macro_export]
-macro_rules! package {
+macro_rules! bundle {
     ($($module:ident)*) => {
         $(
             mod $module;

@@ -1,4 +1,5 @@
 workspace.members = [
+    "crate/dx_component/layout",
     "crate/dx_hook/window",
     "crate/prim/prelude",
     "crate/prim_util/modesty"
