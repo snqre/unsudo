@@ -1,17 +1,17 @@
 use super::*;
 
 #[derive(Props, Clone, PartialEq)]
-pub struct FilledStackProps {
+pub struct StackFillProps {
     pub style: Option<String>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn FilledStack(props: FilledStackProps) -> Element {
+pub fn StackFill(props: StackFillProps) -> Element {
     rsx! {
         Stack {
             style: r#"
-                {fill()}
+                {FILL}
                 {props.style.to_owned().unwrap_or_default()}
             "#,
             { props.children }
