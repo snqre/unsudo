@@ -1,5 +1,5 @@
 use super::*;
 
-leak!(
+bundle!(
     rect
 );

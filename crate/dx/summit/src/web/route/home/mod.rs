@@ -1,8 +1,9 @@
 use super::*;
 use crate::web::component::*;
-use crate::web::hook::window as win;
+use ::window as win;
+use ::layout;
 
-leak!(
+bundle!(
     hero_heading
     horizontal_carousel_highlight
     horizontal_carousel
@@ -16,11 +17,11 @@ leak!(
 #[component]
 pub fn Route() -> Element {
     rsx! {
-        layout::VerticalPage {
+        layout::Page {
             style: r#"
                 background: {color::OBSIDIAN};
             "#,
-            layout::VerticalPageSection {
+            layout::PageItem {
                 top: rsx! {
                     Stripe {}
                     navbar::Container {
@@ -61,7 +62,7 @@ pub fn Route() -> Element {
                                 max-height: {web::sequence(8)}px;
                                 padding: {web::sequence(1)}px;
                             "#,
-                            layout::AutoRow {
+                            layout::RowFill {
                                 style: r#"
                                     justify-content: space-between;
                                 "#,
@@ -218,10 +219,8 @@ pub fn Route() -> Element {
                     }
                 }
             }
-            layout::VerticalPageSection {
-                layout::HorizontalSlider {
-                    
-                }
+            layout::PageItem {
+                
             }
         }
     }

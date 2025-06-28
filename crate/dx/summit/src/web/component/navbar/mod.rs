@@ -1,6 +1,6 @@
 use super::*;
 
-leak!(
+bundle!(
     drop_down_container
     logo
 );

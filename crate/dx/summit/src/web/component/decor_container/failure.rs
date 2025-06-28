@@ -30,7 +30,7 @@ pub fn Failure(props: FailureProps) -> Element {
                         animation: faulty-neon 10s ease-in infinite;
                     "#
                 }
-                typo::Label { "Cache "}
+                // maybe some label
             } },
             style: r#"
                 border-color: {color::IMPERIAL_RED};

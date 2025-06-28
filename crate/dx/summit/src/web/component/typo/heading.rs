@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use super::*;
 
 #[derive(Clone, PartialEq)]
@@ -20,7 +22,7 @@ pub struct HeadingProps {
 
 #[component]
 pub fn Heading(props: HeadingProps) -> Element {
-    let (tag, font_size) = match props.kind {
+    let (_, font_size) = match props.kind {
         Some(HeadingKind::H1) => ("h1", "2.25rem"),
         Some(HeadingKind::H2) => ("h2", "1.875rem"),
         Some(HeadingKind::H3) => ("h3", "1.5rem"),

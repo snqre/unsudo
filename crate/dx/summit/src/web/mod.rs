@@ -1,7 +1,6 @@
 use super::*;
 
 pub mod component;
-pub mod hook;
 pub mod route;
 pub mod color;
 pub mod easing;

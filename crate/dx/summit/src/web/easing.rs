@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 pub fn ease_in(p: f32, s: f32, c: f32, d: f32) -> f32 {
     c *
     (p / d) *

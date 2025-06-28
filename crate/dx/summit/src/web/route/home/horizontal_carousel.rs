@@ -9,7 +9,7 @@ pub struct HorizontalCarouselProps {
 #[component]
 pub fn HorizontalCarousel(props: HorizontalCarouselProps) -> Element {
     let slots = props.slots.clone();
-    let all_slots = [slots.clone()].concat();  // Duplicate the slots for infinity effect
+    let _ = [slots.clone()].concat();  // Duplicate the slots for infinity effect
     rsx! {
         layout::Row {
             style: r#"

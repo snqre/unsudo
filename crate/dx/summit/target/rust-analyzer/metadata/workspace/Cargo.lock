@@ -686,6 +686,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctrl"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "prelude",
+]
+
+[[package]]
 name = "darling"
 version = "0.20.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -737,17 +745,6 @@ name = "data-encoding"
 version = "2.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a2330da5de22e8a3cb63252ce2abb30116bf5265e89c0e01bc17015ce30a476"
-
-[[package]]
-name = "delegate"
-version = "0.13.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9b6483c2bbed26f97861cf57651d4f2b731964a28cd2257f934a4b452480d21"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.104",
-]
 
 [[package]]
 name = "derivative"
@@ -1453,19 +1450,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e6853b52649d4ac5c0bd02320cddc5ba956bdb407c4b75a2c6b75bf51500f8c"
 dependencies = [
  "simd-adler32",
-]
-
-[[package]]
-name = "ferro_spring"
-version = "0.1.0"
-dependencies = [
- "dioxus",
- "gloo-timers",
- "gloo-utils",
- "js-sys",
- "serde",
- "wasm-bindgen",
- "web-sys",
 ]
 
 [[package]]
@@ -2433,6 +2417,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "layout"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "prelude",
+]
+
+[[package]]
 name = "lazy-js-bundle"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2524,14 +2516,6 @@ name = "litemap"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "241eaef5fd12c88705a01fc1066c48c4b36e0dd4377dcdc7ec3942cea7a69956"
-
-[[package]]
-name = "lo_bit"
-version = "0.1.0"
-dependencies = [
- "delegate",
- "paste",
-]
 
 [[package]]
 name = "lock_api"
@@ -2677,6 +2661,10 @@ dependencies = [
  "wasi 0.11.1+wasi-snapshot-preview1",
  "windows-sys 0.59.0",
 ]
+
+[[package]]
+name = "mod_kit"
+version = "0.1.0"
 
 [[package]]
 name = "muda"
@@ -3079,12 +3067,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "paste"
-version = "1.0.15"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
-
-[[package]]
 name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3307,6 +3289,13 @@ name = "precomputed-hash"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
+
+[[package]]
+name = "prelude"
+version = "0.1.0"
+dependencies = [
+ "mod_kit",
+]
 
 [[package]]
 name = "proc-macro-crate"
@@ -3576,10 +3565,14 @@ dependencies = [
 name = "retro_minima"
 version = "0.1.0"
 dependencies = [
+ "ctrl",
  "dioxus",
  "dioxus-motion",
  "gloo-timers",
+ "layout",
+ "prelude",
  "web-sys",
+ "window",
 ]
 
 [[package]]
@@ -4521,6 +4514,34 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
 
 [[package]]
+name = "unsudo_dx_hook_ctrl"
+version = "0.1.0"
+dependencies = [
+ "ctrl",
+]
+
+[[package]]
+name = "unsudo_dx_layout"
+version = "0.1.0"
+dependencies = [
+ "layout",
+]
+
+[[package]]
+name = "unsudo_dx_window"
+version = "0.1.0"
+dependencies = [
+ "window",
+]
+
+[[package]]
+name = "unsudo_mod_kit"
+version = "0.1.0"
+dependencies = [
+ "mod_kit",
+]
+
+[[package]]
 name = "url"
 version = "2.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4855,6 +4876,16 @@ name = "winapi-x86_64-pc-windows-gnu"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+
+[[package]]
+name = "window"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "gloo-timers",
+ "prelude",
+ "web-sys",
+]
 
 [[package]]
 name = "windows"

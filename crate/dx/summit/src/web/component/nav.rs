@@ -23,7 +23,7 @@ pub fn Nav() -> Element {
 pub struct LogoProps {}
 
 #[component]
-pub fn Logo(props: LogoProps) -> Element {
+pub fn Logo() -> Element {
     rsx! {
         div { 
             style: r#"

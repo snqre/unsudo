@@ -2,6 +2,7 @@ workspace.lints.clippy.warnings = "deny"
 workspace.lints.clippy.unwrap = "deny"
 workspace.resolver = "3"
 workspace.members = [
+    "crate/dx/summit",
     "crate/dx_component/layout",
     "crate/dx_hook/ctrl",
     "crate/dx_hook/window",

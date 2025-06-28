@@ -1,3 +1,6 @@
+#[allow(unused_imports)]
+use super::*;
+
 #[allow(unused_variables)]
 pub fn use_interval<T>(hook: T, ms: u32)
 where

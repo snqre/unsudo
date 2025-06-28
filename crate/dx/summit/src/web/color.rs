@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 pub static OBSIDIAN: &str = "#121212";
 pub static CARBON: &str = "#202020";
 pub static JET: &str = "#404040";

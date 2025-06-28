@@ -1,6 +1,6 @@
 use super::*;
 
-leak!(
+bundle!(
     button
     linked_button
 );
