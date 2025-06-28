@@ -13,8 +13,11 @@ pub fn GridItem(props: GridItemProps) -> Element {
     rsx! {
         div {
             style: r#"
-                
-            "#
+                grid-column: {props.from.x} / {props.to.x};
+                grid-row: {props.from.y} / {props.to.y};
+                {props.style.to_owned().unwrap_or_default()}
+            "#,
+            { props.children }
         }
     }
 }
