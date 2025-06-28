@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 use ::prelude::*;
 use ::dioxus::prelude::*;
 
