@@ -1,5 +1,6 @@
 package.name = "unsudo_dx_layout"
 package.version = "0.1.0"
 package.edition = "2021"
+package.readme = "./readme.md"
 dependencies.layout.version = "0.1.0"
 dependencies.layout.path = "/home/opcode/git_repo/low_bit/crate/dx_component/layout"
