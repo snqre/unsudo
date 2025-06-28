@@ -177,6 +177,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctrl"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "prelude",
+]
+
+[[package]]
 name = "darling"
 version = "0.20.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
