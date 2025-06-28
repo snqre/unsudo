@@ -1,4 +1,4 @@
-package.name = "modesty"
+package.name = "mod_kit"
 package.version = "0.1.0"
 package.edition = "2024"
 package.description = "Module organisation utilities."

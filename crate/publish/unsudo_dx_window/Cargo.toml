@@ -1,0 +1,5 @@
+package.name = "unsudo_dx_window"
+package.version = "0.1.0"
+package.edition = "2021"
+dependencies.window.version = "0.1.0"
+dependencies.window.path = "/home/opcode/git_repo/low_bit/crate/dx_hook/window"

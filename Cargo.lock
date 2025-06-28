@@ -1075,7 +1075,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 
 [[package]]
-name = "modesty"
+name = "mod_kit"
 version = "0.1.0"
 
 [[package]]
@@ -1176,7 +1176,7 @@ dependencies = [
 name = "prelude"
 version = "0.1.0"
 dependencies = [
- "modesty",
+ "mod_kit",
 ]
 
 [[package]]
@@ -1619,6 +1619,27 @@ name = "unicode-xid"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
+
+[[package]]
+name = "unsudo_dx_layout"
+version = "0.1.0"
+dependencies = [
+ "layout",
+]
+
+[[package]]
+name = "unsudo_dx_window"
+version = "0.1.0"
+dependencies = [
+ "window",
+]
+
+[[package]]
+name = "unsudo_mod_kit"
+version = "0.1.0"
+dependencies = [
+ "mod_kit",
+]
 
 [[package]]
 name = "url"
