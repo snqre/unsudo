@@ -15,7 +15,7 @@ macro_rules! closure_ref {
     };
 }
 
-package!(
+bundle!(
     coordinate
     cursor_coordinate
     device

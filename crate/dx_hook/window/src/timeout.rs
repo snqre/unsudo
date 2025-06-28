@@ -8,10 +8,3 @@ where
         listener();
     })
 }
-
-
-fn hello() {
-    use_timeout(|| {
-        
-    }, 200);
-}

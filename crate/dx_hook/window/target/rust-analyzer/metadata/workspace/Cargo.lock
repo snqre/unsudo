@@ -971,6 +971,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "layout"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "prelude",
+]
+
+[[package]]
 name = "lazy-js-bundle"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
