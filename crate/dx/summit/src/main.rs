@@ -1,17 +1,9 @@
-#![allow(clippy::let_with_type_underscore)]
-#![allow(unused)]
+#![deny(warnings)]
 
-macro_rules! leak {
-    ($($module:ident)*) => {
-        $(
-            mod $module; pub use $module::*;
-        )*
-    };
-}
-
-use dioxus::prelude::*;
-use dioxus_motion::prelude::*;
-use dioxus::document;
+use ::prelude::*;
+use ::dioxus::prelude::*;
+use ::dioxus_motion::prelude::*;
+use ::dioxus::document;
 
 mod web;
 
