@@ -5,8 +5,9 @@ workspace.members = [
     "crate/dx_hook/window",
     "crate/prim/prelude",
     "crate/prim_util/mod_kit",
+    "crate/publish/unsudo_dx_hook_ctrl",
+    "crate/publish/unsudo_dx_hook_window",
     "crate/publish/unsudo_dx_layout",
-    "crate/publish/unsudo_dx_window",
     "crate/publish/unsudo_mod_kit"
 ]
 

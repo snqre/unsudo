@@ -1,0 +1,5 @@
+package.name = "unsudo_dx_hook_ctrl"
+package.version = "0.1.0"
+package.edition = "2021"
+dependencies.ctrl.version = "0.1.0"
+dependencies.ctrl.path = "/home/opcode/git_repo/low_bit/crate/dx_hook/ctrl"
