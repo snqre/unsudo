@@ -1,5 +1,7 @@
 use super::*;
 
+pub type Stylesheet = String;
+
 pub mod decor;
 pub mod decor_container;
 pub mod intf;

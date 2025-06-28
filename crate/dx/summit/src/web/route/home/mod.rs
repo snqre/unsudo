@@ -220,7 +220,16 @@ pub fn Route() -> Element {
                 }
             }
             layout::PageItem {
-                
+                intf::SlidingButton {
+                    style: r#"
+                        color: white;
+                        font-size: 2em;
+                    "#,
+                    w: 200.0,
+                    h: 50.0,
+                    children_on_idle: rsx! { "Hello World" },
+                    children_on_hover: rsx! { "Hi" }
+                }
             }
         }
     }
