@@ -8,6 +8,7 @@ use super::*;
 /// 
 /// Failures happen silently—no errors will be thrown or logged.
 pub fn use_w() -> Signal<f64> {
+    #[allow(unused_mut)]
     let mut w: Signal<f64> = use_signal(|| 0.0f64);
 
     #[cfg(target_arch = "wasm32")]

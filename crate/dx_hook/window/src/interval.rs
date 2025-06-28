@@ -3,6 +3,7 @@ use super::*;
 pub fn use_interval<T>(hook: T, ms: u32)
 where
     T: FnMut() + 'static {
+    #[allow(unused_variables)]
     let hook: std::rc::Rc<_> = ::std::rc::Rc::new(::std::cell::RefCell::new(hook));
         
     #[cfg(target_arch = "wasm32")]
