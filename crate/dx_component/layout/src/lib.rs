@@ -21,6 +21,7 @@ pub struct Coordinate {
 bundle!(
     auto_grid_fill
     auto_grid
+    base
     col_fill
     col
     grid_fill
