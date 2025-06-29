@@ -16,6 +16,8 @@ bundle!(
 
 #[component]
 pub fn Route() -> Element {
+    let device: Signal<_> = ::window::use_device();
+
     rsx! {
         layout::Page {
             style: r#"
@@ -24,12 +26,12 @@ pub fn Route() -> Element {
             layout::PageItem {
                 top: rsx! {
                     Stripe {}
-                    navbar::Container {
+                    navigation::Scaffold {
                         left: rsx! {
-                            navbar::Logo {}
+                            navigation::Logo {}
                             layout::Row {
                                 style: r#"
-                                    min-width: 100%;
+                                    width: clamp(100%, auto, auto);
                                     gap: {web::sequence(2)}px;
                                 "#,
                                 intf::Button {                                                 style: r#"
@@ -57,9 +59,8 @@ pub fn Route() -> Element {
                                 width: 100%;
                                 min-width: 0%;
                                 max-width: {web::sequence(11)}px;
-                                height: 100%;
-                                min-height: {web::sequence(8)}px;
-                                max-height: {web::sequence(8)}px;
+                                min-height: 0%;
+                                max-height: 100%;
                                 padding: {web::sequence(1)}px;
                             "#,
                             layout::RowFill {
@@ -105,42 +106,96 @@ pub fn Route() -> Element {
                                                 gap: {web::sequence(1)}px;
                                             "#,
                                             layout::Row {
-                                                style: r#"
-                                                    width: 100%;
-                                                    min-width: 100%;
-                                                    max-width: 100%;
-                                                    justify-content: start;
-                                                    font-family: br cobane;
-                                                    font-size: {web::sequence(5)}px;
-                                                    font-weight: bold;
-                                                    color: {color::SILVER};
-                                                "#,
+                                                style: format! {
+                                                    r#"
+                                                        width: 100%;
+                                                        min-width: 100%;
+                                                        max-width: 100%;
+                                                        justify-content: start;
+                                                        font-family: br cobane;
+                                                        font-size: clamp(3rem, 5vw + 1rem, 12rem);
+                                                        font-weight: bold;
+                                                        color: {};
+                                                    "#,
+                                                    color::SILVER
+                                                },
                                                 "Trustless by Design. Ruthless in Reliability."
                                             }
                                             layout::Row {
-                                                style: r#"
-                                                    width: 100%;
-                                                    min-width: 100%;
-                                                    max-width: 100%;
-                                                    justify-content: start;
-                                                    font-family: br cobane;
-                                                    font-size: {web::sequence(2)}px;
-                                                    font-weight: normal;
-                                                    color: {color::SILVER};
-                                                "#,
+                                                style: format! {
+                                                    r#"
+                                                        width: 100%;
+                                                        min-width: 100%;
+                                                        max-width: 100%;
+                                                        justify-content: start;
+                                                        font-family: br cobane;
+                                                        font-size: {}px;
+                                                        font-weight: normal;
+                                                        color: {};
+                                                    "#,
+                                                    web::sequence(2),
+                                                    color::SILVER
+                                                },
                                                 "The silent layer beneath the loudest DAOs—secure, scalable, sovereign."
                                             }
                                         }
                                         layout::Row {
-                                            layout::Row {
-                                                
-                                                decor::HStripe {
-                                                    w: "100%",
-                                                    h: "5px",
-                                                    color: color::IMPERIAL_RED
+                                            style: format! {
+                                                r#"
+                                                    width: 100%;
+                                                    min-width: 100%;
+                                                    max-width: 100%;
+                                                    justify-content: start;
+                                                    gap: {}px;
+                                                "#,
+                                                web::sequence(2)
+                                            },
+                                            intf::SlidingButton {
+                                                style: format! {
+                                                    r#"
+                                                        font-family: br cobane;
+                                                        font-size: {};
+                                                        font-weight: normal;
+                                                        color: {};
+                                                    "#,
+                                                    web::sequence(2),
+                                                    color::SILVER
+                                                },
+                                                w: 200.0,
+                                                h: 50.0,
+                                                children_on_idle: rsx! {
+                                                    "Create"
+                                                },
+                                                children_on_hover: rsx! {
+                                                    decor::Icon {
+                                                        size: "15px",
+                                                        url: asset!("asset/icon/chev_r.svg")
+                                                    }
                                                 }
                                             }
-                                            "Cta Buttons go here"
+                                            intf::SlidingButton {
+                                                style: format! {
+                                                    r#"
+                                                        font-family: br cobane;
+                                                        font-size: {};
+                                                        font-weight: normal;
+                                                        color: {};
+                                                    "#,
+                                                    web::sequence(2),
+                                                    color::SILVER
+                                                },
+                                                w: 200.0,
+                                                h: 50.0,
+                                                children_on_idle: rsx! {
+                                                    "Join"
+                                                },
+                                                children_on_hover: rsx! {
+                                                    decor::Icon {
+                                                        size: "15px",
+                                                        url: asset!("asset/icon/chev_r.svg")
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -159,8 +214,16 @@ pub fn Route() -> Element {
                                         "#,
                                         layout::Row {}
                                         SvgShape0 {
-                                            w: "{web::sequence(7)}px",
-                                            h: "{web::sequence(7)}px",
+                                            w: format!("{}px", match device() {
+                                                ::window::Device::Laptop4K | ::window::Device::LaptopL | ::window::Device::Laptop => web::sequence(7),
+                                                ::window::Device::Tablet => web::sequence(7),
+                                                _ => web::sequence(0)
+                                            }),
+                                            h: format!("{}px", match device() {
+                                                ::window::Device::Laptop4K | ::window::Device::LaptopL | ::window::Device::Laptop => web::sequence(7),
+                                                ::window::Device::Tablet => web::sequence(7),
+                                                _ => web::sequence(0)
+                                            }),
                                             color_0: color::interpolate((color::OBSIDIAN, color::SILVER), 0.5),
                                             color_1: color::interpolate((color::OBSIDIAN, color::STEEL), 0.5)
                                         }
@@ -185,37 +248,42 @@ pub fn Route() -> Element {
                             }
                         }
                     }
-                    HorizontalCarousel {
-                        style: r#"
-                            width: 100%;
-                            min-width: 100%;
-                            max-width: 100%;
-                            height: 100%;
-                            min-height: 0%;
-                            max-height: 100%;
-                            flex: 1;
-                            padding-left: {web::sequence(2)}px;
-                            padding-right: {web::sequence(2)}px;
-                        "#,
-                        slots: vec![rsx! {
-                            HorizontalCarouselHighlight {
-                                heading: rsx! { "DAOs are the next great form of organisation." },
-                                citation: rsx! { "'Yury Serdich, entrepreneur, Forbes'" },
-                                source: "https://www.forbes.com/sites/davidprosser/2022/08/16/why-punk-master-believes-daos-are-the-future/"
+                    match device() {
+                        ::window::Device::Laptop4K | ::window::Device::LaptopL | ::window::Device::Laptop => rsx! {
+                            HorizontalCarousel {
+                                style: r#"
+                                    width: 100%;
+                                    min-width: 100%;
+                                    max-width: 100%;
+                                    height: 100%;
+                                    min-height: 0%;
+                                    max-height: 100%;
+                                    flex: 1;
+                                    padding-left: {web::sequence(2)}px;
+                                    padding-right: {web::sequence(2)}px;
+                                "#,
+                                slots: vec![rsx! {
+                                    HorizontalCarouselHighlight {
+                                        heading: rsx! { "DAOs are the next great form of organisation." },
+                                        citation: rsx! { "'Yury Serdich, entrepreneur, Forbes'" },
+                                        source: "https://www.forbes.com/sites/davidprosser/2022/08/16/why-punk-master-believes-daos-are-the-future/"
+                                    }
+                                }, rsx! {
+                                    HorizontalCarouselHighlight {
+                                        heading: rsx! { "DAOs are the new limited liability companies…In five years, companies won’t have equity anymore. They’ll have tokens and they’ll be represented as DAOs." },
+                                        citation: rsx! { "'Cooper Turley, DAO investor via Cointelegraph'" },
+                                        source: "https://cointelegraph.com/magazine/dao-challenge-business-model-become-new-corporate-paradigm/"
+                                    }
+                                }, rsx! {
+                                    HorizontalCarouselHighlight {
+                                        heading: rsx! { "DAOs are a way of democratizing the management structure for the businesses, projects and communities that employ it." },
+                                        citation: rsx! { "Forbes Finance Council" },
+                                        source: "https://www.forbes.com/councils/forbesfinancecouncil/2022/10/14/the-state-of-daos-and-what-that-can-mean-for-web3/"
+                                    }
+                                }]
                             }
-                        }, rsx! {
-                            HorizontalCarouselHighlight {
-                                heading: rsx! { "DAOs are the new limited liability companies…In five years, companies won’t have equity anymore. They’ll have tokens and they’ll be represented as DAOs." },
-                                citation: rsx! { "'Cooper Turley, DAO investor via Cointelegraph'" },
-                                source: "https://cointelegraph.com/magazine/dao-challenge-business-model-become-new-corporate-paradigm/"
-                            }
-                        }, rsx! {
-                            HorizontalCarouselHighlight {
-                                heading: rsx! { "DAOs are a way of democratizing the management structure for the businesses, projects and communities that employ it." },
-                                citation: rsx! { "Forbes Finance Council" },
-                                source: "https://www.forbes.com/councils/forbesfinancecouncil/2022/10/14/the-state-of-daos-and-what-that-can-mean-for-web3/"
-                            }
-                        }]
+                        },
+                        _ => rsx! {}
                     }
                 }
             }

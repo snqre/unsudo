@@ -1,21 +1,16 @@
 use super::*;
 
-bundle!(
-    drop_down_container
-    logo
-);
-
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct ContainerProps {
+pub struct ScaffoldProps {
     pub left: Option<Element>,
     pub right: Option<Element>,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn Container(props: ContainerProps) -> Element {
+pub fn Scaffold(props: ScaffoldProps) -> Element {
     rsx! {
         div {
             style: r#"

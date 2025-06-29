@@ -1,6 +1,6 @@
 use super::*;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 #[repr(u8)]
 pub enum Device {
     Laptop4K,

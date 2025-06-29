@@ -12,9 +12,10 @@ pub fn Logo() -> Element {
             layout::Row {
                 style: r#"
                     font-family: alien skyline;
-                    font-size: {web::sequence(3)}px;
+                    font-size: {u(3)}px;
                     font-weight: normal;
                     color: {color::SILVER};
+                    cursor: pointer;
                 "#,
                 "unSUDO"
             }

@@ -45,9 +45,10 @@ pub fn SlidingButton(props: SlidingButtonProps) -> Element {
                 props.w,
                 props.h,
                 props.h,
-                match state() {
-                    State::Idle => color::CARBON,
-                    State::Hover => color::OFFICE_BLUE
+                if state() == State::Hover {
+                    color::OFFICE_BLUE
+                } else {
+                    color::CARBON
                 },
                 props.style.to_owned().unwrap_or_default()
             },
