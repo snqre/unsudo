@@ -61,6 +61,7 @@ struct EventProps {
     #[props(default=None)] pub on_paste: MaybeListener<ClipboardData>,
     #[props(default=None)] pub on_pause: MaybeListener<MediaData>,
     #[props(default=None)] pub on_play: MaybeListener<MediaData>,
+    #[props(default=None)] pub on_playing: MaybeListener<MediaData>
 
 }
 
@@ -134,6 +135,7 @@ fn Base(props: BaseProps) -> Element {
             onpaste: into_listener(props.event.on_paste),
             onpause: into_listener(props.event.on_pause),
             onplay: into_listener(props.event.on_play),
+            onplaying: into_listener(props.event.on_playing),
             
         }
     }
