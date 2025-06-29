@@ -2,6 +2,9 @@ use super::*;
 
 type MaybeListener<T> = Option<EventHandler<Event<T>>>;
 
+
+// some custom events to add such as on visible or not etc.
+
 #[derive(Props, Clone, PartialEq, Default)]
 struct OnProps {
     #[props(default=None)] pub on_abort: MaybeListener<MediaData>,
@@ -16,7 +19,13 @@ struct OnProps {
     #[props(default=None)] pub on_composition_end: MaybeListener<CompositionData>,
     #[props(default=None)] pub on_composition_start: MaybeListener<CompositionData>,
     #[props(default=None)] pub on_composition_update: MaybeListener<CompositionData>,
-
+    #[props(default=None)] pub on_context_menu: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_copy: MaybeListener<ClipboardData>,
+    #[props(default=None)] pub on_cut: MaybeListener<ClipboardData>,
+    #[props(default=None)] pub on_double_click: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_drag: MaybeListener<DragData>,
+    #[props(default=None)] pub on_drag_end: MaybeListener<DragData>,
+    #[props(default=None)] pub on_drag_enter: MaybeListener<DragData>,
     
     #[props(default)] pub on_mouse_enter: MaybeListener<MouseData>,
     #[props(default)] pub on_mouse_leave: MaybeListener<MouseData>,
@@ -51,7 +60,15 @@ fn Base(props: BaseProps) -> Element {
             oncompositionend: into_listener(props.event.on_composition_end),
             oncompositionstart: into_listener(props.event.on_composition_start),
             oncompositionupdate: into_listener(props.event.on_composition_update),
+            oncontextmenu: into_listener(props.event.on_context_menu),
+            oncopy: into_listener(props.event.on_copy),
+            oncut: into_listener(props.event.on_cut),
+            ondoubleclick: into_listener(props.event.on_double_click),
+            ondrag: into_listener(props.event.on_drag),
+            ondragend: into_listener(props.event.on_drag_end),
+            ondragenter: into_listener(props.event.on_drag_enter),
             
+
         }
     }
 }
