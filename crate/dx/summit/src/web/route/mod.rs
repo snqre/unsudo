@@ -1,12 +1,10 @@
 use super::*;
-mod home;
+use landing::home::Route as Home;
 
-use home::Route as Home;
+mod app;
+mod landing;
 
-#[derive(Routable)]
-#[derive(Debug)]
-#[derive(Clone)]
-#[derive(PartialEq)]
+#[derive(Routable, Debug, Clone, PartialEq)]
 pub enum Route {
     #[route("/")]
     Home {}

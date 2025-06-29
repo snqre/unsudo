@@ -20,6 +20,9 @@ pub fn Route() -> Element {
 
     rsx! {
         layout::Page {
+            overlay: rsx! {
+                
+            },
             style: r#"
                 background: {color::OBSIDIAN};
             "#,
