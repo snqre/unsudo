@@ -4,6 +4,7 @@ pub mod component;
 pub mod route;
 pub mod color;
 pub mod easing;
+pub mod kernel;
 
 #[allow(unused)]
 pub fn u(k: u16) -> f64 {

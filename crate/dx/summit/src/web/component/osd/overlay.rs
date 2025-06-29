@@ -1,5 +1,7 @@
 use super::*;
 
+pub static OVERLAY_Z: u64 = u64::MAX / 2;
+
 #[derive(Props, Clone, PartialEq)]
 pub struct OverlayProps {
     pub visible: bool,
@@ -62,7 +64,7 @@ struct OverlayContentProps {
 fn OverlayContent(props: OverlayContentProps) -> Element {
     rsx! {
         layout::StackItem {
-            z: u64::MAX,
+            z: OVERLAY_Z,
             class: props.class,
             style: format! {
                 r#"
@@ -82,9 +84,7 @@ fn OverlayContent(props: OverlayContentProps) -> Element {
 }
 
 
-#[derive(Props)]
-#[derive(Clone)]
-#[derive(PartialEq)]
+#[derive(Props, Clone, PartialEq)]
 struct OverlayBackgroundProps {
     pub visible: bool,
     pub animation_duration_seconds: f64,
@@ -100,7 +100,7 @@ struct OverlayBackgroundProps {
 fn OverlayBackground(props: OverlayBackgroundProps) -> Element {
     rsx! {
         layout::StackItem {
-            z: u64::MAX - 1,
+            z: OVERLAY_Z - 1,
             class: props.class,
             style: format! {
                 r#"

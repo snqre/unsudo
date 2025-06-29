@@ -1,8 +1,9 @@
 use super::*;
 
+pub static OVERLAY_BUILD_IS_VISIBLE: GlobalSignal<bool> = GlobalSignal::new(|| false);
+
 #[derive(Props, Clone, PartialEq)]
 pub struct OverlayBuildProps {
-    pub visible: bool,
     pub background_class: Option<String>,
     pub background_style: Option<String>,
     pub content_class: Option<String>,
@@ -14,7 +15,7 @@ pub struct OverlayBuildProps {
 pub fn OverlayBuild(props: OverlayBuildProps) -> Element {
     rsx! {
         Overlay {
-            visible: props.visible,
+            visible: OVERLAY_BUILD_IS_VISIBLE(),
             background_animation_delay_seconds: 0.0,
             background_animation_duration_seconds: 3.0,
             background_animation_timing_function: "ease",

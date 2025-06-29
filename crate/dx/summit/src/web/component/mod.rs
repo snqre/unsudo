@@ -14,4 +14,4 @@ pub mod typo;
 pub mod navigation;
 pub mod window;
 pub mod window_frame;
-pub mod modal;
+pub mod osd;

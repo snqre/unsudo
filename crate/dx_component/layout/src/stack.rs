@@ -4,6 +4,7 @@ use super::*;
 pub struct StackProps {
     pub on_mouse_enter: Option<EventHandler<Event<MouseData>>>,
     pub on_mouse_leave: Option<EventHandler<Event<MouseData>>>,
+    pub class: Option<String>,
     pub style: Option<String>,
     pub children: Option<Element>
 }
@@ -14,6 +15,7 @@ pub fn Stack(props: StackProps) -> Element {
         Col {
             on_mouse_enter: props.on_mouse_enter,
             on_mouse_leave: props.on_mouse_leave,
+            class: props.class,
             style: r#"
                 position: relative;
                 {props.style.to_owned().unwrap_or_default()}
