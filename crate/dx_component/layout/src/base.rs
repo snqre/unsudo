@@ -48,10 +48,20 @@ struct EventProps {
     #[props(default=None)] pub on_load: MaybeListener<ImageData>,
     #[props(default=None)] pub on_loaded_data: MaybeListener<MediaData>,
     #[props(default=None)] pub on_loaded_metadata: MaybeListener<MediaData>,
+    #[props(default=None)] pub on_load_start: MaybeListener<MediaData>,
+    #[props(default=None)] pub on_lost_pointer_capture: MaybeListener<PointerData>,
+    #[props(default=None)] pub on_mounted: MaybeListener<MountedData>,
+    #[props(default=None)] pub on_mouse_down: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_enter: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_leave: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_move: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_out: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_over: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_mouse_up: MaybeListener<MouseData>,
+    #[props(default=None)] pub on_paste: MaybeListener<ClipboardData>,
+    #[props(default=None)] pub on_pause: MaybeListener<MediaData>,
+    #[props(default=None)] pub on_play: MaybeListener<MediaData>,
 
-    #[props(default)] pub on_mouse_enter: MaybeListener<MouseData>,
-    #[props(default)] pub on_mouse_leave: MaybeListener<MouseData>,
-    #[props(default)] pub on_mouse_move: MaybeListener<MouseData>,
 }
 
 #[derive(Props, Clone, PartialEq)]
@@ -111,13 +121,20 @@ fn Base(props: BaseProps) -> Element {
             onload: into_listener(props.event.on_load),
             onloadeddata: into_listener(props.event.on_loaded_data),
             onloadedmetadata: into_listener(props.event.on_loaded_metadata),
-            onloadstart: |e| {},
-            onlostpointercapture: |e| {},
-            onmounted: |e| {},
-            onmousedown: |e| {},
-            onmouseenter: |e| {},
-            onmouseleave: |e| {},
-            onmousemove: |e| {}
+            onloadstart: into_listener(props.event.on_load_start),
+            onlostpointercapture: into_listener(props.event.on_lost_pointer_capture),
+            onmounted: into_listener(props.event.on_mounted),
+            onmousedown: into_listener(props.event.on_mouse_down),
+            onmouseenter: into_listener(props.event.on_mouse_enter),
+            onmouseleave: into_listener(props.event.on_mouse_leave),
+            onmousemove: into_listener(props.event.on_mouse_move),
+            onmouseout: into_listener(props.event.on_mouse_out),
+            onmouseover: into_listener(props.event.on_mouse_over),
+            onmouseup: into_listener(props.event.on_mouse_up),
+            onpaste: into_listener(props.event.on_paste),
+            onpause: into_listener(props.event.on_pause),
+            onplay: into_listener(props.event.on_play),
+            
         }
     }
 }
