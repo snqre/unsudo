@@ -1,0 +1,101 @@
+use super::*;
+
+macro_rules! has {
+    ($($field_ident:ident)*) => {
+        #[derive(Props)]
+        #[derive(Clone)]
+        #[derive(PartialEq)]
+        #[derive(Default)]
+        pub struct LowLevelAttributeProps {
+            $(
+                #[props(default=None)] pub $field_ident: MaybeOpcode,
+            )*
+        }
+    };
+}
+
+has!(
+    access_key
+    align_content
+    align_items
+    align_self
+    alignment_adjust
+    alignment_baseline
+    all
+    alt
+    animation
+    animation_delay
+    animation_direction
+    animation_duration
+    animation_fill_mode
+    animation_iteration_count
+    animation_name
+    animation_play_state
+    animation_timing_function
+    aria_active_descendant
+    aria_atomic
+    aria_auto_complete
+    aria_busy
+    aria_checked
+    aria_col_count
+    aria_col_index
+    aria_col_span
+    aria_controls
+    aria_current
+    aria_described_by
+    aria_details
+    aria_disabled
+    aria_drop_effect
+    aria_error_message
+    aria_expanded
+    aria_flow_to
+    aria_grabbed
+    aria_has_popup
+    aria_hidden
+    aria_invalid
+    aria_key_shortcuts
+    aria_label
+    aria_labelled_by
+    aria_level
+    aria_live
+    aria_modal
+    aria_multi_line
+    aria_multi_selectable
+    aria_orientation
+    aria_owns
+    aria_placeholder
+    aria_pos_in_set
+    aria_pressed
+    aria_readonly
+    aria_relevant
+    aria_required
+    aria_role_description
+    aria_row_count
+    aria_row_index
+    aria_row_span
+    aria_selected
+    aria_set_size
+    aria_sort
+    aria_value_max
+    aria_value_min
+    aria_value_now
+    aria_value_text
+    aspect_ratio
+    auto_capitalize
+    auto_focus
+    azimuth
+    backdrop_filter
+    backface_visibility
+    background
+    background_attachment
+    background_blend_mode
+    background_clip
+    background_color
+    background_image
+    background_origin
+    background_position
+    background_repeat
+    background_size
+    baseline_shift
+    bleed
+);

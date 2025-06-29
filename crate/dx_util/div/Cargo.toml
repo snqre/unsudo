@@ -1,0 +1,6 @@
+package.name = "div"
+package.version = "0.1.0"
+package.edition = "2021"
+dependencies.dioxus.version = "*"
+dependencies.prelude.version = "*"
+dependencies.prelude.path = "../../kit/prelude"

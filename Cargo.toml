@@ -6,6 +6,7 @@ workspace.members = [
     "crate/dx_component/layout",
     "crate/dx_hook/ctrl",
     "crate/dx_hook/window",
+    "crate/dx_util/div",
     "crate/kit/prelude",
     "crate/kit/mod_kit",
     "crate/publish/unsudo_dx_hook_ctrl",
