@@ -1,3 +1,5 @@
+use std::backtrace;
+
 use super::*;
 
 macro_rules! has {
@@ -128,4 +130,38 @@ has!(
     border_spacing
     border_style
     border_top
+    border_top_color
+    border_top_left_radius
+    border_top_right_radius
+    border_top_style
+    border_top_width
+    border_width
+    bottom
+    box_decoration_break
+    box_shadow
+    box_sizing
+    box_snap
+    break_after
+    break_before
+    break_inside
+    buffered_rendering
+    base_profile
+
+    class
+    clear
+    clear_side
+    clip
+    clip_path
+    clip_rule
 );
+
+
+
+
+fn T() {
+    rsx! {
+        div {
+
+        }
+    }
+}
