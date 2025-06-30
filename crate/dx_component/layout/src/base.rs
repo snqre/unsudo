@@ -196,6 +196,36 @@ has!(
     background_size
     baseline_shift
     bleed
+    bookmark_label
+    bookmark_level
+    bookmark_state
+    border
+    border_bottom
+    border_bottom_color
+    border_bottom_left_radius
+    border_bottom_right_radius
+    border_bottom_style
+    border_bottom_width
+    border_collapse
+    border_color
+    border_image
+    border_image_outset
+    border_image_repeat
+    border_image_slice
+    border_image_source
+    border_image_width
+    border_left
+    border_left_color
+    border_left_style
+    border_left_width
+    border_radius
+    border_right
+    border_right_color
+    border_right_style
+    border_right_width
+    border_spacing
+    border_style
+    border_top
 );
 
 #[derive(Props, Clone, PartialEq)]
@@ -380,7 +410,37 @@ fn Div(props: DivProps) -> Element {
             background_size: props.attrs.background_size,
             baseline_shift: props.attrs.baseline_shift,
             bleed: props.attrs.bleed,
-            b
+            bookmark_label: props.attrs.bookmark_label,
+            bookmark_level: props.attrs.bookmark_level,
+            bookmark_state: props.attrs.bookmark_state,
+            border: props.attrs.border,
+            border_bottom: props.attrs.border_bottom,
+            border_bottom_color: props.attrs.border_bottom_color,
+            border_bottom_left_radius: props.attrs.border_bottom_left_radius,
+            border_bottom_right_radius: props.attrs.border_bottom_right_radius,
+            border_bottom_style: props.attrs.border_bottom_style,
+            border_bottom_width: props.attrs.border_bottom_width,
+            border_collapse: props.attrs.border_collapse,
+            border_color: props.attrs.border_color,
+            border_image: props.attrs.border_image,
+            border_image_outset: props.attrs.border_image_outset,
+            border_image_repeat: props.attrs.border_image_repeat,
+            border_image_slice: props.attrs.border_image_slice,
+            border_image_source: props.attrs.border_image_source,
+            border_image_width: props.attrs.border_image_width,
+            border_left: props.attrs.border_left,
+            border_left_color: props.attrs.border_left_color,
+            border_left_style: props.attrs.border_left_style,
+            border_left_width: props.attrs.border_left_width,
+            border_radius: props.attrs.border_radius,
+            border_right: props.attrs.border_right,
+            border_right_color: props.attrs.border_right_color,
+            border_right_style: props.attrs.border_right_style,
+            border_right_width: props.attrs.border_right_width,
+            border_spacing: props.attrs.border_spacing,
+            border_style: props.attrs.border_style,
+            border_top: props.attrs.border_top,
+            
         }
     }
 }

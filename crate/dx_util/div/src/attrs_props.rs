@@ -6,7 +6,7 @@ macro_rules! has {
         #[derive(Clone)]
         #[derive(PartialEq)]
         #[derive(Default)]
-        pub struct LowLevelAttributeProps {
+        pub struct AttrsProps {
             $(
                 #[props(default=None)] pub $field_ident: MaybeOpcode,
             )*
@@ -98,4 +98,34 @@ has!(
     background_size
     baseline_shift
     bleed
+    bookmark_label
+    bookmark_level
+    bookmark_state
+    border
+    border_bottom
+    border_bottom_color
+    border_bottom_left_radius
+    border_bottom_right_radius
+    border_bottom_style
+    border_bottom_width
+    border_collapse
+    border_color
+    border_image
+    border_image_outset
+    border_image_repeat
+    border_image_slice
+    border_image_source
+    border_image_width
+    border_left
+    border_left_color
+    border_left_style
+    border_left_width
+    border_radius
+    border_right
+    border_right_color
+    border_right_style
+    border_right_width
+    border_spacing
+    border_style
+    border_top
 );
