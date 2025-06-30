@@ -1,5 +1,3 @@
-use std::backtrace;
-
 use super::*;
 
 macro_rules! has {
@@ -18,6 +16,35 @@ macro_rules! has {
 
 has!(
     access_key
+    auto_capitalize
+    auto_focus
+    class
+    content_editable
+    data
+    dir
+    draggable
+    enter_key_hint
+    export_parts
+    hidden
+    id
+    input_mode
+    is
+    item_id
+    item_prop
+    item_ref
+    item_scope
+    item_type
+    lang
+    nonce
+    part
+    popover
+    role
+    slot
+    spell_check
+    style
+    tab_index
+    title
+    translate
     align_content
     align_items
     align_self
@@ -30,67 +57,15 @@ has!(
     animation_direction
     animation_duration
     animation_fill_mode
-    animation_iteration_count
     animation_name
     animation_play_state
     animation_timing_function
-    aria_active_descendant
-    aria_atomic
-    aria_auto_complete
-    aria_busy
-    aria_checked
-    aria_col_count
-    aria_col_index
-    aria_col_span
-    aria_controls
-    aria_current
-    aria_described_by
-    aria_details
-    aria_disabled
-    aria_drop_effect
-    aria_error_message
-    aria_expanded
-    aria_flow_to
-    aria_grabbed
-    aria_has_popup
-    aria_hidden
-    aria_invalid
-    aria_key_shortcuts
-    aria_label
-    aria_labelled_by
-    aria_level
-    aria_live
-    aria_modal
-    aria_multi_line
-    aria_multi_selectable
-    aria_orientation
-    aria_owns
-    aria_placeholder
-    aria_pos_in_set
-    aria_pressed
-    aria_readonly
-    aria_relevant
-    aria_required
-    aria_role_description
-    aria_row_count
-    aria_row_index
-    aria_row_span
-    aria_selected
-    aria_set_size
-    aria_sort
-    aria_value_max
-    aria_value_min
-    aria_value_now
-    aria_value_text
     aspect_ratio
-    auto_capitalize
-    auto_focus
     azimuth
     backdrop_filter
     backface_visibility
     background
     background_attachment
-    background_blend_mode
     background_clip
     background_color
     background_image
@@ -98,44 +73,45 @@ has!(
     background_position
     background_repeat
     background_size
+    background_blend_mode
     baseline_shift
     bleed
     bookmark_label
     bookmark_level
     bookmark_state
     border
+    border_color
+    border_style
+    border_width
     border_bottom
     border_bottom_color
-    border_bottom_left_radius
-    border_bottom_right_radius
     border_bottom_style
     border_bottom_width
+    border_left
+    border_left_color
+    border_left_style
+    border_left_width
+    border_right
+    border_right_color
+    border_right_style
+    border_right_width
+    border_top
+    border_top_color
+    border_top_style
+    border_top_width
     border_collapse
-    border_color
     border_image
     border_image_outset
     border_image_repeat
     border_image_slice
     border_image_source
     border_image_width
-    border_left
-    border_left_color
-    border_left_style
-    border_left_width
     border_radius
-    border_right
-    border_right_color
-    border_right_style
-    border_right_width
-    border_spacing
-    border_style
-    border_top
-    border_top_color
+    border_bottom_left_radius
+    border_bottom_right_radius
     border_top_left_radius
     border_top_right_radius
-    border_top_style
-    border_top_width
-    border_width
+    border_spacing
     bottom
     box_decoration_break
     box_shadow
@@ -145,23 +121,74 @@ has!(
     break_before
     break_inside
     buffered_rendering
-    base_profile
-
-    class
+    caption_side
     clear
     clear_side
     clip
     clip_path
     clip_rule
+    color
+    color_adjust
+    color_correction
+    color_interpolation
+    color_interpolation_filters
+    color_profile
+    color_rendering
+    column_fill
+    column_gap
+    column_rule
+    column_rule_color
+    column_rule_style
+    column_rule_width
+    column_span
+    columns
+    column_count
+    column_width
+    contain
+    content
+    counter_increment
+    counter_reset
+    counter_set
+    cue
+    cue_after
+    cue_before
+    cursor
+    direction
+    display
+    display_inside
+    display_outside
+    display_extras
+    display_box
+    dominant_baseline
+    elevation
+    empty_cells
+    enable_background
+    fill
+    fill_opacity
+    fill_rule
+    filter
+    float
+    float_defer_column
+    float_defer_page
+    float_offset
+    float_wrap
+    flow_into
+    flow_from
+    flex
+    flex_basis
+    flex_grow
+    flex_shrink
+    flex_flow
+    flex_direction
+    flex_wrap
+    flood_color
+    flood_opacity
+    font
+    font_family
+    font_size
+    font_stretch
+    font_style
+    font_weight
+    font_feature_settings
+    
 );
-
-
-
-
-fn T() {
-    rsx! {
-        div {
-
-        }
-    }
-}
