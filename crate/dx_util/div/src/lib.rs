@@ -13,7 +13,7 @@ macro_rules! div {
             rsx! {
                 div {
                     $(
-                        $attr: $props.attrs.$route,
+                        $attr: $props.attrs.$route.to_owned(),
                     )*
                     { $props.children }
                 }
@@ -320,7 +320,7 @@ pub fn Div(props: DivProps) -> Element {
         nav_left nav_left
         nav_right nav_right
         nav_up nav_up
-        object_fil object_fit
+        object_fit object_fit
         object_position object_position
         offset_after offset_after
         offset_before offset_before
@@ -333,5 +333,49 @@ pub fn Div(props: DivProps) -> Element {
         outline_color outline_color
         outline_style outline_style
         outline_width outline_width
+        outline_offset outline_offset
+        overflow overflow
+        overflow_x overflow_x
+        overflow_y overflow_y
+        overflow_style overflow_style
+        overflow_wrap overflow_wrap
+        padding padding
+        padding_bottom padding_bottom
+        padding_left padding_left
+        padding_right padding_right
+        padding_top padding_top
+        page page
+        page_break_after page_break_after
+        page_break_before page_break_before
+        page_break_inside page_break_inside
+        paint_order paint_order
+        pause pause
+        pause_after pause_after
+        pause_before pause_before
+        perspective perspective
+        perspective_origin perspective_origin
+        pitch pitch
+        pitch_range pitch_range
+        pitch_during pitch_during
+        pointer_events pointer_events
+        position position
+        quotes quotes
+        region_fragment region_fragment
+        resize resize
+        rest rest
+        rest_after rest_after
+        rest_before rest_before
+        richness richness
+        right right
+        ruby_align ruby_align
+        ruby_merge ruby_merge
+        ruby_position ruby_position
+        scroll_behavior scroll_behavior
+        scroll_snap_coordinate scroll_snap_coordinate
+        scroll_snap_destination scroll_snap_destination
+        scroll_snap_points_x scroll_snap_points_x
+        scroll_snap_points_y scroll_snap_points_y
+        scroll_snap_type scroll_snap_type
+        shape_image_threshold shape_image_threshold
     )
 }
