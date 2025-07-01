@@ -196,7 +196,7 @@ pub fn Div(props: DivProps) -> Element {
         float_offset float_offset
         float_wrap float_wrap
         flow_into flow_into
-        flow_from from_from
+        flow_from flow_from
         flex flex
         flex_basis flex_basis
         flex_grow flex_grow
@@ -205,6 +205,46 @@ pub fn Div(props: DivProps) -> Element {
         flex_direction flex_direction
         flex_wrap flex_wrap
         flood_color flood_color
-
+        flood_opacity flood_opacity
+        font font
+        font_family font_family
+        font_size font_size
+        font_stretch font_stretch
+        font_style font_style
+        font_weight font_weight
+        font_feature_settings font_feature_settings
+        font_kerning font_kerning
+        font_language_override font_language_override
+        font_size_adjust font_size_adjust
+        font_synthesis font_synthesis
+        font_variant font_variant
+        font_variant_alternates font_variant_alternates
+        font_variant_caps font_variant_caps
+        font_variant_east_asian font_variant_ease_asian
+        font_variant_ligatures font_variant_ligatures
+        font_variant_numeric font_variant_numeric
+        font_variant_position font_variant_position
+        footnote_policy footnote_policy
+        glyph_orientation_horizontal glyph_orientation_horizontal
+        glyph_orientation_vertical glyph_orientation_vertical
+        grid grid
+        grid_auto_flow grid_auto_flow
+        grid_auto_columns grid_auto_columns
+        grid_auto_rows grid_auto_rows
+        grid_template grid_template
+        grid_template_areas grid_template_areas
+        grid_template_columns grid_template_columns
+        grid_template_rows grid_template_rows
+        grid_area grid_area
+        grid_column grid_column
+        grid_column_start grid_column_start
+        grid_column_end grid_column_end
+        grid_row grid_row
+        grid_row_start grid_row_start
+        grid_row_end grid_row_end
+        hanging_punctuation hanging_punctuation
+        height height
+        hyphenate_character hyphenate_character
+        hyphenate_limit_chars hyphenate_character
     )
 }
