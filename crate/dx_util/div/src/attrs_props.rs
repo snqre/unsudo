@@ -1,5 +1,7 @@
 use super::*;
 
+pub type MaybeOpcode = Option<String>;
+
 macro_rules! has {
     ($($field_ident:ident)*) => {
         #[derive(Props)]

@@ -4,9 +4,6 @@ use ::dioxus::prelude::*;
 bundle!(
     attrs_props
     event_props
-    into_listener
-    maybe_listener
-    maybe_opcode
 );
 
 #[macro_export(local_inner_macros)]
