@@ -114,7 +114,7 @@ pub fn Div(props: DivProps) -> Element {
         border_left_color border_left_color
         border_left_style border_left_style
         border_left_width border_left_width
-        border_right
+        border_right border_right
         border_right_color border_right_color
         border_right_style border_right_style
         border_right_width border_right_width
@@ -144,5 +144,19 @@ pub fn Div(props: DivProps) -> Element {
         break_before break_before
         break_inside break_inside
         buffered_rendering buffered_rendering
+        caption_side caption_side
+        clear clear
+        clea_side clear_side
+        clip clip
+        clip_path clip_path
+        clip_rule clip_rule
+        color color
+        color_adjust color_adjust
+        color_correction color_correction
+        color_interpolation color_interpolation
+        color_interpolation_filters color_interpolation_filters
+        color_profile color_profile
+        color_rendering color_rendering
+        
     )
 }
