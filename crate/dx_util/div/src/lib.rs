@@ -220,7 +220,7 @@ pub fn Div(props: DivProps) -> Element {
         font_variant font_variant
         font_variant_alternates font_variant_alternates
         font_variant_caps font_variant_caps
-        font_variant_east_asian font_variant_ease_asian
+        font_variant_east_asian font_variant_east_asian
         font_variant_ligatures font_variant_ligatures
         font_variant_numeric font_variant_numeric
         font_variant_position font_variant_position
@@ -246,5 +246,62 @@ pub fn Div(props: DivProps) -> Element {
         height height
         hyphenate_character hyphenate_character
         hyphenate_limit_chars hyphenate_character
+        hyphenate_limit_last hyphenate_limit_last
+        hyphenate_limit_lines hyphenate_limit_lines
+        hyphenate_limit_zone hyphenate_limit_zone
+        hyphens hyphens
+        icon icon
+        image_orientation image_orientation
+        image_resolution image_resolution
+        image_rendering image_rendering
+        ime ime
+        ime_align ime_align
+        ime_mode ime_mode
+        ime_offset ime_offset
+        ime_width ime_width
+        initial_letters initial_letters
+        inline_box_align inline_box_align
+        isolation isolation
+        justify_content justify_content
+        justify_items justify_items
+        justify_self justify_self
+        kerning kerning
+        left left
+        letter_spacing letter_spacing
+        lighting_color lighting_color
+        line_box_contain line_box_contain
+        line_break line_break
+        line_grid line_grid
+        line_height line_height
+        line_slack line_slack
+        line_snap line_snap
+        list_style list_style
+        list_style_image list_style_image
+        list_style_position list_style_position
+        list_style_type list_style_type
+        margin margin 
+        margin_bottom margin_bottom
+        margin_left margin_left
+        margin_right margin_right
+        margin_top margin_top
+        marker marker
+        marker_end marker_end
+        marker_mid marker_mid
+        marker_pattern marker_pattern
+        marker_segment marker_segment
+        marker_start marker_start
+        marker_knockout_left marker_knockout_left
+        marker_knockout_right marker_knockout_right
+        marker_side marker_side
+        marks marks
+        marquee_direction marquee_direction
+        marquee_play_count marquee_play_count
+        marquee_speed marquee_speed
+        marquee_style marquee_style
+        mask mask
+        mask_image mask_image
+        mask_repeat mask_repeat
+        mask_position mask_position
+        mask_clip mask_clip
     )
 }
