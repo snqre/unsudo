@@ -300,5 +300,38 @@ pub fn Div(props: DivProps) -> Element {
         mask_repeat mask_repeat
         mask_position mask_position
         mask_clip mask_clip
+        mask_origin mask_origin
+        mask_size mask_size
+        mask_box mask_box
+        mask_box_outset mask_box_outset
+        mask_box_repeat mask_box_repeat
+        mask_box_slice mask_box_slice
+        mask_box_source mask_box_source
+        mask_box_width mask_box_width
+        mask_type mask_type
+        max_height max_height
+        max_lines max_lines
+        max_width max_width
+        min_height min_height
+        min_width min_width
+        mix_blend_mode mix_blend_mode
+        nav_down nav_down
+        nav_index nav_index
+        nav_left nav_left
+        nav_right nav_right
+        nav_up nav_up
+        object_fil object_fit
+        object_position object_position
+        offset_after offset_after
+        offset_before offset_before
+        offset_end offset_end
+        offset_start offset_start
+        opacity opacity
+        order order
+        orphans orphans
+        outline outline
+        outline_color outline_color
+        outline_style outline_style
+        outline_width outline_width
     )
 }
