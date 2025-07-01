@@ -146,7 +146,7 @@ pub fn Div(props: DivProps) -> Element {
         buffered_rendering buffered_rendering
         caption_side caption_side
         clear clear
-        clea_side clear_side
+        clear_side clear_side
         clip clip
         clip_path clip_path
         clip_rule clip_rule
@@ -157,6 +157,54 @@ pub fn Div(props: DivProps) -> Element {
         color_interpolation_filters color_interpolation_filters
         color_profile color_profile
         color_rendering color_rendering
-        
+        column_fill column_fill
+        column_gap column_gap
+        column_rule column_rule
+        column_rule_color column_rule_color
+        column_rule_style column_rule_style
+        column_rule_width column_rule_width
+        column_span column_span
+        columns columns
+        column_count column_count
+        column_width column_width
+        contain contain
+        content content
+        counter_increment counter_increment
+        counter_reset counter_reset
+        counter_set counter_set
+        cue cue
+        cue_after cue_after
+        cue_before cue_before
+        cursor cursor
+        direction direction
+        display display
+        display_inside display_inside
+        display_outside display_outside
+        display_extras display_extras
+        display_box display_box
+        dominant_baseline dominant_baseline
+        elevation elevation
+        empty_cells empty_cells
+        enable_background enable_background
+        fill fill
+        fill_opacity fill_opacity
+        fill_rule fill_rule
+        filter filter
+        float float
+        float_defer_column float_defer_column
+        float_defer_page float_defer_page
+        float_offset float_offset
+        float_wrap float_wrap
+        flow_into flow_into
+        flow_from from_from
+        flex flex
+        flex_basis flex_basis
+        flex_grow flex_grow
+        flex_shrink flex_shrink 
+        flex_flow flex_flow
+        flex_direction flex_direction
+        flex_wrap flex_wrap
+        flood_color flood_color
+
     )
 }
