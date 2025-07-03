@@ -377,5 +377,44 @@ pub fn Div(props: DivProps) -> Element {
         scroll_snap_points_y scroll_snap_points_y
         scroll_snap_type scroll_snap_type
         shape_image_threshold shape_image_threshold
+        shape_inside shape_inside
+        shape_margin shape_margin
+        shape_outside shape_outside
+        shape_rendering shape_rendering
+        size size
+        speak speak
+        speak_as speak_as
+        speak_header speak_header
+        speak_numeral speak_numeral
+        speak_punctuation speak_punctuation
+        speech_rate speech_rate
+        stop_color stop_color
+        stop_opacity stop_opacity
+        stress stress
+        string_set string_set
+        stroke stroke
+        stroke_dash_array stroke_dash_array
+        stroke_dash_offset stroke_dash_offset
+        stroke_line_cap stroke_line_cap
+        stroke_line_join stroke_line_join
+        stroke_miter_limit stroke_miter_limit
+        stroke_opacity stroke_opacity
+        stroke_width stroke_width
+        tab_size tab_size
+        table_layout table_layout
+        text_align text_align
+        text_align_all text_align_all
+        text_align_last text_align_last
+        text_anchor text_anchor
+        text_combine_upright text_combine_upright
+        text_decoration text_decoration
+        text_decoration_color text_decoration_color
+        text_decoration_line text_decoration_line
+        text_decoration_style text_decoration_style
+        text_decoration_skip text_decoration_skip
+        text_emphasis text_emphasis
+        text_emphasis_color text_emphasis_color
+        text_emphasis_style text_emphasis_style
+        
     )
 }
