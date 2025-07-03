@@ -7,7 +7,7 @@ bundle!(
 );
 
 #[macro_export(local_inner_macros)]
-macro_rules! div {
+macro_rules! pass {
     ($props:ident $($attr:ident $route:ident)*) => {
         ::paste::paste! {
             rsx! {
@@ -33,7 +33,7 @@ pub struct DivProps {
 
 #[component]
 pub fn Div(props: DivProps) -> Element {
-    div!(
+    pass!(
         props
         accesskey access_key
         autocapitalize auto_capitalize
@@ -356,7 +356,6 @@ pub fn Div(props: DivProps) -> Element {
         perspective_origin perspective_origin
         pitch pitch
         pitch_range pitch_range
-        pitch_during pitch_during
         pointer_events pointer_events
         position position
         quotes quotes
@@ -453,7 +452,7 @@ pub fn Div(props: DivProps) -> Element {
         voice_volume voice_volume
         volume volume
         white_space white_space
-        windows windows
+        widows widows
         width width
         will_change will_change
         word_break word_break

@@ -338,7 +338,6 @@ has!(
     perspective_origin
     pitch
     pitch_range
-    pitch_during
     pointer_events
     position
     quotes
@@ -416,7 +415,7 @@ has!(
     top
     touch_action
     transform
-    transofrm_box
+    transform_box
     transform_origin
     transform_style
     transition
@@ -436,7 +435,7 @@ has!(
     voice_volume
     volume
     white_space
-    windows
+    widows
     width
     will_change
     word_break
