@@ -42,7 +42,7 @@ has!(
     on_copy ClipboardData
     on_cut ClipboardData
     on_double_click MouseData
-    on_dreg DragData
+    on_drag DragData
     on_drag_end DragData
     on_drag_enter DragData
     on_drag_exit DragData
