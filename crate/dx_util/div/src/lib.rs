@@ -393,11 +393,11 @@ pub fn Div(props: DivProps) -> Element {
         stress stress
         string_set string_set
         stroke stroke
-        stroke_dash_array stroke_dash_array
-        stroke_dash_offset stroke_dash_offset
-        stroke_line_cap stroke_line_cap
-        stroke_line_join stroke_line_join
-        stroke_miter_limit stroke_miter_limit
+        stroke_dasharray stroke_dash_array
+        stroke_dashoffset stroke_dash_offset
+        stroke_linecap stroke_line_cap
+        stroke_linejoin stroke_line_join
+        stroke_miterlimit stroke_miter_limit
         stroke_opacity stroke_opacity
         stroke_width stroke_width
         tab_size tab_size
@@ -415,6 +415,107 @@ pub fn Div(props: DivProps) -> Element {
         text_emphasis text_emphasis
         text_emphasis_color text_emphasis_color
         text_emphasis_style text_emphasis_style
-        
+        text_emphasis_position text_emphasis_position
+        text_emphasis_skip text_emphasis_skip
+        text_height text_height
+        text_indent text_indent
+        text_justify text_justify
+        text_orientation text_orientation
+        text_overflow text_overflow
+        text_rendering text_rendering
+        text_shadow text_shadow
+        text_size_adjust text_size_adjust
+        text_space_collapse text_space_collapse
+        text_spacing text_spacing
+        text_transform text_transform
+        text_underline_position text_underline_position
+        text_wrap text_wrap
+        top top
+        touch_action touch_action
+        transform transform
+        transform_box transform_box
+        transform_origin transform_origin
+        transform_style transform_style
+        transition transition
+        transition_delay transition_delay
+        transition_duration transition_duration
+        transition_property transition_property
+        unicode_bidi unicode_bidi
+        vector_effect vector_effect
+        vertical_align vertical_align
+        visibility visibility
+        voice_balance voice_balance
+        voice_duration voice_duration
+        voice_family voice_family
+        voice_pitch voice_pitch
+        voice_range voice_range
+        voice_stress voice_stress
+        voice_volume voice_volume
+        volume volume
+        white_space white_space
+        windows windows
+        width width
+        will_change will_change
+        word_break word_break
+        word_spacing word_spacing
+        word_wrap word_wrap
+        wrap_flow wrap_flow
+        wrap_through wrap_through
+        writing_mode writing_mode
+        gap gap
+        list_styler_type list_styler_type
+        row_gap row_gap
+        transition_timing_function transition_timing_function
+        user_select user_select
+        webkit_user_select webkit_user_select
+        z_index z_index
+        aria_current aria_current
+        aria_details aria_details
+        aria_disabled aria_disabled
+        aria_hidden aria_hidden
+        aria_invalid aria_invalid
+        aria_keyshortcuts aria_key_shortcuts
+        aria_label aria_label
+        aria_roledescription aria_role_description
+        aria_autocomplete aria_auto_complete
+        aria_checked aria_checked
+        aria_expanded aria_expanded
+        aria_haspopup aria_has_popup
+        aria_level aria_level
+        aria_modal aria_modal
+        aria_multiline aria_multi_line
+        aria_multiselectable aria_multi_selectable
+        aria_orientation aria_orientation
+        aria_placeholder aria_placeholder
+        aria_pressed aria_pressed
+        aria_readonly aria_readonly
+        aria_required aria_required
+        aria_selected aria_selected
+        aria_sort aria_sort
+        aria_valuemax aria_value_max
+        aria_valuemin aria_value_min
+        aria_valuenow aria_value_now
+        aria_valuetext aria_value_text
+        aria_atomic aria_atomic
+        aria_busy aria_busy
+        aria_live aria_live
+        aria_relevant aria_relevant
+        aria_dropeffect aria_drop_effect
+        aria_grabbed aria_grabbed
+        aria_activedescendant aria_active_descendant
+        aria_colcount aria_col_count
+        aria_colindex aria_col_index
+        aria_colspan aria_col_span
+        aria_controls aria_controls
+        aria_describedby aria_described_by
+        aria_errormessage aria_error_message
+        aria_flowto aria_flow_to
+        aria_labelledby aria_labelled_by
+        aria_owns aria_owns
+        aria_posinset aria_pos_in_set
+        aria_rowcount aria_row_count
+        aria_rowindex aria_row_index
+        aria_rowspan aria_row_span
+        aria_setsize aria_set_size
     )
 }
