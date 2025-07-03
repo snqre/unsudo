@@ -56,6 +56,17 @@ macro_rules! pass {
                     onlostpointercapture: into_listener($props.event.on_lost_pointer_capture),
                     onmounted: into_listener($props.event.on_mounted),
                     onmousedown: into_listener($props.event.on_mouse_down),
+                    onmouseenter: into_listener($props.event.on_mouse_enter),
+                    onmouseleave: into_listener($props.event.on_mouse_leave),
+                    onmousemove: into_listener($props.event.on_mouse_move),
+                    onmouseout: into_listener($props.event.on_mouse_out),
+                    onmouseover: into_listener($props.event.on_mouse_over),
+                    onmouseup: into_listener($props.event.on_mouse_up),
+                    onpaste: into_listener($props.event.on_paste),
+                    onpause: into_listener($props.event.on_pause),
+                    onplay: into_listener($props.event.on_play),
+                    onplaying: into_listener($props.event.on_playing),
+                    
                     $(
                         $attr: $props.attrs.$route.to_owned(),
                     )*
