@@ -1,7 +1,6 @@
-#![deny(warnings)]
-
 use ::prelude::*;
 use ::dioxus::prelude::*;
+use ::div;
 
 static FILL: &str = r#"
     width: 100%;
@@ -12,7 +11,8 @@ static FILL: &str = r#"
     max-height: auto;
 "#;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone)]
+#[derive(PartialEq)]
 pub struct Coordinate {
     pub x: u32,
     pub y: u32
@@ -21,7 +21,6 @@ pub struct Coordinate {
 bundle!(
     auto_grid_fill
     auto_grid
-    base
     col_fill
     col
     grid_fill

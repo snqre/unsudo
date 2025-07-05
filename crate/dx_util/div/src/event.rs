@@ -1,6 +1,33 @@
 use super::*;
 
+macro_rules! has {
+    ($($field_ident:ident $payload_ty:ty)*) => {
+        #[derive(Props)]
+        #[derive(Clone)]
+        #[derive(PartialEq)]
+        #[derive(Default)]
+        pub struct Event {
+            $(
+                #[props(default=None)] pub $field_ident: MaybeListener<$payload_ty>,
+            )*
+        }
+    };
+}
+
+macro_rules! override_props {
+    ($edit:ident $self:ident $($key:ident)*) => {
+        Self {
+            $(
+                $key: $edit.$key.or_else(|| $self.$key.to_owned()),
+            )*
+            ..Default::default()
+        }
+    };
+}
+
+
 pub type MaybeListener<T> = Option<EventHandler<Event<T>>>;
+
 
 #[allow(dead_code)]
 pub(crate) fn into_listener<T>(maybe_listener: MaybeListener<T>) -> impl Fn(Event<T>) {
@@ -11,19 +38,6 @@ pub(crate) fn into_listener<T>(maybe_listener: MaybeListener<T>) -> impl Fn(Even
     }
 }
 
-macro_rules! has {
-    ($($field_ident:ident $payload_ty:ty)*) => {
-        #[derive(Props)]
-        #[derive(Clone)]
-        #[derive(PartialEq)]
-        #[derive(Default)]
-        pub struct EventProps {
-            $(
-                #[props(default=None)] pub $field_ident: MaybeListener<$payload_ty>,
-            )*
-        }
-    };
-}
 
 has!(
     on_abort MediaData
@@ -114,3 +128,28 @@ has!(
     on_waiting MediaData
     on_wheel WheelData
 );
+
+impl Event {
+    pub fn try_override(self, edit: Self) -> Self {
+        override_props!(
+            edit self
+            on_abort
+            on_animation_end
+            on_animation_iteration
+            on_animation_start
+            on_blur
+            on_can_play
+            on_can_play_through
+            on_change
+            on_click
+            on_composition_end
+            on_composition_start
+            on_composition_update
+            on_context_menu
+            on_copy
+            on_cut
+            on_double_click
+            on_drag
+        )
+    }
+}

@@ -6,9 +6,9 @@ macro_rules! has {
         #[derive(Clone)]
         #[derive(PartialEq)]
         #[derive(Default)]
-        pub struct AttrsProps {
+        pub struct Attrs {
             $(
-                #[props(default=None)] pub $field_ident: MaybeOpcode,
+                #[props(default=None)] pub $field_ident: MaybeOpcode<'static>,
             )*
         }
     };
@@ -26,7 +26,7 @@ macro_rules! override_props {
 }
 
 
-pub type MaybeOpcode = Option<String>;
+pub type MaybeOpcode<'a> = Option<&'a str>;
 
 
 has!(
@@ -515,7 +515,7 @@ has!(
 );
 
 
-impl AttrsProps {
+impl Attrs {
     pub fn merge(self, new: Self) -> Self {
         override_props!(
             new self

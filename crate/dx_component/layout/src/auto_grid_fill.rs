@@ -1,6 +1,8 @@
 use super::*;
 
-#[derive(Props, Clone, PartialEq)]
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
 pub struct AutoGridFillProps {
     pub row_count: u32,
     pub col_count: u32,

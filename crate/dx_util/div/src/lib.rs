@@ -2,8 +2,8 @@ use ::prelude::*;
 use ::dioxus::prelude::*;
 
 bundle!(
-    attrs_props
-    event_props
+    attrs
+    event
 );
 
 #[macro_export(local_inner_macros)]
@@ -111,8 +111,8 @@ macro_rules! pass {
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct DivProps {
-    pub attrs: AttrsProps,
-    pub event: EventProps,
+    pub attrs: Attrs,
+    pub event: Event,
     pub children: Option<Element>
 }
 

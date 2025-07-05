@@ -2,7 +2,8 @@ use super::*;
 
 #[derive(Props, Clone, PartialEq)]
 pub struct ColFillProps {
-    pub style: Option<String>,
+    pub attrs: Option<div::AttrsProps>,
+    pub event: Option<div::EventProps>,
     pub children: Option<Element>
 }
 
@@ -10,10 +11,15 @@ pub struct ColFillProps {
 pub fn ColFill(props: ColFillProps) -> Element {
     rsx! {
         Col {
-            style: r#"
-                {FILL}
-                {props.style.to_owned().unwrap_or_default()}
-            "#,
+            attrs: props.attrs.unwrap_or_default().merge(div::AttrsProps {
+                width: Some("100%"),
+                min_width: Some("auto"),
+                max_width: Some("auto"),
+                height: Some("100%"),
+                min_height: Some("auto"),
+                max_height: Some("auto"),
+                ..Default::default()
+            }),
             { props.children }
         }
     }

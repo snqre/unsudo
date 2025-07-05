@@ -2430,6 +2430,7 @@ name = "layout"
 version = "0.1.0"
 dependencies = [
  "dioxus",
+ "div",
  "paste",
  "prelude",
 ]
