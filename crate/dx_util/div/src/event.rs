@@ -150,6 +150,41 @@ impl Event {
             on_cut
             on_double_click
             on_drag
+            on_drag_end
+            on_drag_exit
+            on_drag_leave
+            on_drag_over
+            on_drag_start
+            on_drop
+            on_duration_change
+            on_emptied
+            on_encrypted
+            on_ended
+            on_error
+            on_focus
+            on_focus_in
+            on_focus_out
+            on_got_pointer_capture
+            on_input
+            on_invalid
+            on_key_down
+            on_key_press
+            on_key_up
+            on_load
+            on_loaded_data
+            on_loaded_metadata
+            on_load_start
+            on_lost_pointer_capture
+            on_mounted
+            on_mouse_down
+            on_mouse_enter
+            on_mouse_leave
         )
+    }
+
+    // calls the handler as well as all handler beneath the call
+    // stack. does not override the handler below.
+    pub fn merge(self, edit: Self) -> Self {
+        
     }
 }
