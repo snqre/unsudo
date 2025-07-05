@@ -112,7 +112,7 @@ macro_rules! pass {
 #[derive(PartialEq)]
 pub struct DivProps {
     pub attrs: Attrs,
-    pub event: Event,
+    pub event: event::Event,
     pub children: Option<Element>
 }
 
