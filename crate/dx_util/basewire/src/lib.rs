@@ -1,9 +1,11 @@
+#![allow(clippy::let_with_type_underscore)]
+
 use ::prelude::*;
 use ::dioxus::prelude::*;
 
 bundle!(
-    attrs
-    event
+    attrs_props
+    event_props
 );
 
 #[macro_export(local_inner_macros)]
@@ -110,14 +112,14 @@ macro_rules! pass {
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct DivProps {
-    pub attrs: Attrs,
-    pub event: event::Event,
+pub struct NodeProps {
+    pub attrs: AttrsProps,
+    pub event: EventProps,
     pub children: Option<Element>
 }
 
 #[component]
-pub fn Div(props: DivProps) -> Element {
+pub fn Node(props: NodeProps) -> Element {
     pass!(
         props
         accesskey access_key

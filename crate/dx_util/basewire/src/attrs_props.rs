@@ -6,7 +6,7 @@ macro_rules! has {
         #[derive(Clone)]
         #[derive(PartialEq)]
         #[derive(Default)]
-        pub struct Attrs {
+        pub struct AttrsProps {
             $(
                 #[props(default=None)] pub $field_ident: MaybeOpcode<'static>,
             )*
@@ -20,7 +20,6 @@ macro_rules! override_props {
             $(
                 $key: $new.$key.or_else(|| $self.$key.to_owned()),
             )*
-            ..$self.to_owned()
         }
     };
 }
@@ -514,8 +513,7 @@ has!(
     aria_set_size
 );
 
-
-impl Attrs {
+impl AttrsProps {
     pub fn merge(self, new: Self) -> Self {
         override_props!(
             new self

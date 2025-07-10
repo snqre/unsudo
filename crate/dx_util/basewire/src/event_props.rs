@@ -6,7 +6,7 @@ macro_rules! has {
         #[derive(Clone)]
         #[derive(PartialEq)]
         #[derive(Default)]
-        pub struct Event {
+        pub struct EventProps {
             $(
                 #[props(default=None)] pub $field_ident: MaybeListener<$payload_ty>,
             )*
@@ -45,7 +45,6 @@ macro_rules! merge {
                     (None, None) => None
                 },
             )*
-            ..Default::default()
         }
     };
 }
@@ -154,7 +153,7 @@ has!(
     on_wheel WheelData
 );
 
-impl Event {
+impl EventProps {
     pub fn try_override(self, edit: Self) -> Self {
         try_override!(
             edit self

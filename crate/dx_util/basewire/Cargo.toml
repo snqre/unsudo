@@ -1,4 +1,4 @@
-package.name = "div"
+package.name = "basewire"
 package.description = "Low level API to access attribute and event level props in higher level components."
 package.version = "0.1.0"
 package.edition = "2021"

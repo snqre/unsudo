@@ -1,6 +1,6 @@
 use ::prelude::*;
 use ::dioxus::prelude::*;
-use ::div;
+use ::basewire as bw;
 
 static FILL: &str = r#"
     width: 100%;
