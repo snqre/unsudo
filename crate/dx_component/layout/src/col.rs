@@ -14,10 +14,10 @@ pub fn Col(props: ColProps) -> Element {
     rsx! {
         bw::Node {
             attrs: props.attrs.unwrap_or_default().merge(bw::AttrsProps {
-                display: Some("flex"),
-                flex_direction: Some("column"),
-                justify_content: Some("center"),
-                align_items: Some("center"),
+                display: "flex".into(),
+                flex_direction: "column".into(),
+                justify_content: "center".into(),
+                align_items: "center".into(),
                 ..Default::default()
             }),
             event: props.event.unwrap_or_default(),

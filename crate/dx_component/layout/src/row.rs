@@ -13,12 +13,9 @@ pub struct RowProps {
 #[component]
 pub fn Row(props: RowProps) -> Element {
     rsx! {
-        bw::Node {
-            attrs: props.attrs.unwrap_or_default().merge(div::AttrsProps {
-                display: Some("flex"),
-                flex_direction: Some("row"),
-                justify_content: Some("center"),
-                align_items: Some("center"),
+        Col {
+            attrs: props.attrs.unwrap_or_default().merge(bw::AttrsProps {
+                flex_direction: "row".into(),
                 ..Default::default()
             }),
             event: props.event.unwrap_or_default(),

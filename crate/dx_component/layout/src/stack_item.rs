@@ -1,10 +1,12 @@
 use super::*;
 
-#[derive(Props, Clone, PartialEq)]
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
 pub struct StackItemProps {
     pub z: u64,
-    pub class: Option<String>,
-    pub style: Option<String>,
+    pub attrs: Option<bw::AttrsProps>,
+    pub event: Option<bw::EventProps>,
     pub children: Option<Element>
 }
 
@@ -12,12 +14,12 @@ pub struct StackItemProps {
 pub fn StackItem(props: StackItemProps) -> Element {
     rsx! {
         Col {
-            class: props.class,
-            style: r#"
-                position: absolute;
-                z-index: {props.z};
-                {props.style.to_owned().unwrap_or_default()}
-            "#,
+            attrs: props.attrs.unwrap_or_default().merge(bw::AttrsProps {
+                position: "absolute".into(),
+                z_index: "{props.z}".into(),
+                ..Default::default()
+            }),
+            event: props.event,
             { props.children }
         }
     }

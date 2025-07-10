@@ -25,7 +25,7 @@ macro_rules! try_override {
     };
 }
 
-macro_rules! merge {
+macro_rules! append {
     ($edit:ident $self:ident $($key:ident $payload_ty:ty)*) => {
         Self {
             $(
@@ -154,6 +154,51 @@ has!(
 );
 
 impl EventProps {
+
+    /// # Description
+    /// ```md
+    /// `try_override` will NOT replace the outer listener.
+    /// where `x` new listener
+    /// where `y` old listener
+    /// 
+    ///   x new event handler declared here
+    ///   :
+    /// o : x x x x x   x x
+    /// | | | | | | | | | | * x used
+    ///               ^
+    ///               y first event handler declared here
+    /// ```            
+    ///     
+    /// # Example
+    /// ```rs
+    /// use ::basewire as bw;
+    /// 
+    /// #[derive(Props)]
+    /// #[derive(Clone)]
+    /// #[derive(PartialEq)]
+    /// pub struct FooProps {
+    ///     pub attrs: Option<bw::AttrsProps>,
+    ///     pub event: Option<bw::EventProps>,
+    ///     pub children: Option<Element>
+    /// }
+    /// 
+    /// #[component]
+    /// pub fn Foo(props: FooProps) -> Element {
+    ///     rsx! {
+    ///         bw::Node {
+    ///             attrs: props.attrs,
+    ///             event: props.event.unwrap_or_default().try_override(bw::EventProps {
+    ///                 on_click: move |_| {
+    ///                     // if `props.event.on_click` is `None` then this listener will be passed down.
+    ///                     // if `props.event.on_click` is `Some` then the source listener will be passed down.
+    ///                 }.into(),
+    ///                 ..Default::default()
+    ///             }),
+    ///             { props.children }
+    ///         }
+    ///     }
+    /// }
+    /// ```
     pub fn try_override(self, edit: Self) -> Self {
         try_override!(
             edit self
@@ -245,11 +290,41 @@ impl EventProps {
             on_wheel
         )
     }
-
-    // calls the handler as well as all handler beneath the call
-    // stack. does not override the handler below.
-    pub fn merge(self, edit: Self) -> Self {
-        merge!(
+    
+    pub fn force_override(self, edit: Self) -> Self {
+        todo!()
+    }
+    
+    /// # Example
+    /// ```rs
+    /// use ::basewire as bw;
+    /// 
+    /// #[derive(Props)]
+    /// #[derive(Clone)]
+    /// #[derive(PartialEq)]
+    /// pub struct FooProps {
+    ///     pub attrs: Option<bw::AttrsProps>,
+    ///     pub event: Option<bw::EventProps>,
+    ///     pub children: Option<Element>
+    /// }
+    /// 
+    /// #[component]
+    /// pub fn Foo(props: FooProps) -> Element {
+    ///     rsx! {
+    ///         bw::Node {
+    ///             attrs: props.attrs,
+    ///             event: props.event.unwrap_or_default().append(bw::EventProps {
+    ///                 on_click: move |_| {
+    ///                     // Both `props.event.on_click` and this listener will be triggered on this event.
+    ///                 }.into(),
+    ///                 ..Default::default()
+    ///             })
+    ///         }
+    ///     }
+    /// }
+    /// ```
+    pub fn append(self, edit: Self) -> Self {
+        append!(
             edit self
             on_abort MediaData
             on_animation_end AnimationData
