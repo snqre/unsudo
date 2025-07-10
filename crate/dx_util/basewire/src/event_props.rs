@@ -1,14 +1,14 @@
 use super::*;
 
 macro_rules! has {
-    ($($field_ident:ident $payload_ty:ty)*) => {
+    ($($field:ident $payload:ty)*) => {
         #[derive(Props)]
         #[derive(Clone)]
         #[derive(PartialEq)]
         #[derive(Default)]
         pub struct EventProps {
             $(
-                #[props(default=None)] pub $field_ident: MaybeListener<$payload_ty>,
+                #[props(default=None)] pub $field: MaybeListener<$payload>,
             )*
         }
     };
@@ -18,9 +18,18 @@ macro_rules! try_override {
     ($edit:ident $self:ident $($key:ident)*) => {
         Self {
             $(
-                $key: $edit.$key.or_else(|| $self.$key.to_owned()),
+                $key: $edit.$key.or_else(|| { $self.$key.to_owned() }),
             )*
-            ..Default::default()
+        }
+    };
+}
+
+macro_rules! force_override {
+    ($edit:ident $self:ident $($key:ident)*) => {
+        Self {
+            $(
+                $key: $edit.$key.or($self.$key),
+            )*
         }
     };
 }
@@ -34,10 +43,8 @@ macro_rules! append {
                         Some(Callback::new(move |data: dioxus::prelude::Event<$payload_ty>| {
                             let a: _ = a.to_owned();
                             let b: _ = b.to_owned();
-                            let data_copy_a: _ = data.to_owned();
-                            let data_copy_b: _ = data.to_owned();
-                            a(data_copy_a);
-                            b(data_copy_b);
+                            a(data.to_owned());
+                            b(data);
                         }))
                     },
                     (Some(a), None) => Some(a.to_owned()),
@@ -61,7 +68,6 @@ pub(crate) fn into_listener<T>(maybe_listener: MaybeListener<T>) -> impl Fn(diox
         }
     }
 }
-
 
 has!(
     on_abort MediaData
@@ -155,23 +161,18 @@ has!(
 
 impl EventProps {
 
-    /// # Description
+    /// Will replace the listener if `self.on_*` is `None`.
     /// ```md
-    /// `try_override` will NOT replace the outer listener.
-    /// where `x` new listener
-    /// where `y` old listener
-    /// 
-    ///   x new event handler declared here
-    ///   :
-    /// o : x x x x x   x x
-    /// | | | | | | | | | | * x used
-    ///               ^
-    ///               y first event handler declared here
-    /// ```            
-    ///     
+    ///   x
+    /// o : x x x x x x   x
+    /// | | | | | | | | | | -> x
+    ///                 ^
+    ///                 y
+    /// ```           
     /// # Example
     /// ```rs
-    /// use ::basewire as bw;
+    /// use ::dioxus::prelude::*;
+    /// use ::dioxus_basewire as bw;
     /// 
     /// #[derive(Props)]
     /// #[derive(Clone)]
@@ -188,13 +189,27 @@ impl EventProps {
     ///         bw::Node {
     ///             attrs: props.attrs,
     ///             event: props.event.unwrap_or_default().try_override(bw::EventProps {
-    ///                 on_click: move |_| {
-    ///                     // if `props.event.on_click` is `None` then this listener will be passed down.
-    ///                     // if `props.event.on_click` is `Some` then the source listener will be passed down.
+    ///                 on_click: |_| {
+    ///                     // If `props.event.on_click` is `None` then this listener will be passed down.
+    ///                     // If `props.event.on_click` is `Some` then the source listener will be passed down.
     ///                 }.into(),
     ///                 ..Default::default()
     ///             }),
     ///             { props.children }
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// 
+    /// #[component]
+    /// pub fn Main() -> Element {
+    ///     rsx! {
+    ///         Foo {
+    ///             event: bw::EventProps {
+    ///                 on_click: |_| {
+    ///                     // 
+    ///                 }
+    ///             }
     ///         }
     ///     }
     /// }
@@ -220,6 +235,7 @@ impl EventProps {
             on_double_click
             on_drag
             on_drag_end
+            on_drag_enter
             on_drag_exit
             on_drag_leave
             on_drag_over
@@ -291,8 +307,154 @@ impl EventProps {
         )
     }
     
+    /// # Description
+    /// ```md
+    ///   
+    ///   x new listener
+    ///   :
+    /// o : x x   y y y y y
+    /// | | | | | | | | | | -> y
+    ///         ^
+    ///         y old event listener
+    /// 
+    /// 
+    /// ```
+    /// 
+    /// # Example
+    /// ```rs
+    /// use ::basewire as bw;
+    /// 
+    /// #[derive(Props)]
+    /// #[derive(Clone)]
+    /// #[derive(PartialEq)]
+    /// pub struct FooProps {
+    ///     pub attrs: Option<bw::AttrsProps>,
+    ///     pub event: Option<bw::EventProps>,
+    ///     pub children: Option<Element>
+    /// }
+    /// 
+    /// #[component]
+    /// pub fn Foo(props: FooProps) -> Element {
+    ///     rsx! {
+    ///         bw::Node {
+    ///             attrs: props.attrs,
+    ///             event: props.event.unwrap_or_default().force_override(bw::EventProps {
+    ///                 on_click: move |_| {
+    ///                     // will replace the `on_click` listener.
+    ///                     // ..
+    ///                 }.into(),
+    ///                 ..Default::default()
+    ///             }),
+    ///             { props.children }
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// #[component]
+    /// pub fn Main() -> Element {
+    ///     rsx! {
+    ///         Foo {
+    ///             event: bw::EventProps {
+    ///                 on_click: |_| {
+    ///                     // will not be passed down because it has been overriden.
+    ///                 },
+    ///                 ..Default::default()
+    ///             }
+    ///         }
+    ///     }
+    /// }
+    /// ```
     pub fn force_override(self, edit: Self) -> Self {
-        todo!()
+        force_override!(
+            edit self
+            on_abort
+            on_animation_end
+            on_animation_iteration
+            on_animation_start
+            on_blur
+            on_can_play
+            on_can_play_through
+            on_change
+            on_click
+            on_composition_end
+            on_composition_start
+            on_composition_update
+            on_context_menu
+            on_copy
+            on_cut
+            on_double_click
+            on_drag
+            on_drag_end
+            on_drag_enter
+            on_drag_exit
+            on_drag_leave
+            on_drag_over
+            on_drag_start
+            on_drop
+            on_duration_change
+            on_emptied
+            on_encrypted
+            on_ended
+            on_error
+            on_focus
+            on_focus_in
+            on_focus_out
+            on_got_pointer_capture
+            on_input
+            on_invalid
+            on_key_down
+            on_key_press
+            on_key_up
+            on_load
+            on_loaded_data
+            on_loaded_metadata
+            on_load_start
+            on_lost_pointer_capture
+            on_mounted
+            on_mouse_down
+            on_mouse_enter
+            on_mouse_leave
+            on_mouse_move
+            on_mouse_out
+            on_mouse_over
+            on_mouse_up
+            on_paste
+            on_pause
+            on_play
+            on_playing
+            on_pointer_cancel
+            on_pointer_down
+            on_pointer_enter
+            on_pointer_leave
+            on_pointer_move
+            on_pointer_out
+            on_pointer_over
+            on_pointer_up
+            on_progress
+            on_rate_change
+            on_reset
+            on_resize
+            on_scroll
+            on_seeked
+            on_seeking
+            on_select
+            on_selection_change
+            on_select_start
+            on_stalled
+            on_submit
+            on_suspend
+            on_time_update
+            on_toggle
+            on_touch_cancel
+            on_touch_end
+            on_touch_move
+            on_touch_start
+            on_transition_end
+            on_visible
+            on_volume_change
+            on_waiting
+            on_wheel
+        )
     }
     
     /// # Example
@@ -319,6 +481,21 @@ impl EventProps {
     ///                 }.into(),
     ///                 ..Default::default()
     ///             })
+    ///         }
+    ///     }
+    /// }
+    /// 
+    /// 
+    /// #[component]
+    /// pub fn Main() -> Element {
+    ///     rsx! {
+    ///         Foo {
+    ///             event: bw::EventProps {
+    ///                 on_click: |_| {
+    ///                     // Will also be called together with all inner listeners.
+    ///                 },
+    ///                 ..Default::default()
+    ///             }
     ///         }
     ///     }
     /// }

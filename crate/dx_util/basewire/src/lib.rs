@@ -2,6 +2,7 @@
 
 use ::prelude::*;
 use ::dioxus::prelude::*;
+use ::extfn::extfn;
 
 bundle!(
     attrs_props
