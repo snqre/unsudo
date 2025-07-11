@@ -325,6 +325,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "dioxus-ctrl"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "modwire",
+]
+
+[[package]]
 name = "dioxus-devtools"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -367,6 +375,15 @@ dependencies = [
  "serde",
  "serde_json",
  "tracing",
+]
+
+[[package]]
+name = "dioxus-extendable"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "modwire",
+ "paste",
 ]
 
 [[package]]
@@ -467,6 +484,16 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
+]
+
+[[package]]
+name = "dioxus-layout"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "dioxus-extendable",
+ "modwire",
+ "paste",
 ]
 
 [[package]]
@@ -618,15 +645,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ad9cdb4b747e485a12abb0e6566612956c7a1bafa3bdb8d682c5b6d403589e48"
 dependencies = [
  "num-traits",
-]
-
-[[package]]
-name = "extendable"
-version = "0.1.0"
-dependencies = [
- "dioxus",
- "paste",
- "prelude",
 ]
 
 [[package]]
@@ -783,6 +801,16 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
+]
+
+[[package]]
+name = "gloo-timers"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bbb143cf96099802033e0d4f4963b19fd2e0b728bcf076cd9cf7f6634f092994"
+dependencies = [
+ "js-sys",
+ "wasm-bindgen",
 ]
 
 [[package]]
@@ -1058,7 +1086,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 
 [[package]]
-name = "mod_util"
+name = "modwire"
 version = "0.1.0"
 
 [[package]]
@@ -1159,13 +1187,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "85eae3c4ed2f50dcfe72643da4befc30deadb458a9b590d720cde2f2b1e97da9"
 dependencies = [
  "zerocopy",
-]
-
-[[package]]
-name = "prelude"
-version = "0.1.0"
-dependencies = [
- "mod_util",
 ]
 
 [[package]]
@@ -1758,6 +1779,16 @@ checksum = "33b6dd2ef9186f1f2072e409e99cd22a975331a6b3591b12c764e0e55c60d5d2"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "window"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "gloo-timers",
+ "modwire",
+ "web-sys",
 ]
 
 [[package]]

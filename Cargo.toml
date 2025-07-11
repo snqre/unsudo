@@ -1,20 +1,13 @@
-workspace.lints.clippy.warnings = "deny"
-workspace.lints.clippy.unwrap = "deny"
+workspace.metadata.name = "unsudo"
 workspace.resolver = "3"
 workspace.members = [
-    "crate/dx_lib/extendable",
-    "crate/util/mod_util",
-    "crate/util/prelude"
+    "crate/lib/dioxus-ctrl",
+    "crate/lib/dioxus-extendable",
+    "crate/lib/dioxus-layout",
+    "crate/lib/dioxus-window",
+    "crate/lib/modwire"
 ]
-
-[profile]
-
-[profile.wasm-dev]
-inherits = "dev"
-opt-level = 1
-
-[profile.server-dev]
-inherits = "dev"
-
-[profile.android-dev]
-inherits = "dev"
+profile.wasm-dev.inherits = "dev"
+profile.wasm-dev.opt-level = 1
+profile.server-dev.inherits = "dev"
+profile.android-dev.inherits = "dev"

@@ -1,0 +1,21 @@
+package.name = "dioxus-layout"
+package.description = ""
+package.license = "Apache-2.0"
+package.keywords = [
+    "dioxus",
+    "component",
+    "lib"
+]
+package.repository = "https://github.com/snqre/unsudo/tree/master/crate/lib/dioxus-extendable"
+package.version = "0.1.0"
+package.edition = "2021"
+package.exclude = [
+    "/target"
+]
+package.publish = false
+dependencies.modwire.version = ">=0.1.0,<1.0.0"
+dependencies.modwire.path = "../modwire"
+dependencies.dioxus-extendable.version = ">=0.1.0,<1.0.0"
+dependencies.dioxus-extendable.path = "../dioxus-extendable"
+dependencies.dioxus.version = ">=0.6.0,<1.0.0"
+dependencies.paste.version = "*"

@@ -1,0 +1,13 @@
+package.name = "window"
+package.version = "0.1.0"
+package.edition = "2021"
+package.publish = false
+dependencies.modwire.version = ">=0.1.0,<1.0.0"
+dependencies.modwire.path = "../modwire"
+dependencies.web-sys.version = ">=0.3.77,<1.0.0"
+dependencies.web-sys.features = [
+    "Window", 
+    "Event"
+]
+dependencies.dioxus.version = ">=0.6.0,<1.0.0"
+dependencies.gloo-timers.version = "*"

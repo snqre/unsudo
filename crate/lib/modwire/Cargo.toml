@@ -1,0 +1,15 @@
+package.name = "modwire"
+package.description = "Module organisation utilities."
+package.keywords = [
+    "mod",
+    "module",
+    "organisation",
+    "composition",
+    "no_std"
+]
+package.readme = "readme.md"
+package.license = "Apache-2.0"
+package.repository = "https://github.com/snqre/unsudo/tree/master/crate/lib/modwire"
+package.version = "0.1.0"
+package.edition = "2024"
+package.publish = false

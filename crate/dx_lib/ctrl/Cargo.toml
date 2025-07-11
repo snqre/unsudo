@@ -1,6 +1,0 @@
-package.name = "ctrl"
-package.version = "0.1.0"
-package.edition = "2021"
-dependencies.prelude.version = "0.1.0"
-dependencies.prelude.path = "../../kit/prelude"
-dependencies.dioxus.version = ">=0.6.0,<1.0.0"
