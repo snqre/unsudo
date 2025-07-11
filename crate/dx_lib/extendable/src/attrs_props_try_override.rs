@@ -1,6 +1,37 @@
 use super::*;
 
 impl AttrsProps {
+
+    /// # Example
+    /// ```rs
+    /// use ::dioxus::prelude::*;
+    /// use ::unsudo_dioxus::extendable;
+    /// 
+    /// #[derive(Props)]
+    /// #[derive(Clone)]
+    /// #[derive(PartialEq)]
+    /// pub struct FooProps {
+    ///     pub attrs: Option<extendable::AttrsProps>,
+    ///     pub event: Option<extendable::EventProps>,
+    ///     pub children: Option<Element>
+    /// }
+    /// 
+    /// #[component]
+    /// pub fn Foo(props: FooProps) -> Element {
+    ///     rsx! {
+    ///         extendable::Node {
+    ///             attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
+    ///                 // If `props.attrs.display` is `None` then this property is passed down.
+    ///                 // If `props.attrs.display` is `Some` then `props.attrs.display` property is passed down.
+    ///                 display: "flex".into(),
+    ///                 ..Default::default()
+    ///             }),
+    ///             event: props.event,
+    ///             { props.children }
+    ///         }
+    ///     }
+    /// }
+    /// ```
     pub fn try_override(self, edit: Self) -> Self {
         try_override_attrs_props!(
             edit self

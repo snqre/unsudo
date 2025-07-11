@@ -1,7 +1,7 @@
 use super::*;
 
 impl EventProps {
-        
+
     /// # Example
     /// ```rs
     /// use ::dioxus::prelude::*;

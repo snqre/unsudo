@@ -22,26 +22,12 @@ impl EventProps {
     ///         extendable::Node {
     ///             attrs: props.attrs,
     ///             event: props.event.unwrap_or_default().append(extendable::EventProps {
-    ///                 on_click: move |_| {
+    ///                 on_click: |_| {
     ///                     // Both `props.event.on_click` and this listener will be triggered on this event.
     ///                 }.into(),
     ///                 ..Default::default()
-    ///             })
-    ///         }
-    ///     }
-    /// }
-    /// 
-    /// 
-    /// #[component]
-    /// pub fn Main() -> Element {
-    ///     rsx! {
-    ///         Foo {
-    ///             event: extendable::EventProps {
-    ///                 on_click: |_| {
-    ///                     // Will also be called together with all inner listeners.
-    ///                 },
-    ///                 ..Default::default()
-    ///             }
+    ///             }),
+    ///             { props.children }
     ///         }
     ///     }
     /// }

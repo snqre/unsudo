@@ -1,7 +1,7 @@
 use super::*;
 
 impl EventProps {
-    
+
     /// # Example
     /// ```rs
     /// use ::dioxus::prelude::*;
@@ -21,10 +21,9 @@ impl EventProps {
     ///     rsx! {
     ///         extendable::Node {
     ///             attrs: props.attrs,
-    ///             event: props.event.unwrap_or_default().force_override(extendable::EventProps {
-    ///                 // Will replace `on_click`.                
+    ///             event: props.event.unwrap_or_default().force_override(extendable::EventProps {               
     ///                 on_click: move |_| {
-    ///                     
+    ///                     // Will replace `on_click`.
     ///                 }.into(),
     ///                 ..Default::default()
     ///             }),
