@@ -34,7 +34,7 @@ impl EventProps {
     /// }
     /// ```
     pub fn try_override(self, edit: Self) -> Self {
-        try_override_event_props!(
+        event_props_try_override!(
             edit self
             on_abort
             on_animation_end

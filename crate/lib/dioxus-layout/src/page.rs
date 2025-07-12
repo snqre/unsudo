@@ -48,16 +48,15 @@ struct HolderProps {
 fn Holder(props: HolderProps) -> Element {
     rsx!(
         Stack {
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                min_width: "100%".into(),
-                max_width: "100%".into(),
-                width: "100%".into(),
-                min_height: "100%".into(),
-                max_height: "100%".into(),
-                height: "100%".into(),
-                flex: "1".into(),
-                ..Default::default()
-            }),
+            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+                height: 100%;
+                flex: 1;
+            "#),
             event: props.event,
             { props.children }
         }
@@ -79,17 +78,17 @@ fn Overlay(props: OverlayProps) -> Element {
     rsx! {
         StackItem {
             z: PAGE_OVERLAY_Z_INDEX,
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                min_width: "100%".into(),
-                max_width: "100%".into(),
-                width: "100%".into(),
-                min_height: "100%".into(),
-                max_height: "100%".into(),
-                height: "100%".into(),
-                flex: "1".into(),
-                overflow: "hidden".into(),
-                ..Default::default()
-            }),
+            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+                height: 100%;
+                flex: 1;
+                overflow-x: hidden;
+                overflow-y: hidden;
+            "#),
             event: props.event,
             { props.children }
         }
@@ -109,25 +108,21 @@ fn Content(props: ContentProps) -> Element {
     rsx! {
         StackItem {
             z: 0,
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                style: r#"
-                    
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    scroll-snap-type: y mandatory;
-                    scroll-behaviour: smooth;
-                    {props.attrs.style.to_owned().unwrap_or_default()}
-                "#.into(),
-                min_width: "100%".into(),
-                max_width: "100%".into(),
-                width: "100%".into(),
-                min_height: "100%".into(),
-                max_height: "100%".into(),
-                height: "100%".into(),
-                flex: "1".into(),
-                ..Default::default()
-            }),
-
+            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+                height: 100%;
+                flex: 1;
+                overflow-x: hidden;
+                overflow-y: auto;
+                scroll-snap-type: y mandatory;
+                scroll-behaviour: smooth;
+            "#),
+            event: props.event,
+            { props.children }
         }
     }
 }

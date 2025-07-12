@@ -33,7 +33,7 @@ impl EventProps {
     /// }
     /// ```
     pub fn force_override(self, edit: Self) -> Self {
-        force_override_event_props!(
+        event_props_force_override!(
             edit self
             on_abort
             on_animation_end

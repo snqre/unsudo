@@ -1,7 +1,7 @@
 use super::*;
 
 impl AttrsProps {
-
+    
     /// # Example
     /// ```rs
     /// use ::dioxus::prelude::*;
@@ -32,7 +32,7 @@ impl AttrsProps {
     /// }
     /// ```
     pub fn force_override(self, edit: Self) -> Self {
-        force_override_attrs_props!(
+        attrs_props_force_override!(
             edit self
             access_key
             auto_capitalize
