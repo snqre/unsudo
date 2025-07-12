@@ -6,21 +6,20 @@ use super::*;
 pub struct AutoGridFillProps {
     pub row_count: u32,
     pub col_count: u32,
-    pub style: Option<String>,
+    pub attrs: Option<extendable::AttrsProps>,
+    pub event: Option<extendable::EventProps>,
     pub children: Option<Element>
 }
 
 #[component]
 pub fn AutoGridFill(props: AutoGridFillProps) -> Element {
-    rsx! {
+    rsx!(
         AutoGrid {
             row_count: props.row_count,
             col_count: props.col_count,
-            style: r#"
-                {FILL}
-                {props.style.to_owned().unwrap_or_default()}
-            "#,
+            attrs: props.attrs.with_style_before(FILL_STYLE_MOD),
+            event: props.event,
             { props.children }
         }
-    }
+    )
 }

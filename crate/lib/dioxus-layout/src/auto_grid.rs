@@ -4,7 +4,8 @@ use super::*;
 pub struct AutoGridProps {
     pub row_count: u32,
     pub col_count: u32,
-    pub style: Option<String>,
+    pub attrs: Option<extendable::AttrsProps>,
+    pub event: Option<extendable::EventProps>,
     pub children: Option<Element>
 }
 
@@ -12,9 +13,10 @@ pub struct AutoGridProps {
 pub fn AutoGrid(props: AutoGridProps) -> Element {
     rsx! {
         Grid {
-            row: "repeat(1fr, {props.row_count})",
-            col: "repeat(1fr, {props.col_count})",
-            style: r#"{props.style.to_owned().unwrap_or_default()}"#,
+            row: format!("repeat(1fr, {})", props.row_count),
+            col: format!("repeat(1fr, {})", props.col_count),
+            attrs: props.attrs,
+            event: props.event,
             { props.children }
         }
     }
