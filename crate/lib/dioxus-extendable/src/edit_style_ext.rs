@@ -1,19 +1,19 @@
 use super::*;
 
 pub trait EditStyleExt<T> {
-    fn add_style_before(self, style: &str) -> Self;
-    fn add_style(self, style: &str) -> Self;
+    fn with_style_before(self, style: &str) -> T;
+    fn with_style(self, style: &str) -> T;
 }
 
 impl<T> EditStyleExt<T> for Option<T>
 where
     T: Default,
     T: EditStyle {
-    fn add_style_before(self, style: &str) -> T {
-        self.unwrap_or_default().add_style_before(style)
+    fn with_style_before(self, style: &str) -> T {
+        self.unwrap_or_default().with_style_before(style)
     }
 
-    fn add_style(self, style: &str) -> T {
-        self.unwrap_or_default().add_style(style)
+    fn with_style(self, style: &str) -> T {
+        self.unwrap_or_default().with_style(style)
     }
 }

@@ -13,13 +13,12 @@ pub struct ColProps {
 pub fn Col(props: ColProps) -> Element {
     rsx! {
         extendable::Node {
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                display: "flex".into(),
-                flex_direction: "column".into(),
-                justify_content: "center".into(),
-                align_items: "center".into(),
-                ..Default::default()
-            }),
+            attrs: props.attrs.with_style_before(r#"
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            "#),
             event: props.event.unwrap_or_default(),
             { props.children }
         }

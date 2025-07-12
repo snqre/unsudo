@@ -13,7 +13,14 @@ pub struct ColFillProps {
 pub fn ColFill(props: ColFillProps) -> Element {
     rsx! {
         Col {
-            attrs: props.attrs.unwrap_or_default().try_override(FILL_MOD.to_owned()),
+            attrs: props.attrs.with_style_before(r#"
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+                height: 100%;
+            "#),
             event: props.event,
             { props.children }
         }

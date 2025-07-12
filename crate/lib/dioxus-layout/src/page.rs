@@ -18,7 +18,7 @@ pub struct PageProps {
 
 #[component]
 pub fn Page(props: PageProps) -> Element {
-    rsx! {
+    rsx!(
         Holder {
             attrs: props.attrs,
             event: props.event,
@@ -28,12 +28,12 @@ pub fn Page(props: PageProps) -> Element {
                 { props.overlay }
             }
             Content {
-                class: props.content_class,
-                style: props.content_style,
+                attrs: props.content_attrs,
+                event: props.content_event,
                 { props.children }
             }
         }
-    }
+    )
 }
 
 
@@ -48,7 +48,7 @@ struct HolderProps {
 fn Holder(props: HolderProps) -> Element {
     rsx!(
         Stack {
-            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+            attrs: props.attrs.with_style_before(r#"
                 min-width: 100%;
                 max-width: 100%;
                 width: 100%;
@@ -75,10 +75,10 @@ struct OverlayProps {
 
 #[component]
 fn Overlay(props: OverlayProps) -> Element {
-    rsx! {
+    rsx!(
         StackItem {
             z: PAGE_OVERLAY_Z_INDEX,
-            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+            attrs: props.attrs.with_style_before(r#"
                 min-width: 100%;
                 max-width: 100%;
                 width: 100%;
@@ -92,7 +92,7 @@ fn Overlay(props: OverlayProps) -> Element {
             event: props.event,
             { props.children }
         }
-    }
+    )
 }
 
 
@@ -105,10 +105,10 @@ struct ContentProps {
 
 #[component]
 fn Content(props: ContentProps) -> Element {
-    rsx! {
+    rsx!(
         StackItem {
             z: 0,
-            attrs: props.attrs.unwrap_or_default().prepend_style(r#"
+            attrs: props.attrs.with_style_before(r#"
                 min-width: 100%;
                 max-width: 100%;
                 width: 100%;
@@ -124,5 +124,5 @@ fn Content(props: ContentProps) -> Element {
             event: props.event,
             { props.children }
         }
-    }
+    )
 }

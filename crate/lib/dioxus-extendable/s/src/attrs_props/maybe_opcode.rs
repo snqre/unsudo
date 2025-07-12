@@ -1,1 +1,0 @@
-pub type MaybeOpcode<'a> = Option<&'a str>;

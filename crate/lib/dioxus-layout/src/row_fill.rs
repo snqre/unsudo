@@ -11,7 +11,7 @@ pub struct RowFillProps {
 pub fn RowFill(props: RowFillProps) -> Element {
     rsx! {
         Row {
-            attrs: props.attrs.unwrap_or_default().try_override(FILL_MOD.to_owned()),
+            attrs: props.attrs.with_style_before(FILL_STYLE_MOD),
             event: props.event,
             { props.children }
         }

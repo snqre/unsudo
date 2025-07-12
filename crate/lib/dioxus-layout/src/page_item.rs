@@ -4,99 +4,69 @@ use super::*;
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct PageItemProps {
+    pub top_attrs: Option<extendable::AttrsProps>,
+    pub top_event: Option<extendable::EventProps>,
     pub top: Option<Element>,
-    pub top_style: Option<String>,
+    pub bottom_attrs: Option<extendable::AttrsProps>,
+    pub bottom_event: Option<extendable::EventProps>,
     pub bottom: Option<Element>,
-    pub bottom_style: Option<String>,
-    pub background: Option<Element>,
-    pub background_style: Option<String>,
-    pub wrapper_style: Option<String>,
-    pub children: Option<Element>,
-
+    pub bg_attrs: Option<extendable::AttrsProps>,
+    pub bg_event: Option<extendable::EventProps>,
+    pub bg: Option<Element>,
+    pub wrapper_attrs: Option<extendable::AttrsProps>,
+    pub wrapper_event: Option<extendable::EventProps>,
+    pub content_attrs: Option<extendable::AttrsProps>,
+    pub content_event: Option<extendable::EventProps>,
+    pub attrs: Option<extendable::AttrsProps>,
+    pub event: Option<extendable::EventProps>,
+    pub children: Option<Element>
 }
 
 #[component]
 pub fn PageItem(props: PageItemProps) -> Element {
-    rsx! {
+    rsx!(
         Stack {
-            style: r#"
-                width: 100vw;
-                min-width: 100vw;
-                max-width: 100vw;
-                height: 100vh;
-                min-height: 100vh;
-                max-height: 100vh;
-            "#,
+            attrs: props.attrs.with_style_before(VIEW_FILL_STYLE_MOD),
+            event: props.event,
             StackItem {
                 z: 0,
-                style: r#"
-                    top: 0%;
-                    left: 0%;
-                    width: 100vw;
-                    min-width: 100vw;
-                    max-width: 100vw;
-                    height: 100vh;
-                    min-height: 100vh;
-                    max-height: 100vh;
-                    {props.background_style.to_owned().unwrap_or_default()}
-                "#,
-                { props.background }
+                attrs: props.bg_attrs
+                    .with_style_before(ABSOLUTE_POSITION_RESET_STYLE_MOD)
+                    .with_style_before(VIEW_FILL_STYLE_MOD),
+                event: props.bg_event,
+                { props.bg }
             }
             StackItem {
                 z: 1,
-                style: r#"
-                    left: 0%;
-                    top: 0%;
-                    justify-content: space-between;
-                    width: 100vw;
-                    min-width: 100vw;
-                    max-width: 100vw;
-                    height: 100vh;
-                    min-height: 100vh;
-                    max-height: 100vh;
-                    scroll-snap-align: start;
-                    {props.wrapper_style.to_owned().unwrap_or_default()}
-                "#,
+                attrs: props.wrapper_attrs
+                    .with_style_before(ABSOLUTE_POSITION_RESET_STYLE_MOD)
+                    .with_style_before(VIEW_FILL_STYLE_MOD)
+                    .with_style_before("justify-content: space-between; scroll-snap-align: start;"),
+                event: props.wrapper_event,
                 if let Some(top) = props.top {
-                    div {
-                        style: r#"
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                            min-width: 100%;
-                            {props.top_style.to_owned().unwrap_or_default()}
-                        "#,
+                    Col {
+                        attrs: props.top_attrs.with_style_before("width: 100%;"),
+                        event: props.top_event,
                         { top }
                     }
                 }
                 if let Some(children) = props.children {
-                    div {
-                        style: r#"
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            align-items: center;
-                            width: 100%;
-                            height: 100%;
-                        "#,
+                    Col {
+                        attrs: props.content_attrs
+                            .with_style_before(FILL_STYLE_MOD)
+                            .with_style_before("justify-content: space-between;"),
+                        event: props.content_event,
                         { children }
                     }
                 }
                 if let Some(bottom) = props.bottom {
-                    div {
-                        style: r#"
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                            min-width: 100%;
-                            {props.bottom_style.to_owned().unwrap_or_default()}
-                        "#,
+                    Col {
+                        attrs: props.bottom_attrs.with_style_before("width: 100%;"),
+                        event: props.bottom_event,
                         { bottom }
                     }
                 }
             }
         }
-    }
+    )
 }

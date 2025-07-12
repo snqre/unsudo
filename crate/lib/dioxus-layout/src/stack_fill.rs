@@ -11,7 +11,7 @@ pub struct StackFillProps {
 pub fn StackFill(props: StackFillProps) -> Element {
     rsx! {
         Stack {
-            attrs: props.attrs.unwrap_or_default().try_override(FILL_MOD.to_owned()),
+            attrs: props.attrs.with_style_before(FILL_STYLE_MOD),
             event: props.event,
             { props.children }
         }

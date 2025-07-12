@@ -14,11 +14,10 @@ pub struct RowProps {
 pub fn Row(props: RowProps) -> Element {
     rsx! {
         Col {
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                flex_direction: "row".into(),
-                ..Default::default()
-            }),
-            event: props.event.unwrap_or_default(),
+            attrs: props.attrs.with_style_before(r#"
+                flex-direction: row;
+            "#),
+            event: props.event,
             { props.children }
         }
     }

@@ -11,11 +11,10 @@ pub struct StackProps {
 pub fn Stack(props: StackProps) -> Element {
     rsx! {
         Col {
-            attrs: props.attrs.unwrap_or_default().try_override(extendable::AttrsProps {
-                position: "relative".into(),
-                ..Default::default()
-            }),
-            event: props.event.unwrap_or_default(),
+            attrs: props.attrs.with_style_before(r#"
+                position: relative
+            "#),
+            event: props.event,
             { props.children }
         }
     }
