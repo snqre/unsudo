@@ -1,8 +1,16 @@
 use super::*;
 
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct LogoProps {
+    pub attrs: Option<extendable::AttrsProps>,
+    pub event: Option<extendable::EventProps>
+}
+
 #[component]
-pub fn Logo() -> Element {
-    rsx! {
+pub fn Logo(props: LogoProps) -> Element {
+    rsx!(
         Link {
             style: r#"
                 all: unset;
@@ -10,15 +18,20 @@ pub fn Logo() -> Element {
             "#,
             to: "/",
             layout::Row {
-                style: r#"
-                    font-family: alien skyline;
-                    font-size: {u(3)}px;
-                    font-weight: normal;
-                    color: {color::SILVER};
-                    cursor: pointer;
-                "#,
+                attrs: props.attrs.with_style_before(&format!(
+                    r#"
+                        font-family: alien skyline;
+                        font-size: {}px;
+                        font-weight: normal;
+                        color: {};
+                        cursor: pointer;
+                    "#,
+                    u(3),
+                    color::SILVER
+                )),
+                event: props.event,
                 "unSUDO"
             }
         }
-    }
+    )
 }

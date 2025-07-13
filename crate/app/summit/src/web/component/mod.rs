@@ -11,6 +11,7 @@ pub mod counter;
 pub mod form;
 pub mod hud;
 pub mod typo;
+pub mod util;
 pub mod navigation;
 pub mod window;
 pub mod window_frame;

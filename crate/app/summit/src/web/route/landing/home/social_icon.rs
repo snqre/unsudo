@@ -5,7 +5,7 @@ use super::*;
 #[derive(PartialEq)]
 pub struct SocialIconProps {
     pub size: String,
-    pub url: Asset,
+    pub url: Url,
     pub to: String,
     pub style: Option<String>
 }
@@ -13,6 +13,7 @@ pub struct SocialIconProps {
 #[component]
 pub fn SocialIcon(props: SocialIconProps) -> Element {
     rsx! {
+
         Link {
             to: props.to,
             style: r#"
@@ -31,4 +32,14 @@ pub fn SocialIcon(props: SocialIconProps) -> Element {
             "#
         }
     }
+
+    rsx!(
+        util::Link {
+            to: props.to,
+            decor::Icon {
+                url: props.url,
+                size: props.size,
+            }
+        }
+    )
 }

@@ -1,24 +1,18 @@
 use super::*;
 
-#[derive(Props)]
-#[derive(Clone)]
-#[derive(PartialEq)]
-pub struct RowProps {
-    pub attrs: Option<extendable::AttrsProps>,
-    pub event: Option<extendable::EventProps>,
-    pub style: Option<String>,
-    pub children: Option<Element>
-}
-
 #[component]
-pub fn Row(props: RowProps) -> Element {
-    rsx! {
+pub fn Row(props: CommonProps) -> Element {
+    rsx!(
         Col {
-            attrs: props.attrs.with_style_before(r#"
-                flex-direction: row;
-            "#),
-            event: props.event,
+            class: props.class,
+            style: format!(
+                r#"
+                    flex-direction: row;
+                    {}
+                "#,
+                props.style.unwrap_or_default()
+            ),
             { props.children }
         }
-    }
+    )
 }

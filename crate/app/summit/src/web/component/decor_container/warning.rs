@@ -10,7 +10,7 @@ pub struct WarningProps {
 #[component]
 pub fn Warning(props: WarningProps) -> Element {
     rsx! {
-        CommonStructure {
+        Scaffold {
             icon: rsx! { div {
                 style: r#"
                     width: 20px;

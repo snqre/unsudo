@@ -1,6 +1,6 @@
 use super::*;
 
-bundle!(
+expose!(
     failure
     success
     warning
@@ -18,8 +18,41 @@ struct CommonStructureProps {
 }
 
 #[component]
-fn CommonStructure(props: CommonStructureProps) -> Element {
-    rsx! {
+fn Scaffold(props: CommonStructureProps) -> Element {
+    rsx!(
+        layout::Col {
+            attrs: None.with_style(r#"
+                align-items: start;
+                gap: 20px;
+            "#),
+            layout::Row {
+                attrs: None.with_style(r#"
+                    justify-content: start;
+                    width: 100%;
+                "#),
+                { props.icon }
+            }
+            layout::Col {
+                attrs: None.with_style(&format!(
+                    r#"
+                        justify-content: space-between;
+                        min-width: 400px;
+                        max-width: 400px;
+                        background: {};
+                        border-color: {};
+                        border-width: 1px;
+                        border-radius: 2px;
+                        animation: faulty-neon 1s ease-in;
+                    "#,
+                    color::CARBON,
+                    color::SILVER
+                )),
+
+            }
+        }
+
+
+
         div {
             style: r#"
                 display: flex;
@@ -83,5 +116,56 @@ fn CommonStructure(props: CommonStructureProps) -> Element {
                 }
             }
         }
+    )
+}
+
+
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct CommonProps {
+    pub icon_attrs: Option<extendable::AttrsProps>,
+    pub icon_event: Option<extendable::EventProps>,
+    pub children: Option<Element>
+}
+
+#[component]
+pub fn Success(props: CommonProps) -> Element {
+    rsx! {
+        Scaffold {
+            icon: rsx! { div {
+                style: r#"
+                    width: 20px;
+                    aspect-ratio: 1 / 1;
+                    background-image: url({asset!("asset/icon/success.svg")});
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    animation: faulty-neon 10s ease-in infinite;
+                "#
+            } },
+            style: r#"
+                border-color: {color::SPRING};
+                box-shadow-color: {color::SPRING};
+            "#,
+            color: color::SPRING.to_owned(),
+            { props.children }
+        }
     }
+
+    rsx!(
+        Scaffold {
+            icon: rsx!(
+                decor::Icon {
+                    url: Url::Internal(asset!("asset/icon/success.svg")),
+                    size: "20px",
+                    attrs: props.icon_attrs,
+                    event: props.icon_event.on(extendable::EventProps {
+                        on_click: Some(),
+                        ..Default::default()
+                    })
+                }
+            )
+            
+        }
+    )
 }

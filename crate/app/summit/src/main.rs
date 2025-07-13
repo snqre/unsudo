@@ -1,15 +1,12 @@
-#![deny(warnings)]
-
-use ::prelude::*;
 use ::dioxus::prelude::*;
-use ::dioxus_motion::prelude::*;
 use ::dioxus::document;
+use ::modwire::*;
 
 mod web;
 
 #[component]
 fn Main() -> Element {
-    rsx! {
+    rsx!(
         document::Stylesheet { href: asset!("asset/css/animation/faulty_neon.css") }
         document::Stylesheet { href: asset!("asset/css/scrollbar/webkit_scrollbar.css") }
         document::Stylesheet { href: asset!("asset/css/scrollbar/webkit_thumb_hover.css") }
@@ -20,11 +17,10 @@ fn Main() -> Element {
         document::Stylesheet { href: "https://fonts.cdnfonts.com/css/alien-skyline" }
         document::Stylesheet { href: "https://fonts.cdnfonts.com/css/stray" }
         document::Stylesheet { href: "https://fonts.cdnfonts.com/css/br-cobane" }
-        
         document::Stylesheet { href: asset!("asset/css/main.css") }
         document::Stylesheet { href: asset!("asset/css/stripe_animation.css") }
         Router::<web::route::Route> {}
-    }
+    )
 }
 
 fn main() {

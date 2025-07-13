@@ -1,4 +1,4 @@
-package.name = "window"
+package.name = "dioxus-window"
 package.version = "0.1.0"
 package.edition = "2021"
 package.publish = false

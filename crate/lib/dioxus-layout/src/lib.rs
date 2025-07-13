@@ -1,17 +1,6 @@
-use ::dioxus::prelude::*;
-use ::dioxus_extendable::ChainEventHandler as _;
-use ::dioxus_extendable::ChainEventHandlerExt as _;
-use ::dioxus_extendable::EditExt as _;
-use ::dioxus_extendable::Edit as _;
-use ::dioxus_extendable::EditClassExt as _;
-use ::dioxus_extendable::EditClass as _;
-use ::dioxus_extendable::EditStyleExt as _;
-use ::dioxus_extendable::EditStyle;
-use ::dioxus_extendable as extendable;
+use dioxus::prelude::*;
 
-::modwire::expose!(
-    auto_grid_fill
-    auto_grid
+modwire::expose!(
     col_fill
     col
     grid_fill
@@ -24,36 +13,37 @@ use ::dioxus_extendable as extendable;
     stack_fill
     stack_item
     stack
-    topo_page_item
-    topo_page
+    spacial_page_item
+    spacial_page
 );
 
-static ABSOLUTE_POSITION_RESET_STYLE_MOD: &str = r#"
-    top: 0%;
-    left: 0%;
-"#;
-
-static VIEW_FILL_STYLE_MOD: &str = r#"
-    min-width: 100vw;
-    max-width: 100vw;
-    width: 100vw;
-    min-height: 100vh;
-    max-height: 100vh;
-    height: 100vh;
-"#;
-
-static FILL_STYLE_MOD: &str = r#"
-    min-width: 100%;
-    max-width: 100%;
-    width: 100%;
-    min-height: 100%;
-    max-height: 100%;
-    height: 100%;
-"#;
-
+#[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
-pub struct Coordinate {
-    pub x: u32,
-    pub y: u32
+struct CommonProps {
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub children: Option<Element>
+}
+
+mod stylesheet {
+    pub static ABS_POS_RESET: &str = r#"
+        top: 0%;
+        left: 0%;
+    "#;
+
+    pub static FILL_VIEW: &str = r#"
+        min-width: 100vw;
+        max-width: 100vw;
+        width: 100vw;
+        min-height: 100vh;
+        max-height: 100vh;
+        height: 100vh;
+    "#;
+
+    pub static FILL: &str = r#"
+        width: 100%;
+        height: 100%;
+        flex: 1;
+    "#;
 }

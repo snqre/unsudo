@@ -1,6 +1,3 @@
 use super::*;
 
-bundle!(
-    arc
-    rect
-);
+::modwire::expose!(arc rect);

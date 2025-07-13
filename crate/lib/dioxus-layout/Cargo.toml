@@ -1,10 +1,11 @@
 package.name = "dioxus-layout"
-package.description = ""
+package.description = "A lightweight Dioxus component library for composing layouts."
 package.license = "Apache-2.0"
 package.keywords = [
     "dioxus",
     "component",
-    "lib"
+    "lib",
+    "layout"
 ]
 package.repository = "https://github.com/snqre/unsudo/tree/master/crate/lib/dioxus-extendable"
 package.version = "0.1.0"
@@ -13,9 +14,6 @@ package.exclude = [
     "/target"
 ]
 package.publish = false
-dependencies.modwire.version = ">=0.1.0,<1.0.0"
-dependencies.modwire.path = "../modwire"
-dependencies.dioxus-extendable.version = ">=0.1.0,<1.0.0"
-dependencies.dioxus-extendable.path = "../dioxus-extendable"
+dependencies.modwire.workspace = true
 dependencies.dioxus.version = ">=0.6.0,<1.0.0"
 dependencies.paste.version = "*"

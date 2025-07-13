@@ -4,30 +4,36 @@ use super::*;
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct RootProps {
-    style: Option<String>,
+    attrs: Option<dioxus_extendable::AttrsProps>,
+    event: Option<dioxus_extendable::EventProps>,
     children: Option<Element>
 }
 
 #[component]
 pub fn Root(props: RootProps) -> Element {
-    rsx! {
-        div {
-            style: r#"
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                border-color: {color::OBSIDIAN};
-                border-width: 1px;
-                border-style: solid;
-                padding: 16px;
-                border-radius: 2px;
-                {props.style.to_owned().unwrap_or_default()}
-            "#,
+    rsx!(
+        dioxus_layout::Col {
+            attrs: props.attrs.with_style_before(&format!(
+                r#"
+                    border-color: {};
+                    border-width: 1px;
+                    border-style: solid;
+                    border-radius: 2px;
+                    padding: 16px;
+                "#,
+                color::OBSIDIAN
+            )),
+            event: props.event,
             { props.children }
         }
-    }
+    )
 }
+
+
+
+
+
+
 
 
 #[component]

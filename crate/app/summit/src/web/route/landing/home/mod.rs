@@ -1,9 +1,7 @@
 use super::*;
 use crate::web::component::*;
-use ::window as win;
-use ::layout;
 
-bundle!(
+::modwire::expose!(
     hero_heading
     horizontal_carousel_highlight
     horizontal_carousel
@@ -16,16 +14,33 @@ bundle!(
 
 #[component]
 pub fn Route() -> Element {
-    let device: Signal<_> = ::window::use_device();
+    let device: Signal<_> = ::dioxus_window::use_device();
 
-    rsx! {
+    rsx!(
         layout::Page {
-            overlay: rsx! {
-                
-            },
-            style: r#"
-                background: {color::OBSIDIAN};
-            "#,
+            attrs: None.with_style(&format!(
+                r#"
+                    background: {};
+                "#,
+                color::OBSIDIAN
+            )),
+            layout::PageItem {
+                top: rsx!(
+
+                )
+            }
+        }
+
+        layout::Page {
+            attrs: None.with_style(&format!(
+                r#"
+                    background: {}
+                "#,
+                color::OBSIDIAN
+            )),
+
+
+
             layout::PageItem {
                 top: rsx! {
                     Stripe {}
@@ -91,6 +106,21 @@ pub fn Route() -> Element {
                                                 max-width: 100%;
                                                 justify-content: start;
                                             "#,
+                                            util::Link {
+                                                to: "/",
+                                                decor::Icon {
+                                                    size: format!("{}px", u(1)),
+                                                    url: Url::Internal(asset!("asset/icon/social/discord.svg"))
+                                                }
+                                            }
+                                            util::Link {
+                                                to: "/",
+                                                decor::Icon {
+                                                    size: format!("{}px", u(1)),
+                                                    url: Url::Internal(asset!("asset/icon/social/github.svg"))
+                                                }
+                                            }
+                                    
                                             SocialIconGroup {
                                                 SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/discord.svg") }
                                                 SocialIcon { size: "{web::sequence(1)}px", to: "/", url: asset!("asset/icon/social/github.svg") }
@@ -303,5 +333,5 @@ pub fn Route() -> Element {
                 }
             }
         }
-    }
+    )
 }

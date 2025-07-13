@@ -1,6 +1,6 @@
 use super::*;
 
-bundle!(
+expose!(
     blur_dot
     h_stripe
     icon

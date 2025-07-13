@@ -11,7 +11,7 @@ pub struct FailureProps {
 #[component]
 pub fn Failure(props: FailureProps) -> Element {
     rsx! {
-        CommonStructure {
+        Scaffold {
             icon: rsx! { div {
                 style: r#"
                     display: flex;

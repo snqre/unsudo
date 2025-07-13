@@ -1,5 +1,3 @@
 use super::*;
 
-bundle!(
-    rect
-);
+::modwire::expose!(rect);

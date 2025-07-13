@@ -5,23 +5,26 @@ use super::*;
 #[derive(PartialEq)]
 pub struct StackItemProps {
     pub z: u64,
-    pub attrs: Option<extendable::AttrsProps>,
-    pub event: Option<extendable::EventProps>,
+    pub class: Option<String>,
+    pub style: Option<String>,
     pub children: Option<Element>
 }
 
 #[component]
 pub fn StackItem(props: StackItemProps) -> Element {
-    rsx! {
+    rsx!(
         Col {
-            attrs: props.attrs.with_style_before(&format!(r#"
-                position: absolute;
-                z-index: {};
-            "#,
-                props.z    
-            )),
-            event: props.event,
+            class: props.class,
+            style: format!(
+                r#"
+                    position: absolute;
+                    z-index: {};
+                    {}
+                "#,
+                props.z,
+                props.style.unwrap_or_default()
+            ),
             { props.children }
         }
-    }
+    )
 }

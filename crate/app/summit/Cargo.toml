@@ -1,21 +1,12 @@
-package.name = "retro_minima"
+package.name = "summit"
 package.version = "0.1.0"
 package.edition = "2021"
 package.publish = false
-dependencies.dx-layout.workspace = true
-dependencies.dx-ctrl.workspace = true
-dependencies.dx-window.workspace = true
+dependencies.dioxus-ctrl.workspace = true
+dependencies.dioxus-extendable.workspace = true
+dependencies.dioxus-layout.workspace = true
+dependencies.dioxus-window.workspace = true
 dependencies.modwire.workspace = true
-
-
-dependencies.prelude.version = "0.1.0"
-dependencies.prelude.path = "../../kit/prelude"
-dependencies.layout.version = "0.1.0"
-dependencies.layout.path = "../../dx_component/layout"
-dependencies.ctrl.version = "0.1.0"
-dependencies.ctrl.path = "../../dx_hook/ctrl"
-dependencies.window.version = "0.1.0"
-dependencies.window.path = "../../dx_hook/window"
 dependencies.gloo-timers.version = "*"
 dependencies.web-sys.version = "0.3.77"
 dependencies.dioxus.version = ">=0.6.0,<1.0.0"

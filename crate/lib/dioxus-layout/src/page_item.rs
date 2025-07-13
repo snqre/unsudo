@@ -4,21 +4,11 @@ use super::*;
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct PageItemProps {
-    pub top_attrs: Option<extendable::AttrsProps>,
-    pub top_event: Option<extendable::EventProps>,
+    pub background: Option<Element>,
     pub top: Option<Element>,
-    pub bottom_attrs: Option<extendable::AttrsProps>,
-    pub bottom_event: Option<extendable::EventProps>,
     pub bottom: Option<Element>,
-    pub bg_attrs: Option<extendable::AttrsProps>,
-    pub bg_event: Option<extendable::EventProps>,
-    pub bg: Option<Element>,
-    pub wrapper_attrs: Option<extendable::AttrsProps>,
-    pub wrapper_event: Option<extendable::EventProps>,
-    pub content_attrs: Option<extendable::AttrsProps>,
-    pub content_event: Option<extendable::EventProps>,
-    pub attrs: Option<extendable::AttrsProps>,
-    pub event: Option<extendable::EventProps>,
+    pub class: Option<String>,
+    pub style: Option<String>,
     pub children: Option<Element>
 }
 
@@ -26,46 +16,42 @@ pub struct PageItemProps {
 pub fn PageItem(props: PageItemProps) -> Element {
     rsx!(
         Stack {
-            attrs: props.attrs.with_style_before(VIEW_FILL_STYLE_MOD),
-            event: props.event,
+            class: props.class,
+            style: format!(
+                r#"
+                    {}
+                    {}
+                "#,
+                stylesheet::FILL_VIEW,
+                props.style.unwrap_or_default()
+            ),
             StackItem {
                 z: 0,
-                attrs: props.bg_attrs
-                    .with_style_before(ABSOLUTE_POSITION_RESET_STYLE_MOD)
-                    .with_style_before(VIEW_FILL_STYLE_MOD),
-                event: props.bg_event,
-                { props.bg }
+                style: format!(
+                    r#"
+                        {}
+                        {}
+                    "#,
+                    stylesheet::ABS_POS_RESET,
+                    stylesheet::FILL_VIEW
+                ),
+                { props.background }
             }
             StackItem {
                 z: 1,
-                attrs: props.wrapper_attrs
-                    .with_style_before(ABSOLUTE_POSITION_RESET_STYLE_MOD)
-                    .with_style_before(VIEW_FILL_STYLE_MOD)
-                    .with_style_before("justify-content: space-between; scroll-snap-align: start;"),
-                event: props.wrapper_event,
-                if let Some(top) = props.top {
-                    Col {
-                        attrs: props.top_attrs.with_style_before("width: 100%;"),
-                        event: props.top_event,
-                        { top }
-                    }
-                }
-                if let Some(children) = props.children {
-                    Col {
-                        attrs: props.content_attrs
-                            .with_style_before(FILL_STYLE_MOD)
-                            .with_style_before("justify-content: space-between;"),
-                        event: props.content_event,
-                        { children }
-                    }
-                }
-                if let Some(bottom) = props.bottom {
-                    Col {
-                        attrs: props.bottom_attrs.with_style_before("width: 100%;"),
-                        event: props.bottom_event,
-                        { bottom }
-                    }
-                }
+                style: format!(
+                    r#"
+                        justify-content: space-between;
+                        scroll-snap-align: start;
+                        {}
+                        {}
+                    "#,
+                    stylesheet::ABS_POS_RESET,
+                    stylesheet::FILL_VIEW
+                ),
+                { props.top }
+                { props.children }
+                { props.bottom }
             }
         }
     )
