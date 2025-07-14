@@ -1,8 +1,0 @@
-package.name = "unsudo-dioxus"
-package.version = "0.1.0"
-dependencies.extendable.version = "*"
-dependencies.extendable.path = "../../dx-lib/extendable"
-dependencies.layout.version = "*"
-dependencies.layout.path = "../../dx-lib/layout"
-dependencies.window.version = "*"
-dependencies.window.path = "../../dx-lib/window"

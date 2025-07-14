@@ -1,0 +1,17 @@
+@keyframes h-stripe-motion {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+@keyframes v-stripe-motion {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 400px;
+    }
+}

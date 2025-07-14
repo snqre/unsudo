@@ -1,11 +1,15 @@
 workspace.resolver = "3"
 workspace.members = [
-    "crate/app/summit",
-    "crate/lib/dioxus-ctrl",
-    "crate/lib/dioxus-extendable",
-    "crate/lib/dioxus-layout",
-    "crate/lib/dioxus-window",
+    "crate/lib/dx-ctrl",
+    "crate/lib/dx-expose",
+    "crate/lib/dx-flag",
+    "crate/lib/dx-layout",
+    "crate/lib/dx-support",
+    "crate/lib/dx-window",
     "crate/lib/modwire"
+, "crate/lib/dx-flag"]
+workspace.exclude = [
+    "crate/archive"
 ]
 workspace.dependencies.dioxus-ctrl.version = "0.1.0"
 workspace.dependencies.dioxus-ctrl.path = "crate/lib/dioxus-ctrl"

@@ -1,5 +1,0 @@
-package.name = "unsudo_modwire"
-package.version = "0.1.0"
-package.edition = "2024"
-package.publish = true
-dependencies.modwire.workspace = true
