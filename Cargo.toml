@@ -6,8 +6,9 @@ workspace.members = [
     "crate/lib/dx-layout",
     "crate/lib/dx-support",
     "crate/lib/dx-window",
-    "crate/lib/modwire"
-, "crate/lib/dx-flag"]
+    "crate/lib/modwire",
+    "crate/lib/core"
+]
 workspace.exclude = [
     "crate/archive"
 ]

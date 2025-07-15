@@ -8,3 +8,9 @@ dependencies.dioxus.features = [
     "router",
     "fullstack"
 ]
+dependencies.web-sys.version = ">=0.3.77,<1.0.0"
+dependencies.web-sys.features = [
+    "Window", 
+    "Event"
+]
+dependencies.gloo-timers.version = "*"

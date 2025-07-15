@@ -1,0 +1,6 @@
+package.name = "core"
+package.version = "0.1.0"
+package.edition = "2024"
+dependencies.paste.version = "*"
+dependencies.modwire.version = "*"
+dependencies.modwire.path = "../modwire"
