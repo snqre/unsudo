@@ -157,6 +157,7 @@ version = "0.1.0"
 dependencies = [
  "modwire",
  "paste",
+ "toga",
 ]
 
 [[package]]
@@ -1597,6 +1598,17 @@ checksum = "5d4f6d1145dcb577acf783d4e601bc1d76a13337bb54e6233add580b07344c8b"
 dependencies = [
  "displaydoc",
  "zerovec",
+]
+
+[[package]]
+name = "toga"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3ee93dd3bfda9027a21fc043250d63cbbf8b4a6a6a1136faa026af5030eedeb0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

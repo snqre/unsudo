@@ -1,6 +1,13 @@
+use super::*;
+
 pub mod float;
 pub mod int;
 pub mod num;
+    mod ops_gen;
+pub mod ops;
+    mod precision;
+pub mod q;
+    mod scale;
 
 pub trait Bits8 {}
 pub trait Bits16 {}

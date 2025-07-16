@@ -2,151 +2,404 @@ use super::*;
 
 macro_rules! const_as {
     ($($n:literal)*) => {
-        $(
-            paste::paste! {
+        paste::paste!(
+            $(
                 const [< AS_ $n >]: Self;
-            }
-        )*
+            )*
+        );
+    };
+}
+
+macro_rules! const_signed_metadata {
+    ($size:literal) => {
+        paste::paste!(
+            const IS_SIGNED: bool = true;
+            const BITS: u8 = $size;
+            const MAX: Self = [< i $size >]::MAX;
+            const MIN: Self = [< i $size >]::MIN;
+            const MAX_U128: u128 = [< i $size >]::MAX as u128;
+            const MIN_U128: u128 = 0;
+            const MAX_I128: i128 = [< i $size >]::MAX as i128;
+            const MIN_I128: i128 = [< i $size >]::MIN as i128;
+        );
+    };
+}
+
+macro_rules! const_unsigned_metadata {
+    ($size:literal) => {
+        paste::paste!(
+            const IS_SIGNED: bool = false;
+            const BITS: u8 = $size;
+            const MAX: Self = [< u $size >]::MAX;
+            const MIN: Self = [< u $size >]::MIN;
+            const MAX_U128: u128 = [< u $size >]::MAX as u128;
+            const MIN_U128: u128 = 0;
+            const MAX_I128: i128 = [< u $size >]::MAX as i128;
+            const MIN_I128: i128 = 0;
+        );
     };
 }
 
 macro_rules! const_as_impl {
     ($($n:literal)*) => {
-        $(
-            paste::paste! {
+        paste::paste!(
+            $(
                 const [< AS_ $n >]: Self = $n;
+            )*
+        );
+    };
+}
+
+ops!(
+    add rhs Self => Self
+    sub rhs Self => Self
+    mul rhs Self => Self
+    div rhs Self => Self
+    shl rhs Self => Self
+    shr rhs Self => Self
+    rem rhs Self => Self
+    pow exp u32 => Self
+    saturating_add rhs Self => Self
+    saturating_sub rhs Self => Self
+    saturating_mul rhs Self => Self
+    saturating_div rhs Self => Self
+    saturating_pow exp u32 => Self
+    wrapping_add rhs Self => Self
+    wrapping_sub rhs Self => Self
+    wrapping_mul rhs Self => Self
+    wrapping_div rhs Self => Self
+    wrapping_rem rhs Self => Self
+    wrapping_pow exp u32 => Self
+    checked_add rhs Self => Option<Self>
+    checked_sub rhs Self => Option<Self>
+    checked_mul rhs Self => Option<Self>
+    checked_div rhs Self => Option<Self>
+    checked_shl rhs u32 => Option<Self>
+    checked_shr rhs u32 => Option<Self>
+    checked_pow rhs u32 => Option<Self>
+    checked_ilog base Self => Option<u32>
+    overflowing_add rhs Self => (Self, bool)
+    overflowing_sub rhs Self => (Self, bool)
+    overflowing_mul rhs Self => (Self, bool)
+    overflowing_div rhs Self => (Self, bool)
+    overflowing_rem rhs Self => (Self, bool)
+    overflowing_shl rhs u32 => (Self, bool)
+    overflowing_shr rhs u32 => (Self, bool)
+    overflowing_pow exp u32 => (Self, bool)
+    unbound_shl rhs u32 => Self
+    unbound_shr rhs u32 => Self
+);
+
+ops!(
+    wrapping_neg => Self 
+    overflowing_neg => (Self, bool)
+);
+
+macro_rules! common_impls {
+    ($sign:ident $size:literal) => {
+        paste::paste!(
+            impl ops::Add for [< $sign $size >] {
+                add!();
             }
-        )*
+
+            impl ops::Sub for [< $sign $size >] {
+                sub!();
+            }
+
+            impl ops::Mul for [< $sign $size >] {
+                mul!();
+            }
+
+            impl ops::Div for [< $sign $size >] {
+                div!();
+            }
+
+            impl ops::Shl for [< $sign $size >] {
+                shl!();
+            }
+
+            impl ops::Shr for [< $sign $size >] {
+                shr!();
+            }
+
+            impl ops::Rem for [< $sign $size >] {
+                rem!();
+            }
+
+            impl ops::Pow for [< $sign $size >] {
+                pow!();
+            }
+
+            impl ops::SaturatingAdd for [< $sign $size >] {
+                saturating_add!();
+            }
+
+            impl ops::SaturatingSub for [< $sign $size >] {
+                saturating_sub!();
+            }
+
+            impl ops::SaturatingMul for [< $sign $size >] {
+                saturating_mul!();
+            }
+
+            impl ops::SaturatingDiv for [< $sign $size >] {
+                saturating_div!();
+            }
+
+            impl ops::SaturatingPow for [< $sign $size >] {
+                saturating_pow!();
+            }
+
+            impl ops::WrappingAdd for [< $sign $size >] {
+                wrapping_add!();
+            }
+
+            impl ops::WrappingSub for [< $sign $size >] {
+                wrapping_sub!();
+            }
+
+            impl ops::WrappingMul for [< $sign $size >] {
+                wrapping_mul!();
+            }
+
+            impl ops::WrappingDiv for [< $sign $size >] {
+                wrapping_div!();
+            }
+
+            impl ops::WrappingRem for [< $sign $size >] {
+                wrapping_rem!();
+            }
+
+            impl ops::WrappingPow for [< $sign $size >] {
+                wrapping_pow!();
+            }
+
+            impl ops::WrappingNeg for [< $sign $size >] {
+                wrapping_neg!();
+            }
+
+            impl ops::CheckedAdd for [< $sign $size >] {
+                checked_add!();
+            }
+
+            impl ops::CheckedSub for [< $sign $size >] {
+                checked_sub!();
+            }
+
+            impl ops::CheckedMul for [< $sign $size >] {
+                checked_mul!();
+            }
+
+            impl ops::CheckedDiv for [< $sign $size >] {
+                checked_div!();
+            }
+
+            impl ops::CheckedShl for [< $sign $size >] {
+                checked_shl!();
+            }
+
+            impl ops::CheckedShr for [< $sign $size >] {
+                checked_shr!();
+            }
+
+            impl ops::CheckedPow for [< $sign $size >] {
+                checked_pow!();
+            }
+
+            impl ops::CheckedIlog for [< $sign $size >] {
+                checked_ilog!();
+            }
+
+            impl ops::OverflowingAdd for [< $sign $size >] {
+                overflowing_add!();
+            }
+
+            impl ops::OverflowingSub for [< $sign $size >] {
+                overflowing_sub!();
+            }
+
+            impl ops::OverflowingMul for [< $sign $size >] {
+                overflowing_mul!();
+            }
+
+            impl ops::OverflowingDiv for [< $sign $size >] {
+                overflowing_div!();
+            }
+
+            impl ops::OverflowingRem for [< $sign $size >] {
+                overflowing_rem!();
+            }
+
+            impl ops::OverflowingShl for [< $sign $size >] {
+                overflowing_shl!();
+            }
+
+            impl ops::OverflowingShr for [< $sign $size >] {
+                overflowing_shr!();
+            }
+
+            impl ops::OverflowingPow for [< $sign $size >] {
+                overflowing_pow!();
+            }
+
+            impl ops::OverflowingNeg for [< $sign $size >] {
+                overflowing_neg!();
+            }
+
+            impl ops::UnboundShl for [< $sign $size >] {
+                unbound_shl!();
+            }
+
+            impl ops::UnboundShr for [< $sign $size >] {
+                unbound_shr!();
+            }
+        );
     };
 }
 
-macro_rules! fn_impls {
-    () => {
-        fn add(self, rhs: Self) -> Self {
-            self.add(rhs)
-        }
+macro_rules! signed_impls {
+    ($($size:literal)*) => {
+        paste::paste!(
+            $(
+                impl [< Bits $size >] for [< i $size >] {}
+                
+                impl Signed for [< i $size >] {
+                    fn checked_abs(self) -> Option<Self> {
+                        self.checked_abs()
+                    }
+                }
 
-        fn sub(self, rhs: Self) -> Self {
-            self.sub(rhs)
-        }
+                impl Int for [< i $size >] {
+                    const_signed_metadata!($size);
+                    const_as_impl!(
+                        0 1 2 3 4 5 6 7 8 9
+                        10 11 12 13 14 15 16 17 18 19 
+                        20 21 22 23 24 25 26 27 28 29 
+                        30 31 32 33 34 35 36 37 38 39
+                        40 41 42 43 44 45 46 47 48 49
+                        50 51 52 53 54 55 56 57 58 59
+                        60 61 62 63 64 65 66 67 68 69
+                        70 71 72 73 74 75 76 77 78 79
+                        80 81 82 83 84 85 86 87 88 89
+                        90 91 92 93 94 95 96 97 98 99
+                        100
+                    );
+                }
 
-        fn mul(self, rhs: Self) -> Self {
-            self.mul(rhs)
-        }
-
-        fn div(self, rhs: Self) -> Self {
-            self.div(rhs)
-        }
-
-        fn shl(self, rhs: Self) -> Self {
-            self.shl(rhs)
-        }
-
-        fn shr(self, rhs: Self) -> Self {
-            self.shr(rhs)
-        }
-
-        fn pow(self, exp: u32) -> Self {
-            self.pow(exp)
-        }
-
-        fn saturating_add(self, rhs: Self) -> Self {
-            self.saturating_add(rhs)
-        }
-
-        fn saturating_sub(self, rhs: Self) -> Self {
-            self.saturating_sub(rhs)
-        }
-
-        fn saturating_mul(self, rhs: Self) -> Self {
-            self.saturating_mul(rhs)
-        }
-
-        fn saturating_div(self, rhs: Self) -> Self {
-            self.saturating_div(rhs)
-        }
-
-        fn saturating_pow(self, exp: u32) -> Self {
-            self.saturating_pow(exp)
-        }
-
-        fn wrapping_add(self, rhs: Self) -> Self {
-            self.wrapping_add(rhs)
-        }
-
-        fn wrapping_sub(self, rhs: Self) -> Self {
-            self.wrapping_sub(rhs)
-        }
-
-        fn wrapping_mul(self, rhs: Self) -> Self {
-            self.wrapping_mul(rhs)
-        }
-
-        fn wrapping_div(self, rhs: Self) -> Self {
-            self.wrapping_div(rhs)
-        }
-
-        fn wrapping_rem(self, rhs: Self) -> Self {
-            self.wrapping_rem(rhs)
-        }
-
-        fn wrapping_pow(self, exp: u32) -> Self {
-            self.wrapping_pow(exp)
-        }
-
-        fn wrapping_neg(self) -> Self {
-            self.wrapping_neg()
-        }
-
-        fn checked_add(self, rhs: Self) -> Option<Self> {
-            self.checked_add(rhs)
-        }
-
-        fn checked_sub(self, rhs: Self) -> Option<Self> {
-            self.checked_sub(rhs)
-        }
-
-        fn checked_mul(self, rhs: Self) -> Option<Self> {
-            self.checked_mul(rhs)
-        }
-
-        fn checked_div(self, rhs: Self) -> Option<Self> {
-            self.checked_div(rhs)
-        }
-
-        fn checked_shl(self, rhs: u32) -> Option<Self> {
-            self.checked_shl(rhs)
-        }
-
-        fn checked_shr(self, rhs: u32) -> Option<Self> {
-            self.checked_shr(rhs)
-        }
-
-        fn checked_pow(self, rhs: u32) -> Option<Self> {
-            self.checked_pow(rhs)
-        }
-
-        fn checked_ilog(self, base: Self) -> Option<u32> {
-            self.checked_ilog(base)
-        }
-
-        fn unbounded_shl(self, rhs: u32) -> Self {
-            self.unbounded_shl(rhs)
-        }
-
-        fn unbounded_shr(self, rhs: u32) -> Self {
-            self.unbounded_shr(rhs)
-        }
-
-        
+                common_impls!(i $size);
+            )*
+        );
     };
 }
 
-pub trait Signed where Self: Sized {
+macro_rules! unsigned_impls {
+    ($($size:literal)*) => {
+        paste::paste!(
+            $(
+                impl [< Bits $size >] for [< u $size >] {}
+                impl Unsigned for [< u $size >] {}
+                impl Int for [< u $size >] {
+                    const_unsigned_metadata!($size);
+                    const_as_impl!(
+                        0 1 2 3 4 5 6 7 8 9
+                        10 11 12 13 14 15 16 17 18 19 
+                        20 21 22 23 24 25 26 27 28 29 
+                        30 31 32 33 34 35 36 37 38 39
+                        40 41 42 43 44 45 46 47 48 49
+                        50 51 52 53 54 55 56 57 58 59
+                        60 61 62 63 64 65 66 67 68 69
+                        70 71 72 73 74 75 76 77 78 79
+                        80 81 82 83 84 85 86 87 88 89
+                        90 91 92 93 94 95 96 97 98 99
+                        100
+                    );
+                }
+
+                common_impls!(u $size);
+            )*
+        );
+    };
+}
+
+pub trait Signed 
+where 
+    Self: Sized {
     fn checked_abs(self) -> Option<Self>;
 }
-pub trait Unsigned where Self: Sized {}
-pub trait Int where Self: Copy {
+
+pub trait Unsigned 
+where 
+    Self: Sized {}
+
+pub trait Int
+where 
+    Self: Copy,
+    Self: TryInto<i8>,
+    Self: TryInto<i16>,
+    Self: TryInto<i32>,
+    Self: TryInto<i64>,
+    Self: TryInto<i128>,
+    Self: TryInto<u8>,
+    Self: TryInto<u16>,
+    Self: TryInto<u32>,
+    Self: TryInto<u64>,
+    Self: TryInto<u128>,
+    Self: TryFrom<i8>,
+    Self: TryFrom<i16>,
+    Self: TryFrom<i32>,
+    Self: TryFrom<i64>,
+    Self: TryFrom<i128>,
+    Self: TryFrom<u8>,
+    Self: TryFrom<u16>,
+    Self: TryFrom<u32>,
+    Self: TryFrom<u64>,
+    Self: TryFrom<u128>,
+    Self: core::ops::Add<Output=Self>,
+    Self: core::ops::Sub<Output=Self>,
+    Self: core::ops::Mul<Output=Self>,
+    Self: core::ops::Div<Output=Self>,
+    Self: core::ops::Shl<Output=Self>,
+    Self: core::ops::Shr<Output=Self>,
+    Self: core::ops::Rem<Output=Self>,
+    Self: ops::Add,
+    Self: ops::Sub,
+    Self: ops::Mul,
+    Self: ops::Div,
+    Self: ops::Shl,
+    Self: ops::Shr,
+    Self: ops::Rem,
+    Self: ops::Pow,
+    Self: ops::SaturatingAdd,
+    Self: ops::SaturatingSub,
+    Self: ops::SaturatingMul,
+    Self: ops::SaturatingDiv,
+    Self: ops::SaturatingPow,
+    Self: ops::WrappingAdd,
+    Self: ops::WrappingSub,
+    Self: ops::WrappingMul,
+    Self: ops::WrappingDiv,
+    Self: ops::WrappingRem,
+    Self: ops::WrappingPow,
+    Self: ops::WrappingNeg,
+    Self: ops::CheckedAdd,
+    Self: ops::CheckedSub,
+    Self: ops::CheckedMul,
+    Self: ops::CheckedDiv,
+    Self: ops::CheckedShl,
+    Self: ops::CheckedShr,
+    Self: ops::CheckedPow,
+    Self: ops::CheckedIlog,
+    Self: ops::OverflowingAdd,
+    Self: ops::OverflowingSub,
+    Self: ops::OverflowingMul,
+    Self: ops::OverflowingDiv,
+    Self: ops::OverflowingRem,
+    Self: ops::OverflowingShl,
+    Self: ops::OverflowingShr,
+    Self: ops::OverflowingPow,
+    Self: ops::OverflowingNeg,
+    Self: ops::UnboundShl,
+    Self: ops::UnboundShr {
     const IS_SIGNED: bool;
     const BITS: u8;
     const MAX: Self;
@@ -168,96 +421,20 @@ pub trait Int where Self: Copy {
         90 91 92 93 94 95 96 97 98 99
         100
     );
-    fn add(self, rhs: Self) -> Self;
-    fn sub(self, rhs: Self) -> Self;
-    fn mul(self, rhs: Self) -> Self;
-    fn div(self, rhs: Self) -> Self;
-    fn shl(self, rhs: Self) -> Self;
-    fn shr(self, rhs: Self) -> Self;
-    fn pow(self, exp: u32) -> Self;
-    fn saturating_add(self, rhs: Self) -> Self;
-    fn saturating_sub(self, rhs: Self) -> Self;
-    fn saturating_mul(self, rhs: Self) -> Self;
-    fn saturating_div(self, rhs: Self) -> Self;
-    fn saturating_pow(self, exp: u32) -> Self;
-    fn wrapping_add(self, rhs: Self) -> Self;
-    fn wrapping_sub(self, rhs: Self) -> Self;
-    fn wrapping_mul(self, rhs: Self) -> Self;
-    fn wrapping_div(self, rhs: Self) -> Self;
-    fn wrapping_rem(self, rhs: Self) -> Self;
-    fn wrapping_pow(self, exp: u32) -> Self;
-    fn wrapping_neg(self) -> Self;
-    fn checked_add(self, rhs: Self) -> Option<Self>;
-    fn checked_sub(self, rhs: Self) -> Option<Self>;
-    fn checked_mul(self, rhs: Self) -> Option<Self>;
-    fn checked_div(self, rhs: Self) -> Option<Self>;
-    fn checked_shl(self, rhs: u32) -> Option<Self>;
-    fn checked_shr(self, rhs: u32) -> Option<Self>;
-    fn checked_pow(self, rhs: u32) -> Option<Self>;
-    fn checked_ilog(self, base: Self) -> Option<u32>;
-    fn unbounded_shl(self, rhs: u32) -> Self;
-    fn unbounded_shr(self, rhs: u32) -> Self;
-    fn overflowing_add(self, rhs: Self) -> (Self, bool);
-    fn overflowing_sub(self, rhs: Self) -> (Self, bool);
-    fn overflowing_mul(self, rhs: Self) -> (Self, bool);
-    fn overflowing_div(self, rhs: Self) -> (Self, bool);
-    fn overflowing_rem(self, rhs: Self) -> (Self, bool);
-    fn overflowing_shl(self, rhs: u32) -> (Self, bool);
-    fn overflowing_shr(self, rhs: u32) -> (Self, bool);
-    fn overflowing_pow(self, rhs: u32) -> (Self, bool);
-    fn overflowing_neg(self) -> (Self, bool);
 }
 
-impl Bits8 for i8 {}
-impl Signed for i8 {
-    fn checked_abs(self) -> Option<Self> {
-        self.checked_abs()
-    }
-}
-impl Int for i8 {
-    const IS_SIGNED: bool = true;
-    const BITS: u8 = 8;
-    const MAX: Self = i8::MAX;
-    const MIN: Self = i8::MIN;
-    const_as_impl!(
-        0 1 2 3 4 5 6 7 8 9
-        10 11 12 13 14 15 16 17 18 19 
-        20 21 22 23 24 25 26 27 28 29 
-        30 31 32 33 34 35 36 37 38 39
-        40 41 42 43 44 45 46 47 48 49
-        50 51 52 53 54 55 56 57 58 59
-        60 61 62 63 64 65 66 67 68 69
-        70 71 72 73 74 75 76 77 78 79
-        80 81 82 83 84 85 86 87 88 89
-        90 91 92 93 94 95 96 97 98 99
-        100
-    );
-    fn_impls!();
-}
+signed_impls!(
+    8 
+    16 
+    32 
+    64 
+    128
+);
 
-impl Bits16 for i16 {}
-impl Signed for i16 {
-    fn checked_abs(self) -> Option<Self> {
-        self.checked_abs()
-    }
-}
-impl Int for i16 {
-    const IS_SIGNED: bool = true;
-    const BITS: u8 = 16;
-    const MAX: Self = i16::MAX;
-    const MIN: Self = i16::MIN;
-    const_as_impl!(
-        0 1 2 3 4 5 6 7 8 9
-        10 11 12 13 14 15 16 17 18 19 
-        20 21 22 23 24 25 26 27 28 29 
-        30 31 32 33 34 35 36 37 38 39
-        40 41 42 43 44 45 46 47 48 49
-        50 51 52 53 54 55 56 57 58 59
-        60 61 62 63 64 65 66 67 68 69
-        70 71 72 73 74 75 76 77 78 79
-        80 81 82 83 84 85 86 87 88 89
-        90 91 92 93 94 95 96 97 98 99
-        100
-    );
-    fn_impls!();
-}
+unsigned_impls!(
+    8 
+    16 
+    32 
+    64 
+    128
+);
