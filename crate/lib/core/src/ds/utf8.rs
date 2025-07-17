@@ -1,24 +1,69 @@
 use crate::ds::array;
 
-#[repr(transparent)]
-pub struct Utf8<const T: usize>(array::Array<T, u8>);
+#[derive(Debug)]
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Eq)]
+#[derive(PartialEq)]
+pub struct Utf8<const T: usize> {
+    pub(super) buf: array::Array<T, u8>,
+    pub(super) len: usize
+}
+
+impl<const T: usize> Default for Utf8<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<const T: usize> From<&[u8]> for Utf8<T> {
+    fn from(value: &[u8]) -> Self {
+        Self::encode(value)
+    }
+}
 
 impl<const T: usize> TryFrom<&str> for Utf8<T> {
     type Error = ();
     
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        let buf: array::Array<T, char> = array::Array::default();
+        let mut ret: Self = Self::new();
         for c in value.chars() {
-            buf.push(c);
+            if ret.push(c).is_none() {
+                return Err(())
+            }
         }
-        Ok(Self(buf))
+        Ok(ret)
     }
 }
 
 impl<const T: usize> Utf8<T> {
+    pub const fn new() -> Self {
+        Self {
+            buf: array::Array {
+                buf: unsafe {
+                    core::mem::MaybeUninit::uninit().assume_init()
+                },
+                len: 0
+            },
+            len: 0
+        }
+    }
+
+    pub const fn len(&self) -> usize {
+        self.len
+    }
+
+    pub const fn len_bytes(&self) -> usize {
+        self.buf.len
+    }
+    
+    pub const fn is_empty(&self) -> bool {
+        self.len == 0
+    }
+
     pub const fn push(&mut self, c: char) -> Option<()> {
         let code: u32 = c as u32;
-        let arr: &mut array::Array<T, u8> = &mut self.0;
+        let arr: &mut array::Array<T, u8> = &mut self.buf;
         let req: usize = if code <= 0x7F {
             1
         } else if code <= 0x7FF {
@@ -52,12 +97,13 @@ impl<const T: usize> Utf8<T> {
             },
             _ => unreachable!()
         }
+        self.len += 1;
         Some(())
     }
 
     pub const fn pop(&mut self) -> Option<()> {
-        let buf: &[u8] = self.0.as_slice();
-        let k: usize = self.0.len();
+        let buf: &[u8] = self.buf.as_slice();
+        let k: usize = self.buf.len();
         if k == 0 {
             return None
         }
@@ -68,16 +114,20 @@ impl<const T: usize> Utf8<T> {
             }
             let b: u8 = buf[k - back];
             if back == 1 && b & 0b1000_0000 == 0 {
-                self.0.len -= 1;
+                self.buf.len -= 1;
+                self.len -= 1;
                 return Some(())
             } else if back == 2 && b & 0b1110_0000 == 0b1100_0000 {
-                self.0.len -= 2;
+                self.buf.len -= 2;
+                self.len -= 1;
                 return Some(())
             } else if back == 3 && b & 0b1111_0000 == 0b1110_0000 {
-                self.0.len -= 3;
+                self.buf.len -= 3;
+                self.len -= 1;
                 return Some(())
             } else if back == 4 && b & 0b1111_1000 == 0b1111_0000 {
-                self.0.len -= 4;
+                self.buf.len -= 4;
+                self.len -= 1;
                 return Some(())
             }
             back += 1;
@@ -86,19 +136,86 @@ impl<const T: usize> Utf8<T> {
     }
 
     pub const fn peek_last_char_len(&self) -> Option<usize> {
-
+        let buf = self.buf.as_slice();
+        let k = self.buf.len();
+        if k == 0 {
+            return None;
+        }
+        let mut back = 1;
+        while back <= 4 {
+            if k < back {
+                return None;
+            }
+            let b = buf[k - back];
+            if back == 1 && b & 0b1000_0000 == 0 {
+                return Some(1);
+            } else if back == 2 && b & 0b1110_0000 == 0b1100_0000 {
+                return Some(2);
+            } else if back == 3 && b & 0b1111_0000 == 0b1110_0000 {
+                return Some(3);
+            } else if back == 4 && b & 0b1111_1000 == 0b1111_0000 {
+                return Some(4);
+            }
+            back += 1;
+        }
+        None
     }
 
-    pub const fn starts_with<const B: usize>(&self, sample: &Utf8<B>) -> bool {
-        
+    pub const fn starts_with(&self, prefix: &[u8]) -> bool {
+        let slice = self.buf.as_slice();
+        if slice.len() < prefix.len() {
+            return false;
+        }
+        let mut i = 0;
+        while i < prefix.len() {
+            if slice[i] != prefix[i] {
+                return false;
+            }
+            i += 1;
+        }
+        true
     }
 
+    pub const fn ends_with(&self, suffix: &[u8]) -> bool {
+        let slice = self.buf.as_slice();
+        let offset = slice.len().saturating_sub(suffix.len());
+        if slice.len() < suffix.len() {
+            return false;
+        }
+        let mut i = 0;
+        while i < suffix.len() {
+            if slice[offset + i] != suffix[i] {
+                return false;
+            }
+            i += 1;
+        }
+        true
+    }
+
+    pub const fn as_str(&self) -> Result<&str, core::str::Utf8Error> {
+        core::str::from_utf8(
+            self.buf.as_slice()
+        )
+    }
 
     pub const fn encode(bytes: &[u8]) -> Self {
-
+        let mut ret: Self = Self::new();
+        let mut k: usize = 0;
+        while k < bytes.len() && ret.buf.len < T {
+            let byte = bytes[k];
+            ret.buf.buf[k].write(byte);
+            ret.buf.len += 1;
+            if byte & 0b1100_0000 != 0b1000_0000 {
+                ret.len += 1;
+            }
+            k += 1;
+        }
+        ret
     }
+}
 
-    pub const fn decode<const B: usize>(utf8: Utf8<B>) -> &[u8] {
-
+impl<const T: usize> core::hash::Hash for Utf8<T> {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
+        
     }
 }

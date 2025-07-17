@@ -19,16 +19,13 @@ macro_rules! count {
 
 #[derive(Debug)]
 #[derive(Clone)]
-pub struct Array<const A: usize, B> 
-where
-    B: Copy {
-    pub(crate) buf: [core::mem::MaybeUninit<B>; A],
-    pub(crate) len: usize
+#[derive(Copy)]
+pub struct Array<const A: usize, B: Copy> {
+    pub(super) buf: [core::mem::MaybeUninit<B>; A],
+    pub(super) len: usize
 }
 
-impl<const A: usize, B> Default for Array<A, B>
-where
-    B: Copy {
+impl<const A: usize, B: Copy> Default for Array<A, B> {
     fn default() -> Self {
         Self {
             buf: unsafe {
@@ -39,9 +36,7 @@ where
     }
 }
 
-impl<const A: usize, B> Array<A, B> 
-where
-    B: Copy {
+impl<const A: usize, B: Copy> Array<A, B> {
     #[inline]
     pub fn new(data: [B; A]) -> Self {
         let mut buf: [core::mem::MaybeUninit<B>; A] = unsafe {
@@ -178,6 +173,11 @@ where
     }
 }
 
+impl<const A: usize, B> Eq for Array<A, B> 
+where
+    B: Copy,
+    B: PartialEq {}
+
 impl<const A: usize, B> PartialEq for Array<A, B> 
 where
     B: Copy,
@@ -216,7 +216,6 @@ where
         }
     }
 }
-
 
 pub struct Iter<const A: usize, B> {
     buf: [core::mem::MaybeUninit<B>; A],
