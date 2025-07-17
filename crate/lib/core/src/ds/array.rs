@@ -22,8 +22,8 @@ macro_rules! count {
 pub struct Array<const A: usize, B> 
 where
     B: Copy {
-    buf: [core::mem::MaybeUninit<B>; A],
-    len: usize
+    pub(crate) buf: [core::mem::MaybeUninit<B>; A],
+    pub(crate) len: usize
 }
 
 impl<const A: usize, B> Default for Array<A, B>
