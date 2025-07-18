@@ -1,3 +1,5 @@
+use crate::require;
+
 #[macro_export]
 macro_rules! array {
     ($($data:expr),* $(,)?) => {{
@@ -9,6 +11,7 @@ macro_rules! array {
     }};
 }
 
+#[allow(unused_macros)]
 macro_rules! count {
     () => { 0 };
     ($head:expr $(, $tail:expr)*) => {
@@ -20,12 +23,16 @@ macro_rules! count {
 #[derive(Debug)]
 #[derive(Clone)]
 #[derive(Copy)]
-pub struct Array<const A: usize, B: Copy> {
+pub struct Array<const A: usize, B> 
+where 
+    B: Copy {
     pub(super) buf: [core::mem::MaybeUninit<B>; A],
     pub(super) len: usize
 }
 
-impl<const A: usize, B: Copy> Default for Array<A, B> {
+impl<const A: usize, B> Default for Array<A, B> 
+where 
+    B: Copy {
     fn default() -> Self {
         Self {
             buf: unsafe {
@@ -36,7 +43,9 @@ impl<const A: usize, B: Copy> Default for Array<A, B> {
     }
 }
 
-impl<const A: usize, B: Copy> Array<A, B> {
+impl<const A: usize, B> Array<A, B> 
+where
+    B: Copy {
     #[inline]
     pub fn new(data: [B; A]) -> Self {
         let mut buf: [core::mem::MaybeUninit<B>; A] = unsafe {
@@ -51,19 +60,15 @@ impl<const A: usize, B: Copy> Array<A, B> {
         }
     }
 
-    pub const fn get(&self, k: usize) -> Option<&B> {
-        if k >= self.len {
-            return None
-        }
+    pub const fn get(&self, key: usize) -> Option<&B> {
+        require!(key < self.len => None);
         Some(unsafe {
-            &*self.buf[k].as_ptr()
+            &*self.buf[key].as_ptr()
         })
     }
 
     pub const fn get_mut(&mut self, k: usize) -> Option<&mut B> {
-        if k >= self.len {
-            return None
-        }
+        require!(k < self.len => None);
         Some(unsafe {
             &mut *self.buf[k].as_mut_ptr()
         })
@@ -82,34 +87,29 @@ impl<const A: usize, B: Copy> Array<A, B> {
     }
 
     pub const fn push(&mut self, data: B) -> Result<(), B> {
-        if self.len >= A {
-            return Err(data)
-        }
+        require!(self.len < A => Err(data));
         self.buf[self.len].write(data);
         self.len += 1;
         Ok(())
     }
 
     pub const fn pop(&mut self) -> Option<B> {
-        if self.is_empty() {
-            return None
-        }
+        require!(!self.is_empty() => None);
         self.len -= 1;
         Some(unsafe {
             self.buf[self.len].assume_init_read()
         })
     }
 
-    pub const fn swap_insert(&mut self, k: usize, data: B) -> Option<()> {
-        if self.len >= A || k > self.len {
-            return None
-        }
+    pub const fn swap_insert(&mut self, key: usize, data: B) -> Option<()> {
+        require!(self.len < A => None);
+        require!(key <= self.len => None);
         self.buf[self.len].write(data);
         self.len += 1;
-        if k != self.len - 1 {
+        if key != self.len - 1 {
             unsafe {
-                let tmp = self.buf[k].assume_init_read();
-                self.buf[k] = self.buf[self.len - 1];
+                let tmp = self.buf[key].assume_init_read();
+                self.buf[key] = self.buf[self.len - 1];
                 self.buf[self.len - 1].write(tmp);
             }
         }
@@ -117,9 +117,7 @@ impl<const A: usize, B: Copy> Array<A, B> {
     }
 
     pub const fn swap_remove(&mut self, k: usize) -> Option<B> {
-        if k >= self.len {
-            return None
-        }
+        require!(k < self.len => None);
         let ret = unsafe {
             self.buf[k].assume_init_read()
         };
@@ -131,27 +129,24 @@ impl<const A: usize, B: Copy> Array<A, B> {
     }
 
     #[inline]
-    pub fn insert(&mut self, k: usize, data: B) -> Option<()> {
-        if self.len >= A || k > self.len {
-            return None
-        }
-        for o in (k..self.len).rev() {
+    pub fn insert(&mut self, key: usize, data: B) -> Option<()> {
+        require!(self.len < A => None);
+        require!(key <= self.len => None);
+        for o in (key..self.len).rev() {
             self.buf[o + 1] = self.buf[o];
         }
-        self.buf[k].write(data);
+        self.buf[key].write(data);
         self.len += 1;
         Some(())
     }
 
     #[inline]
-    pub fn remove(&mut self, k: usize) -> Option<B> {
-        if k >= self.len {
-            return None
-        }
+    pub fn remove(&mut self, key: usize) -> Option<B> {
+        require!(key < self.len => None);
         let data = unsafe {
-            self.buf[k].assume_init_read()
+            self.buf[key].assume_init_read()
         };
-        for o in k..self.len - 1 {
+        for o in key..self.len - 1 {
             self.buf[o] = self.buf[o + 1];
         }
         self.len -= 1;
@@ -233,9 +228,7 @@ where
     type Item = B;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.k >= self.len {
-            return None
-        }
+        require!(self.k >= self.len => None);
         let data = unsafe {
             self.buf[self.k].assume_init_read()
         };

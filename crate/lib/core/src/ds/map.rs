@@ -13,6 +13,8 @@ macro_rules! map {
     }};
 }
 
+
+
 pub trait Key 
 where
     Self: core::fmt::Debug,
@@ -20,6 +22,7 @@ where
     Self: Copy,
     Self: Eq,
     Self: core::hash::Hash {}
+
 impl<T> Key for T
 where
     T: core::fmt::Debug,
@@ -28,16 +31,21 @@ where
     T: Eq,
     T: core::hash::Hash {}
 
+
+
 pub trait Val
 where
     Self: core::fmt::Debug,
     Self: Default,
     Self: Copy {}
+
 impl<T> Val for T
 where
     T: core::fmt::Debug,
     T: Default,
     T: Copy {}
+
+
 
 pub trait Hasher
 where
@@ -49,40 +57,50 @@ where
     T: Default,
     T: core::hash::Hasher {}
 
+
+
+
+
 pub struct Map<
     const A: usize, 
-          B: Key, 
-          C: Val, 
-          D: Hasher = core::hash::SipHasher> {
+          B, 
+          C, 
+          D = core::hash::SipHasher> 
+where
+    B: Key,
+    C: Val,
+    D: Hasher {
     keys: [Option<B>; A],
     vals: [Option<C>; A],
     len: usize,
     hasher: core::marker::PhantomData<D>
 }
 
+
+
+
+
+
+
 impl<
     const A: usize, 
-          B: Key, 
-          C: Val, 
-          D: Hasher> Default for Map<A, B, C, D> {
+          B, 
+          C, 
+          D> Default for Map<A, B, C, D> 
+where
+    B: Key,
+    C: Val,
+    D: Hasher {
     fn default() -> Self {
         Self::new()
     }
 }
 
-
-impl<const A: usize, B, C, D> Map<A, B, C, D>
-where
-    B: Default,
-    B: Copy,
-    B: Eq,
-    B: core::hash::Hash,
-    B: core::fmt::Debug,
-    C: Default,
-    C: Copy,
-    C: core::fmt::Debug,
-    D: Hasher,
-    D: Default {
+impl<
+    const A: usize, 
+          B: Key, 
+          C: Val, 
+          D: Hasher> Map<A, B, C, D> {
     pub const fn new() -> Self {
         Self {
             keys: [None; A],

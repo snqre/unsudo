@@ -22,13 +22,28 @@ macro_rules! ops_with_no_args {
     };
 }
 
+
+pub trait TrigOps {
+    type Output;
+    fn tan(self) -> Self::Output;
+    fn sin(self) -> Self::Output;
+    fn cos(self) -> Self::Output;
+    fn arc_tan(self) -> Self::Output;
+    fn arc_sin(self) -> Self::Output;
+    fn arc_cos(self) -> Self::Output;
+    fn tanh(self) -> Self::Output;
+    fn sinh(self) -> Self::Output;
+    fn cosh(self) -> Self::Output;
+}
+
+
+
 ops_with_no_args!(
     WrappingNeg wrapping_neg => Self
     OverflowingNeg overflowing_neg => (Self, bool)
     Abs abs => Self
-    Tan tan => Self
-    Sin sin => Self
-    Cos cos => Self
+
+  
     Tanh tanh => Self
     Sinh sinh => Self
     Cosh cosh => Self
@@ -41,89 +56,6 @@ ops_with_no_args!(
     ToDegree to_degree => Self
     ToRadian to_radian => Self
 );
-
-
-
-
-
-
-pub trait ArithmeticOps where Self: Sized {
-    fn add(self, rhs: Self) -> Self;
-    fn sub(self, rhs: Self) -> Self;
-    fn mul(self, rhs: Self) -> Self;
-    fn div(self, rhs: Self) -> Self;
-    fn shl(self, rhs: Self) -> Self;
-    fn shr(self, rhs: Self) -> Self;
-    fn rem(self, rhs: Self) -> Self;
-}
-
-pub trait CheckedOps where Self: Sized {
-    fn checked_add(self, rhs: Self) -> Option<Self>;
-    fn checked_sub(self, rhs: Self) -> Option<Self>;
-    fn checked_mul(self, rhs: Self) -> Option<Self>;
-    fn checked_div(self, rhs: Self) -> Option<Self>;
-}
-
-pub trait WrappingOps where Self: Sized {
-    fn wrapping_add(self, rhs: Self) -> Self;
-    fn wrapping_sub(self, rhs: Self) -> Self;
-    fn wrapping_mul(self, rhs: Self) -> Self;
-    fn wrapping_div(self, rhs: Self) -> Self;
-    fn wrapping_neg(self) -> Self;
-}
-
-pub trait OverflowingOps where Self: Sized {
-    fn overflowing_add(self, rhs: Self) -> (Self, bool);
-    fn overflowing_sub(self, rhs: Self) -> (Self, bool);
-    fn overflowing_mul(self, rhs: Self) -> (Self, bool);
-    fn overflowing_div(self, rhs: Self) -> (Self, bool);
-    fn overflowing_rem(self, rhs: Self) -> (Self, bool);
-    fn overflowing_neg(self) -> (Self, bool);
-}
-
-pub trait TrigOps where Self: Sized {
-    fn tan(self) -> Self;
-    fn sin(self) -> Self;
-    fn cos(self) -> Self;
-}
-
-pub trait ArcTrigOps where Self: Sized {
-    fn arc_tan(self) -> Self;
-    fn arc_sin(self) -> Self;
-    fn arc_cos(self) -> Self;
-}
-
-pub trait UnboundOps where Self: Sized {
-    fn unbound_shl(self, rhs: u32) -> Self;
-    fn unbound_shr(self, rhs: u32) -> Self;
-}
-
-impl<T> ArithmeticOps for T
-where
-    T: core::ops::Add<Output = Self>,
-    T: core::ops::Sub<Output = Self>,
-    T: core::ops::Mul<Output = Self>,
-    T: core::ops::Div<Output = Self> {
-    fn add(self, rhs: Self) -> Self {
-        self + rhs
-    }
-
-    fn sub(self, rhs: Self) -> Self {
-        self - rhs
-    }
-
-    fn mul(self, rhs: Self) -> Self {
-        self * rhs
-    }
-
-    fn div(self, rhs: Self) -> Self {
-        self / rhs
-    }
-}
-
-
-
-
 
 ops!(
     Add add rhs Self => Self

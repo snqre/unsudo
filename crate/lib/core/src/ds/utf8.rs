@@ -1,4 +1,4 @@
-use crate::ds::array;
+use crate::{ds::array, require};
 
 #[derive(Debug)]
 #[derive(Clone)]
@@ -73,9 +73,7 @@ impl<const T: usize> Utf8<T> {
         } else {
             4
         };
-        if arr.len() + req > T {
-            return None
-        }
+        require!(arr.len() + req <= T => None);
         match req {
             1 => {
                 let _ = arr.push(code as u8);
@@ -103,16 +101,12 @@ impl<const T: usize> Utf8<T> {
 
     pub const fn pop(&mut self) -> Option<()> {
         let buf: &[u8] = self.buf.as_slice();
-        let k: usize = self.buf.len();
-        if k == 0 {
-            return None
-        }
+        let key: usize = self.buf.len();
+        require!(key != 0 => None);
         let mut back: usize = 1;
         while back <= 4 {
-            if k < back {
-                return None
-            }
-            let b: u8 = buf[k - back];
+            require!(key >= back => None);
+            let b: u8 = buf[key - back];
             if back == 1 && b & 0b1000_0000 == 0 {
                 self.buf.len -= 1;
                 self.len -= 1;
@@ -137,16 +131,14 @@ impl<const T: usize> Utf8<T> {
 
     pub const fn peek_last_char_len(&self) -> Option<usize> {
         let buf = self.buf.as_slice();
-        let k = self.buf.len();
-        if k == 0 {
-            return None;
-        }
+        let key = self.buf.len();
+        require!(key != 0 => None);
         let mut back = 1;
         while back <= 4 {
-            if k < back {
+            if key < back {
                 return None;
             }
-            let b = buf[k - back];
+            let b = buf[key - back];
             if back == 1 && b & 0b1000_0000 == 0 {
                 return Some(1);
             } else if back == 2 && b & 0b1110_0000 == 0b1100_0000 {
@@ -163,14 +155,10 @@ impl<const T: usize> Utf8<T> {
 
     pub const fn starts_with(&self, prefix: &[u8]) -> bool {
         let slice = self.buf.as_slice();
-        if slice.len() < prefix.len() {
-            return false;
-        }
-        let mut i = 0;
+        require!(slice.len() >= prefix.len() => false);
+        let mut i: usize = 0;
         while i < prefix.len() {
-            if slice[i] != prefix[i] {
-                return false;
-            }
+            require!(slice[i] != prefix[i] => false);
             i += 1;
         }
         true
@@ -216,6 +204,8 @@ impl<const T: usize> Utf8<T> {
 
 impl<const T: usize> core::hash::Hash for Utf8<T> {
     fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
-        
+        state.write(
+            self.buf.as_slice()
+        );
     }
 }
