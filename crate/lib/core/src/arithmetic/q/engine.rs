@@ -22,6 +22,11 @@ pub type Q19<T> = Q<19, T>;
 pub type Q20<T> = Q<20, T>;
 pub type Q21<T> = Q<21, T>;
 pub type Q22<T> = Q<22, T>;
+pub type Q23<T> = Q<23, T>;
+pub type Q24<T> = Q<24, T>;
+pub type Q25<T> = Q<25, T>;
+pub type Q26<T> = Q<26, T>;
+pub type Q27<T> = Q<27, T>;
 
 
 type Fixed<T> = T;
@@ -41,13 +46,19 @@ pub enum Error {
     InvalidShift
 }
 
-pub struct Q<const A: u8, B, C = DefaultEngine>
+pub struct Q<const A: u8, B, C = DefaultMode, D = DefaultEngine>
 where
     B: num::Int,
-    C: Engine {
+    C: Mode,
+    D: Engine {
     v: B,
-    engine: ::core::marker::PhantomData<C>
+    m_0: ::core::marker::PhantomData<C>,
+    m_1: ::core::marker::PhantomData<D>
 }
+
+pub struct DefaultMode;
+pub struct RadianMode;
+pub struct DegreeMode;
 
 
 pub struct DefaultEngine;
@@ -679,52 +690,128 @@ where
     }
 }
 
+pub trait Mode {}
+
+
 impl Engine for DefaultEngine {}
 
+impl Mode for DefaultMode {}
+impl Mode for RadianMode {}
+impl Mode for DegreeMode {}
 
-impl<const A: u8, B, C> Default for Q<A, B, C>
+
+// # global
+
+impl<const A: u8, B, C, D> Default for Q<A, B, C, D>
 where
     B: num::Int,
-    C: Engine {
+    C: Mode,
+    D: Engine {
     fn default() -> Self {
         Self::new(B::AS_0)
     }
 }
 
-impl<const A: u8, B, C> Q<A, B, C>
+impl<const A: u8, B, C, D> Q<A, B, C, D>
 where
     B: num::Int,
-    C: Engine {
+    C: Mode,
+    D: Engine {
     pub const fn new(v: B) -> Self {
         Self {
             v,
-            engine: core::marker::PhantomData
+            m_0: ::core::marker::PhantomData,
+            m_1: ::core::marker::PhantomData
         }
     }
 }
 
-impl<const A: u8, B, C> ::core::ops::Add for Q<A, B, C>
+
+impl<const A: u8, B, C, D> Eq for Q<A, B, C, D> {}
+impl<const A: u8, B, C, D> PartialEq for Q<A, B, C, D>
 where
     B: num::Int,
-    C: Engine {
+    C: Mode,
+    D: Engine {
+    fn eq(&self, other: &Self) -> bool {
+        self.v == other.v
+    }
+}
+
+
+impl<const A: u8, B, C, D> ::core::ops::Add for Q<A, B, C, D>
+where
+    B: num::Int,
+    C: Mode,
+    D: Engine {
     type Output = Result<Self>;
 
     fn add(self, rhs: Self) -> Self::Output {
         let x: B = self.v;
         let y: B = rhs.v;
-        Ok(Self::new(C::add(x, y)?))
+        Ok(Self::new(D::add(x, y)?))
     }
 }
 
-impl<const A: u8, B, C> ::core::ops::Sub for Q<A, B, C>
+impl<const A: u8, B, C, D> ::core::ops::Sub for Q<A, B, C, D>
 where
     B: num::Int,
-    C: Engine {
+    C: Mode,
+    D: Engine {
     type Output = Result<Self>;
 
     fn sub(self, rhs: Self) -> Self::Output {
         let x: B = self.v;
         let y: B = rhs.v;
-        Ok(Self::new(C::sub(x, y)?))   
+        Ok(Self::new(D::sub(x, y)?))   
+    }
+}
+
+impl<const A: u8, B, C, D> ::core::ops::Mul for Q<A, B, C, D>
+where
+    B: num::Int,
+    C: Mode,
+    D: Engine {
+    type Output = Result<Self>;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        let x: B = self.v;
+        let y: B = rhs.v;
+        Ok(Self::new(D::mul(x, y)?))
+    }
+}
+
+impl<const A: u8, B, C, D> ::core::ops::Div for Q<A, B, C, D>
+where
+    B: num::Int,
+    C: Mode,
+    D: Engine {
+    type Output = Result<Self>;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        let x: B = self.v;
+        let y: B = rhs.v;
+        Ok(Self::new(D::div(x, y)?))
+    }
+}
+
+
+// # default-mode
+
+impl<const A: u8, B, C> From<Q<A, B, RadianMode, C>> for Q<A, B, DefaultMode, C>
+where
+    B: num::Int,
+    C: Engine {
+    fn from(value: Q<A, B, RadianMode, C>) -> Self {
+        Self::new(value.v)
+    }
+}
+
+impl<const A: u8, B, C> From<Q<A, B, DegreeMode, C>> for Q<A, B, DefaultMode, C>
+where
+    B: num::Int,
+    C: Engine {
+    fn from(value: Q<A, B, DegreeMode, C>) -> Self {
+        Self::new(value.v)
     }
 }
