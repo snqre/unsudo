@@ -8,7 +8,7 @@ where
     #[inline]
     fn atan<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>>
     where
-        B: num::Int {
+        B: int::Int {
         let mut pow: B = ratio;
         let mut sum: B = ratio;
         let mut sign: bool = false;
@@ -30,7 +30,7 @@ where
     #[inline]
     fn asin<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>>
     where
-        B: num::Int {
+        B: int::Int {
         if ratio == B::AS_0 {
             return Ok(B::AS_0)
         }
@@ -67,7 +67,7 @@ where
     #[inline]
     fn acos<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>> 
     where
-        B: num::Int {
+        B: int::Int {
         let scale: B = scale::<A, _>();
         let pi: B = pi::<A, _>();
         let pi_2: B = pi / B::AS_2;

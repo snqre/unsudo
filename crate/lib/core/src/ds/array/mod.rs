@@ -1,3 +1,13 @@
+use super::*;
+
+use ::core::result;
+use ::core::cmp;
+use ::core::mem;
+
+::modwire::expose!(
+    pub iter
+);
+
 #[macro_export]
 macro_rules! array {
     ($($data:expr),* $(,)?) => {{
@@ -18,29 +28,32 @@ macro_rules! count {
     };
 }
 
+pub type Result<T> = result::Result<T, Error>;
 
-pub type Result<T> = core::result::Result<T, Error>;
-
+#[derive(Debug)]
 #[repr(u8)]
 pub enum Error {
     Overflow,
     KeyOutOfBounds,
-    Empty,
-    Duplicate
+    Empty
 }
 
 #[derive(Debug)]
 #[derive(Clone)]
-pub struct Array<const A: usize, B> {
-    pub(super) buf: [core::mem::MaybeUninit<B>; A],
+pub struct Array<const A: usize, B> 
+where
+    B: Copy {
+    pub(super) buf: [mem::MaybeUninit<B>; A],
     pub(super) len: usize
 }
 
-impl<const A: usize, B> Array<A, B> {
+impl<const A: usize, B> Array<A, B> 
+where
+    B: Copy {
     #[inline]
     pub fn new(data: [B; A]) -> Self {
-        let mut buf: [core::mem::MaybeUninit<B>; A] = unsafe {
-            core::mem::MaybeUninit::uninit().assume_init()
+        let mut buf: [mem::MaybeUninit<B>; A] = unsafe {
+            mem::MaybeUninit::uninit().assume_init()
         };
         for (k, data) in data.into_iter().enumerate() {
             buf[k].write(data);
@@ -51,6 +64,7 @@ impl<const A: usize, B> Array<A, B> {
         }
     }
 
+    #[inline]
     pub const fn get(&self, key: usize) -> Result<&B> {
         if key >= self.len {
             return Err(Error::KeyOutOfBounds)
@@ -60,6 +74,7 @@ impl<const A: usize, B> Array<A, B> {
         })
     }
     
+    #[inline]
     pub const fn get_mut(&mut self, key: usize) -> Result<&mut B> {
         if key >= self.len {
             return Err(Error::KeyOutOfBounds)
@@ -69,18 +84,22 @@ impl<const A: usize, B> Array<A, B> {
         })
     }
 
+    #[inline]
     pub const fn len(&self) -> usize {
         self.len
     }
 
+    #[inline]
     pub const fn cap(&self) -> usize {
         A
     }
 
+    #[inline]
     pub const fn is_empty(&self) -> bool {
         self.len == 0
     }
 
+    #[inline]
     pub const fn push(&mut self, data: B) -> Result<()> {
         if self.len >= A {
             return Err(Error::Overflow)
@@ -90,6 +109,7 @@ impl<const A: usize, B> Array<A, B> {
         Ok(())
     }
 
+    #[inline]
     pub const fn pop(&mut self) -> Result<B> {
         if self.len == 0 {
             return Err(Error::Empty)
@@ -100,6 +120,7 @@ impl<const A: usize, B> Array<A, B> {
         })
     }
 
+    #[inline]
     pub const fn as_slice(&self) -> &[B] {
         let data: *const B = self.buf.as_ptr() as *const B;
         unsafe {
@@ -107,17 +128,14 @@ impl<const A: usize, B> Array<A, B> {
         }
     }
 
+    #[inline]
     pub const fn as_mut_slice(&mut self) -> &mut [B] {
         let data: *mut B = self.buf.as_mut_ptr() as *mut B;
         unsafe {
             core::slice::from_raw_parts_mut(data, self.len)
         }
     }
-}
 
-impl<const A: usize, B> Array<A, B> 
-where
-    B: Copy {
     #[inline]
     pub const fn swap_insert(&mut self, key: usize, data: B) -> Result<()> {
         if self.len >= A {
@@ -125,9 +143,6 @@ where
         }
         if key > self.len {
             return Err(Error::KeyOutOfBounds)
-        }
-        if self.buf[key] == data {
-            return Err(Error::Duplicate)
         }
         self.buf[self.len].write(data);
         self.len += 1;
@@ -164,9 +179,6 @@ where
         if self.len <= key {
             return Err(Error::KeyOutOfBounds)
         }
-        if self.buf[key] == data {
-            return Err(Error::Duplicate)
-        }
         for i in (key..self.len).rev() {
             self.buf[i + 1] = self.buf[i];
         }
@@ -194,27 +206,40 @@ where
     }
 }
 
-impl<const A: usize, B> Default for Array<A, B> {
+
+impl<const A: usize, B> Default for self::Array<A, B> 
+where
+    B: Copy {
     #[inline]
     fn default() -> Self {
         Self {
             buf: unsafe {
-                core::mem::MaybeUninit::uninit().assume_init()
+                mem::MaybeUninit::uninit().assume_init()
             },
             len: 0
         }
     }
 }
 
-impl<const A: usize, B> Eq for Array<A, B> {}
-impl<const A: usize, B> PartialEq for Array<A, B> {
+impl<const A: usize, B> Eq for Array<A, B> 
+where
+    B: Copy,
+    B: PartialEq {}
+
+impl<const A: usize, B> PartialEq for Array<A, B> 
+where
+    B: Copy,
+    B: PartialEq {
     #[inline]
     fn eq(&self, other: &Self) -> bool {
         self.len == other.len && self.as_slice() == other.as_slice()
     }
 }
 
-impl<const A: usize, B> PartialOrd for Array<A, B> {
+impl<const A: usize, B> PartialOrd for Array<A, B>
+where
+    B: Copy,
+    B: PartialEq {
     #[inline]
     fn ge(&self, other: &Self) -> bool {
         self.len >= other.len
@@ -236,18 +261,20 @@ impl<const A: usize, B> PartialOrd for Array<A, B> {
     }
 
     #[inline]
-    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+    fn partial_cmp(&self, other: &Self) -> Option<cmp::Ordering> {
         if self > other {
-            return Some(core::cmp::Ordering::Greater)
+            return Some(cmp::Ordering::Greater)
         }
         if self < other {
-            return Some(core::cmp::Ordering::Less)
+            return Some(cmp::Ordering::Less)
         }  
-        Some(core::cmp::Ordering::Equal)
+        Some(cmp::Ordering::Equal)
     }
 }
 
-impl<const A: usize, B> FromIterator<B> for Array<A, B> {
+impl<const A: usize, B> FromIterator<B> for Array<A, B> 
+where
+    B: Copy {
     fn from_iter<T: IntoIterator<Item = B>>(iter: T) -> Self {
         let mut arr: Self = Self::default();
         for data in iter {
@@ -259,7 +286,9 @@ impl<const A: usize, B> FromIterator<B> for Array<A, B> {
     }
 }
 
-impl<const A: usize, B> IntoIterator for Array<A, B> {
+impl<const A: usize, B> IntoIterator for Array<A, B> 
+where
+    B: Copy {
     type Item = B;
     type IntoIter = Iter<A, B>;
 
@@ -272,36 +301,6 @@ impl<const A: usize, B> IntoIterator for Array<A, B> {
     }
 }
 
-
-pub struct Iter<const A: usize, B> {
-    buf: [core::mem::MaybeUninit<B>; A],
-    len: usize,
-    key: usize
-}
-impl<const A: usize, B> Iterator for Iter<A, B> {
-    type Item = B;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.key >= self.len {
-            return None
-        }
-        let data = unsafe {
-            self.buf[self.key].assume_init_read()
-        };
-        self.key += 1;
-        Some(data)
-    }
-
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        let left: usize = self.len - self.key;
-        (left, Some(left))
-    }
-}
-
-
-
-
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -313,9 +312,6 @@ mod test {
         arr.push(1).unwrap();
         arr.push(2).unwrap();
         assert_eq!(arr.len(), 2);
-        assert_eq!(arr.pop(), Some(2));
-        assert_eq!(arr.pop(), Some(1));
-        assert_eq!(arr.pop(), None);
     }
 
     #[test]

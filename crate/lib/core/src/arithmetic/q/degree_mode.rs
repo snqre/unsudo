@@ -7,7 +7,7 @@ impl Mode for DegreeMode {}
 
 impl<const A: u8, B, C> TryFrom<Q<A, B, RadianMode, C>> for Q<A, B, DegreeMode, C>
 where
-    B: num::Int,
+    B: int::Int,
     C: Engine {
     type Error = Error;
 

@@ -1,5 +1,3 @@
-::modwire::expose!(
-    pub any
-    pub float
-    pub int
-);
+pub mod any;
+pub mod float;
+pub mod int;

@@ -7,21 +7,21 @@ where
     #[inline]
     fn tan<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::div::<A, _>(Self::sin::<A, _>(angle)?, Self::cos::<A, _>(angle)?)
     }
 
     #[inline]
     fn sin<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::cos::<A, _>(Self::sub(Self::to_radian::<A, _>(deg90::<A, _>()?)?, angle)?)
     }
 
     #[inline]
     fn cos<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         let scale: B = scale::<A, _>();
         let pi: B = pi::<A, _>();
         let pi_2: B = pi.checked_mul(B::AS_2).ok_or(Error::Overflow)?;

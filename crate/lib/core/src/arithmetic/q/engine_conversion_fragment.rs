@@ -3,7 +3,7 @@ use super::*;
 pub trait EngineConversionFragment {
     fn cast<const A: u8, const B: u8, C>(n: C) -> Result<C>
     where
-        C: num::Int {
+        C: int::Int {
         if B > A {
             
         } else if B < A {

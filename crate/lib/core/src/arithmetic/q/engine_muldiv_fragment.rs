@@ -4,7 +4,7 @@ pub trait EngineMuldivFragment {
     #[inline]
     fn muldiv<T>(x: T, y: T, z: T) -> Result<T> 
     where
-        T: num::Int {
+        T: int::Int {
         if z == T::AS_0 {
             return Err(Error::DivByZero)
         }
@@ -39,7 +39,7 @@ pub trait EngineMuldivFragment {
 #[inline]
 fn fold<T>(x: T, y: T, z: T) -> Result<T> 
 where 
-    T: num::Int {
+    T: int::Int {
     if T::IS_SIGNED {
         fold_signed(x, y, z)
     } else {
@@ -50,7 +50,7 @@ where
 #[inline]
 fn fold_signed<T>(x: T, y: T, z: T) -> Result<T> 
 where
-    T: num::Int {
+    T: int::Int {
     let (x, y, z) = unsafe {
         let x: i128 = x.try_into().unwrap_unchecked();
         let y: i128 = y.try_into().unwrap_unchecked();
@@ -73,7 +73,7 @@ where
 #[inline]
 fn fold_unsigned<T>(x: T, y: T, z: T) -> Result<T> 
 where
-    T: num::Int {
+    T: int::Int {
     let (x, y, z) = unsafe {
         let x: u128 = x.try_into().unwrap_unchecked();
         let y: u128 = y.try_into().unwrap_unchecked();
@@ -96,7 +96,7 @@ where
 #[inline]
 fn wide_mul<T>(x: T, y: T) -> Result<(T, T)> 
 where
-    T: num::Int {
+    T: int::Int {
     if T::IS_SIGNED {
         wide_mul_signed(x, y)
     } else {
@@ -107,7 +107,7 @@ where
 #[inline]
 fn wide_mul_signed<T>(x: T, y: T) -> Result<(T, T)> 
 where
-    T: num::Int {
+    T: int::Int {
     if !T::IS_SIGNED || T::BITS_U128 > 64 {
         panic!()
     }
@@ -143,7 +143,7 @@ where
 #[inline]
 fn wide_mul_unsigned<T>(x: T, y: T) -> Result<(T, T)> 
 where
-    T: num::Int {
+    T: int::Int {
     if T::IS_SIGNED || T::BITS_U128 > 64 {
         panic!()
     }

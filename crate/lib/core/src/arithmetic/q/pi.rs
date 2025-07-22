@@ -3,7 +3,7 @@ use super::*;
 #[inline]
 pub fn pi<const A: u8, B>() -> B 
 where 
-    B: num::Int {
+    B: int::Int {
     if B::IS_SIGNED {
         let pi: i128 = signed_pi::<A>();
         let pi: B = unsafe {

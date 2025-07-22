@@ -1,4 +1,5 @@
 use super::*;
+use num::int;
 
 ::modwire::expose!(
     pub default_engine
@@ -32,18 +33,18 @@ use super::*;
 #[repr(transparent)]
 pub struct Q<const A: u8, B=u32, C=DefaultMode, D=DefaultEngine> 
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     n: B,
-    ph_0: core::marker::PhantomData<C>,
-    ph_1: core::marker::PhantomData<D>
+    ph_0: ::core::marker::PhantomData<C>,
+    ph_1: ::core::marker::PhantomData<D>
 }
 
 #[inline]
 pub const fn new<const A: u8, B, C, D>(n: B) -> Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     Q::new(n)
@@ -51,7 +52,7 @@ where
 
 impl<const A: u8, B, C, D> Q<A, B, C, D> 
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     #[inline]
@@ -76,7 +77,7 @@ where
 
 impl<const A: u8, B, C, D> From<B> for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     #[inline]
@@ -87,7 +88,7 @@ where
 
 impl<const A: u8, B, C, D> Default for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     #[inline]
@@ -102,7 +103,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Add for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -117,7 +118,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Sub for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -132,7 +133,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Mul for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -147,7 +148,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Div for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -162,7 +163,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Rem for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -177,7 +178,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Shl for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -192,7 +193,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::Shr for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Result<Self>;
@@ -207,7 +208,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::BitAnd for Q<A, B, C, D> 
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Self;
@@ -222,7 +223,7 @@ where
 
 impl<const A: u8, B, C, D> core::ops::BitOr for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     type Output = Self;
@@ -237,7 +238,7 @@ where
 
 impl<const A: u8, B, C, D> PartialEq for Q<A, B, C, D>
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
     fn eq(&self, other: &Self) -> bool {
@@ -295,8 +296,12 @@ mod test {
     }
 
     #[rstest::rstest]
+    #[case(7_50.into(), 2_00.into(), 1_00.into())]
     fn rad_cos(
         #[case] x: Rad2<u128>,
         #[case] y: Rad2<u128>,
-        #[case] cor: Rad2<u)    
+        #[case] cor: Rad2<u128>
+    ) {
+        
+    }   
 }

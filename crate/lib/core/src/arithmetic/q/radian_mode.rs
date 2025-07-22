@@ -7,7 +7,7 @@ impl Mode for RadianMode {}
 
 impl<const A: u8, B, C> TryFrom<Q<A, B, DegreeMode, C>> for Q<A, B, RadianMode, C>
 where
-    B: num::Int,
+    B: int::Int,
     C: Engine {
     type Error = Error;
 
@@ -19,7 +19,7 @@ where
 
 impl<const A: u8, B, C> Q<A, B, RadianMode, C> 
 where
-    B: num::Int,
+    B: int::Int,
     C: Engine {
     #[inline]
     pub fn sec(self) -> Result<Self> {
