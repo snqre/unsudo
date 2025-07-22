@@ -15,9 +15,9 @@
 /// ```
 #[macro_export]
 macro_rules! expose {
-    ($($module:ident)*) => {
+    ($($vis:vis $module:ident)*) => {
         $(
-            mod $module; pub use $module::*;
+            mod $module; $vis use $module::*;
         )*
     };
 }
