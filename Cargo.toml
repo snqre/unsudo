@@ -1,14 +1,14 @@
 workspace.resolver = "3"
 workspace.members = [
     "crate/app/summit",
-    "crate/lib/dx-ctrl",
-    "crate/lib/dx-expose",
-    "crate/lib/dx-flag",
-    "crate/lib/dx-layout",
-    "crate/lib/dx-support",
-    "crate/lib/dx-window",
-    "crate/lib/modwire",
-    "crate/lib/core"
+    "crate/lib/core",
+    "crate/lib/dioxus-controller",
+    "crate/lib/dioxus-layout",
+    "crate/lib/dioxus-low-level-props",
+    "crate/lib/dioxus-modifier",
+    "crate/lib/dioxus-url",
+    "crate/lib/dioxus-window",
+    "crate/lib/modwire"
 ]
 workspace.exclude = [
     "crate/archive"

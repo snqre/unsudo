@@ -4,7 +4,6 @@ package.edition = "2024"
 dependencies.paste.version = "*"
 dependencies.modwire.version = "*"
 dependencies.modwire.path = "../modwire"
-dependencies.toga.version = ">=1.0.0,<2.0.0"
-dependencies.rstest.version = "*"
+dependencies.rstest.version = ">=0.25.0,<1.0.0"
 features.default = []
 features.panic = []

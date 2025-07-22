@@ -4,7 +4,7 @@ use super::*;
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct IconProps {
-    pub url: web::Url,
+    pub url: dioxus_url::Url,
     pub w: String,
     pub class: Option<String>,
     pub style: Option<String>

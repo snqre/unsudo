@@ -2,12 +2,17 @@ package.name = "summit"
 package.version = "0.1.0"
 package.edition = "2021"
 package.publish = false
-dependencies.dioxus-ctrl.workspace = true
-dependencies.dioxus-extendable.workspace = true
-dependencies.dioxus-layout.workspace = true
-dependencies.dioxus-window.workspace = true
-
-dependencies.modwire.version = ">=1.0.0,<1.0.0"
+dependencies.dioxus-controller.version = ">=0.0.0,<1.0.0"
+dependencies.dioxus-controller.path = "../../lib/dioxus-controller"
+dependencies.dioxus-layout.version = ">=0.0.0,<1.0.0"
+dependencies.dioxus-layout.path = "../../lib/dioxus-layout"
+dependencies.dioxus-modifier.version = ">=0.0.0,<1.0.0"
+dependencies.dioxus-modifier.path = "../../lib/dioxus-modifier"
+dependencies.dioxus-url.version = ">=0.0.0,<1.0.0"
+dependencies.dioxus-url.path = "../../lib/dioxus-url"
+dependencies.dioxus-window.version = ">=0.0.0,<1.0.0"
+dependencies.dioxus-window.path = "../../lib/dioxus-window"
+dependencies.modwire.version = ">=0.0.0,<1.0.0"
 dependencies.modwire.path = "../../lib/modwire"
 dependencies.gloo-timers.version = "*"
 dependencies.web-sys.version = "0.3.77"

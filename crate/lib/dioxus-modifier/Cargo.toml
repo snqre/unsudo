@@ -1,0 +1,6 @@
+package.name = "dioxus-modifier"
+package.version = "0.1.0"
+package.edition = "2021"
+dependencies.modwire.version = ">=0.0.0,<1.0.0"
+dependencies.modwire.path = "../modwire"
+dependencies.dioxus.version = ">=0.6.3,<1.0.0"
