@@ -2,7 +2,6 @@ use crate::{ds::array, require};
 
 #[derive(Debug)]
 #[derive(Clone)]
-#[derive(Copy)]
 #[derive(Eq)]
 #[derive(PartialEq)]
 pub struct Utf8<const T: usize> {

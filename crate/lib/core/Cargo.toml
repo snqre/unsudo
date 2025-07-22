@@ -5,5 +5,6 @@ dependencies.paste.version = "*"
 dependencies.modwire.version = "*"
 dependencies.modwire.path = "../modwire"
 dependencies.toga.version = ">=1.0.0,<2.0.0"
+dependencies.rstest.version = "*"
 features.default = []
 features.panic = []

@@ -1,40 +1,79 @@
 use super::*;
 
-pub type Q1<T> = Q<1, T>;
-pub type Q2<T> = Q<2, T>;
-pub type Q3<T> = Q<3, T>;
-pub type Q4<T> = Q<4, T>;
-pub type Q5<T> = Q<5, T>;
-pub type Q6<T> = Q<6, T>;
-pub type Q7<T> = Q<7, T>;
-pub type Q8<T> = Q<8, T>;
-pub type Q9<T> = Q<9, T>;
-pub type Q10<T> = Q<10, T>;
-pub type Q11<T> = Q<11, T>;
-pub type Q12<T> = Q<12, T>;
-pub type Q13<T> = Q<13, T>;
-pub type Q14<T> = Q<14, T>;
-pub type Q15<T> = Q<15, T>;
-pub type Q16<T> = Q<16, T>;
-pub type Q17<T> = Q<17, T>;
-pub type Q18<T> = Q<18, T>;
-pub type Q19<T> = Q<19, T>;
-pub type Q20<T> = Q<20, T>;
-pub type Q21<T> = Q<21, T>;
-pub type Q22<T> = Q<22, T>;
-pub type Q23<T> = Q<23, T>;
-pub type Q24<T> = Q<24, T>;
-pub type Q25<T> = Q<25, T>;
-pub type Q26<T> = Q<26, T>;
-pub type Q27<T> = Q<27, T>;
+pub type Q0U8 = Q0<u8>;
+pub type Q1U8 = Q1<u8>;
+pub type Q2U8 = Q2<u8>;
 
+pub type Q0U16 = Q0<u16>;
+pub type Q1U16 = Q1<u16>;
+pub type Q2U16 = Q2<u16>;
+pub type Q3U16 = Q3<u16>;
+pub type Q4U16 = Q4<u16>;
 
-type Fixed<T> = T;
-type Ratio<T> = T;
+pub type Q0<T> = Q<0, T, DefaultMode>;
+pub type Q1<T> = Q<1, T, DefaultMode>;
+pub type Q2<T> = Q<2, T, DefaultMode>;
+pub type Q3<T> = Q<3, T, DefaultMode>;
+pub type Q4<T> = Q<4, T, DefaultMode>;
+pub type Q5<T> = Q<5, T, DefaultMode>;
+pub type Q6<T> = Q<6, T, DefaultMode>;
+pub type Q7<T> = Q<7, T, DefaultMode>;
+pub type Q8<T> = Q<8, T, DefaultMode>;
+pub type Q9<T> = Q<9, T, DefaultMode>;
+pub type Q10<T> = Q<10, T, DefaultMode>;
+pub type Q11<T> = Q<11, T, DefaultMode>;
+pub type Q12<T> = Q<12, T, DefaultMode>;
+pub type Q13<T> = Q<13, T, DefaultMode>;
+pub type Q14<T> = Q<14, T, DefaultMode>;
+pub type Q15<T> = Q<15, T, DefaultMode>;
+pub type Q16<T> = Q<16, T, DefaultMode>;
+pub type Q17<T> = Q<17, T, DefaultMode>;
+pub type Q18<T> = Q<18, T, DefaultMode>;
+pub type Q19<T> = Q<19, T, DefaultMode>;
+pub type Q20<T> = Q<20, T, DefaultMode>;
+pub type Q21<T> = Q<21, T, DefaultMode>;
+pub type Q22<T> = Q<22, T, DefaultMode>;
+pub type Q23<T> = Q<23, T, DefaultMode>;
+pub type Q24<T> = Q<24, T, DefaultMode>;
+pub type Q25<T> = Q<25, T, DefaultMode>;
+pub type Q26<T> = Q<26, T, DefaultMode>;
+pub type Q27<T> = Q<27, T, DefaultMode>;
+pub type Q28<T> = Q<28, T, DefaultMode>;
+pub type Q29<T> = Q<29, T, DefaultMode>;
+pub type Q30<T> = Q<30, T, DefaultMode>;
+pub type Q31<T> = Q<31, T, DefaultMode>;
+pub type Q32<T> = Q<32, T, DefaultMode>;
+pub type Q33<T> = Q<33, T, DefaultMode>;
+pub type Q34<T> = Q<34, T, DefaultMode>;
+pub type Q35<T> = Q<35, T, DefaultMode>;
+pub type Q36<T> = Q<36, T, DefaultMode>;
+pub type Q37<T> = Q<37, T, DefaultMode>;
+pub type Q38<T> = Q<38, T, DefaultMode>;
 
-type Radian<T> = T;
-type Degree<T> = T;
+pub type Rad0<T> = Q<0, T, RadianMode>;
+pub type Rad1<T> = Q<1, T, RadianMode>;
+pub type Rad2<T> = Q<2, T, RadianMode>;
+pub type Rad3<T> = Q<3, T, RadianMode>;
+pub type Rad4<T> = Q<4, T, RadianMode>;
+pub type Rad5<T> = Q<5, T, RadianMode>;
+pub type Rad6<T> = Q<6, T, RadianMode>;
+pub type Rad7<T> = Q<7, T, RadianMode>;
+pub type Rad8<T> = Q<8, T, RadianMode>;
+pub type Rad9<T> = Q<9, T, RadianMode>;
+pub type Rad10<T> = Q<10, T, RadianMode>;
+pub type Rad11<T> = Q<11, T, RadianMode>;
+pub type Rad12<T> = Q<12, T, RadianMode>;
+pub type Rad13<T> = Q<13, T, RadianMode>;
+pub type Rad14<T> = Q<14, T, RadianMode>;
+pub type Rad15<T> = Q<15, T, RadianMode>;
+pub type Rad16<T> = Q<16, T, RadianMode>;
+pub type Rad17<T> = Q<17, T, RadianMode>;
 
+pub type Fixed<T> = T;
+pub type Ratio<T> = T;
+
+pub type Radian<T> = T;
+pub type Degree<T> = T;
 
 pub type Result<T> = core::result::Result<T, Error>;
 
@@ -42,56 +81,83 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub enum Error {
     Overflow,
     Underflow,
-    DivisionByZero,
+    DivByZero,
+    RemByZero,
     InvalidShift
 }
 
-pub struct Q<const A: u8, B, C = DefaultMode, D = DefaultEngine>
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Debug)]
+#[repr(transparent)]
+pub struct Q<const A: u8, B=u32, C=DefaultMode, D=DefaultEngine> 
 where
-    B: num::Int,
+    B: int::Int,
     C: Mode,
     D: Engine {
-    v: B,
-    m_0: ::core::marker::PhantomData<C>,
-    m_1: ::core::marker::PhantomData<D>
+    n: B,
+    ph_0: core::marker::PhantomData<C>,
+    ph_1: core::marker::PhantomData<D>
 }
 
+#[derive(Debug)]
 pub struct DefaultMode;
+
+#[derive(Debug)]
 pub struct RadianMode;
+
+#[derive(Debug)]
 pub struct DegreeMode;
 
-
+#[derive(Debug)]
 pub struct DefaultEngine;
+
+
+//
+// port.mode
+//
+
+pub trait Mode 
+where
+    Self: core::fmt::Debug {}
+
+impl Mode for DefaultMode {}
+impl Mode for RadianMode {}
+impl Mode for DegreeMode {}
+
+
+//
+// port.engine
+//
 
 pub trait Engine 
 where 
     Self: Sized {
-
     #[inline]
     fn add<T>(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>> 
     where
-        T: num::Int {
+        T: int::Int {
         x.checked_add(y).ok_or(Error::Overflow)
     }
 
     #[inline]
     fn sub<T>(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>> 
     where
-        T: num::Int {
+        T: int::Int {
         x.checked_sub(y).ok_or(Error::Underflow)
     }
 
     #[inline]
     fn mul<const A: u8, B>(x: Fixed<B>, y: Fixed<B>) -> Result<Fixed<B>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::muldiv(x, y, Self::scale::<A, _>())
     }
 
     #[inline]
     fn div<const A: u8, B>(x: Fixed<B>, y: Fixed<B>) -> Result<Fixed<B>> 
     where
-        B: num::Int {
+        B: int::Int {
         let scale: u128 = Self::scale::<A, _>();
         if scale.is_power_of_two() {
             return Ok(
@@ -108,66 +174,172 @@ where
         Self::muldiv(x, scale, y)
     }
 
-    fn shl<A, B>(x: A, y: u32) -> Result<A> 
+    #[inline]
+    fn rem<T>(x: T, y: T) -> Result<T>
     where
-        A: num::Int {
+        T: int::Int {
+        if y == T::AS_0 {
+            return Err(Error::RemByZero)
+        }
+        Ok(x % y)
+    }
+
+    fn shl<T>(x: T, y: T) -> Result<T> 
+    where
+        T: int::Int {
+        let y: u32 = y
+            .try_into()
+            .ok()
+            .ok_or(Error::InvalidShift)?;
         x.checked_shl(y).ok_or(Error::InvalidShift)
     }
 
-    fn shr<A, B>(x: A, y: u32) -> Result<A>
+    fn shr<T>(x: T, y: T) -> Result<T>
     where
-        A: num::Int {
+        T: int::Int {
+        let y: u32 = y
+            .try_into()
+            .ok()
+            .ok_or(Error::InvalidShift)?;
         x.checked_shr(y).ok_or(Error::InvalidShift)
+    }
+
+    #[inline]
+    fn bitand<T>(x: T, y: T) -> T
+    where
+        T: int::Int {
+        x & y
+    }
+
+    #[inline]
+    fn bitor<T>(x: T, y: T) -> T
+    where
+        T: int::Int {
+        x | y
     }
 
 
     #[inline]
     fn csc<const A: u8, B>(angle: Radian<B>) -> Result<Ratio<B>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::inv::<A, _>(Self::sin::<A, _>(angle)?)
     }
 
     #[inline]
     fn sec<const A: u8, B>(angle: Radian<B>) -> Result<Ratio<B>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::inv::<A, _>(Self::cos::<A, _>(angle)?)
     }
 
     #[inline]
     fn cot<const A: u8, B>(angle: Radian<B>) -> Result<Ratio<B>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::inv::<A, _>(Self::tan::<A, _>(angle)?)
     }
 
     #[inline]
     fn inv<const A: u8, B>(n: B) -> Result<B>
     where
-        B: num::Int {
-        Self::div(Self::scale::<A, _>(), n)
+        B: int::Int {
+        Self::div::<A, _>(Self::scale::<A, _>(), n)
     }
 
+    #[inline]
+    fn atan<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>>
+    where
+        B: int::Int {
+        let mut pow: B = ratio;
+        let mut sum: B = ratio;
+        let mut sign: bool = false;
+        for i in (3..=25).step_by(2) {
+            pow = Self::muldiv(pow, ratio, Self::scale::<A, _>())?;
+            pow = Self::muldiv(pow, ratio, Self::scale::<A, _>())?;
+            let i: B = i.try_into().ok().unwrap();
+            let term: B = pow.checked_div(i).ok_or(Error::DivByZero)?;
+            sum = if sign {
+                sum.checked_sub(term).ok_or(Error::Underflow)?
+            } else {
+                sum.checked_add(term).ok_or(Error::Overflow)?
+            };
+            sign = !sign;
+        }
+        Ok(sum)
+    }
+
+    #[inline]
+    fn asin<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>>
+    where
+        B: int::Int {
+        if ratio == B::AS_0 {
+            return Ok(B::AS_0)
+        }
+        if ratio == Self::scale::<A, _>() {
+            return Self::div::<A, _>(Self::pi::<A, _>(), B::AS_2)
+        }
+        let sq: B = Self::muldiv(ratio, ratio, Self::scale::<A, _>())?;
+        let mut ret: B = ratio;
+        let mut pow: B = ratio;
+        let coef: [(u16, u16); 8] = [
+            (1, 1),
+            (1, 6),
+            (3, 40),
+            (5, 112),
+            (35, 1152),
+            (63, 2816),
+            (231, 13312),
+            (429, 30720)
+        ];
+        for &(a, b) in &coef {
+            let (a, b) = {
+                let a: B = a.try_into().ok().unwrap();
+                let b: B = b.try_into().ok().unwrap();
+                (a, b)
+            };
+            pow = Self::muldiv(pow, sq, Self::scale::<A, _>())?;
+            let term: B = Self::muldiv(pow, a, Self::scale::<A, _>())?;
+            let term: B = Self::div::<A, _>(term, b)?;
+            ret = Self::add(ret, term)?;
+        }
+        Ok(ret)
+    }
+
+    #[inline]
+    fn acos<const A: u8, B>(ratio: Ratio<B>) -> Result<Radian<B>> 
+    where
+        B: int::Int {
+        let scale: B = Self::scale::<A, _>();
+        let pi: B = Self::pi::<A, _>();
+        let pi_2: B = pi / B::AS_2;
+        if ratio == scale {
+            return Ok(B::AS_0)
+        }
+        if B::IS_SIGNED && ratio == Self::to_negative(scale) {
+            return Ok(pi)
+        }
+        Self::sub(pi_2, Self::asin::<A, _>(ratio)?)
+    }
 
     #[inline]
     fn tan<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::div::<A, _>(Self::sin::<A, _>(angle)?, Self::cos::<A, _>(angle)?)
     }
 
     #[inline]
     fn sin<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         Self::cos::<A, _>(Self::sub(Self::to_radian::<A, _>(Self::deg90::<A, _>()?)?, angle)?)
     }
 
     #[inline]
     fn cos<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Ratio<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         let scale: B = Self::scale::<A, _>();
         let pi: B = Self::pi::<A, _>();
         let pi_2: B = pi.checked_mul(B::AS_2).ok_or(Error::Overflow)?;
@@ -185,7 +357,7 @@ where
         loop {
             term = Self::muldiv(term, n, scale)?;
             term = Self::muldiv(term, n, scale)?;
-            term = term.checked_div((B::AS_2 * key - B::AS_1) * (B::AS_2 * key)).ok_or(Error::DivisionByZero)?;
+            term = term.checked_div((B::AS_2 * key - B::AS_1) * (B::AS_2 * key)).ok_or(Error::DivByZero)?;
             if term == B::AS_0 {
                 break
             }
@@ -204,7 +376,7 @@ where
     #[inline]
     fn to_radian<const A: u8, B>(angle: Degree<Fixed<B>>) -> Result<Radian<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         let n: u8 = 180;
         let n: B = unsafe {
             n.try_into().unwrap_unchecked()
@@ -215,7 +387,7 @@ where
     #[inline]
     fn to_degree<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Degree<Fixed<B>>>
     where
-        B: num::Int {
+        B: int::Int {
         let n: u8 = 180;
         let n: B = unsafe {
             n.try_into().unwrap_unchecked()
@@ -223,11 +395,10 @@ where
         Self::muldiv(angle, n * Self::scale::<A, _>(), Self::pi::<A, _>())
     }
 
-
     #[inline]
     fn to_negative<T>(n: T) -> T 
     where 
-        T: num::Int {
+        T: int::Int {
         if n == T::AS_0 {
             T::AS_0
         } else {
@@ -238,7 +409,7 @@ where
     #[inline]
     fn to_positive<T>(n: T) -> T 
     where 
-        T: num::Int {
+        T: int::Int {
         if n == T::AS_0 {
             T::AS_0
         } else if n > T::AS_0 {
@@ -248,13 +419,12 @@ where
         }
     }
 
-
     #[inline]
     fn muldiv<T>(x: T, y: T, z: T) -> Result<T> 
     where
-        T: num::Int {
+        T: int::Int {
         if z == T::AS_0 {
-            return Err(Error::DivisionByZero)
+            return Err(Error::DivByZero)
         }
         match (T::BITS_U128, T::IS_SIGNED) {
             (_, true) if T::BITS_U128 <= 64 => {
@@ -270,7 +440,7 @@ where
                 if b == T::AS_0 {
                     Ok(a / z)
                 } else {
-                    Ok(Self::fold(&a, &b, &z)? / z)
+                    Ok(Self::fold(a, b, z)? / z)
                 }
             },
             (128, _) => {
@@ -286,7 +456,7 @@ where
     #[inline]
     fn fold<T>(x: T, y: T, z: T) -> Result<T> 
     where 
-        T: num::Int {
+        T: int::Int {
         if T::IS_SIGNED {
             Self::fold_signed(x, y, z)
         } else {
@@ -297,7 +467,7 @@ where
     #[inline]
     fn fold_signed<T>(x: T, y: T, z: T) -> Result<T> 
     where
-        T: num::Int {
+        T: int::Int {
         let (x, y, z) = unsafe {
             let x: i128 = x.try_into().unwrap_unchecked();
             let y: i128 = y.try_into().unwrap_unchecked();
@@ -320,7 +490,7 @@ where
     #[inline]
     fn fold_unsigned<T>(x: T, y: T, z: T) -> Result<T> 
     where
-        T: num::Int {
+        T: int::Int {
         let (x, y, z) = unsafe {
             let x: u128 = x.try_into().unwrap_unchecked();
             let y: u128 = y.try_into().unwrap_unchecked();
@@ -343,7 +513,7 @@ where
     #[inline]
     fn wide_mul<T>(x: T, y: T) -> Result<(T, T)> 
     where
-        T: num::Int {
+        T: int::Int {
         if T::IS_SIGNED {
             Self::wide_mul_signed(x, y)
         } else {
@@ -354,7 +524,7 @@ where
     #[inline]
     fn wide_mul_signed<T>(x: T, y: T) -> Result<(T, T)> 
     where
-        T: num::Int {
+        T: int::Int {
         if !T::IS_SIGNED || T::BITS_U128 > 64 {
             panic!()
         }
@@ -390,7 +560,7 @@ where
     #[inline]
     fn wide_mul_unsigned<T>(x: T, y: T) -> Result<(T, T)> 
     where
-        T: num::Int {
+        T: int::Int {
         if T::IS_SIGNED || T::BITS_U128 > 64 {
             panic!()
         }
@@ -443,12 +613,10 @@ where
         Ok((a, b))
     }
 
-
     #[inline]
     fn deg90<const A: u8, B>() -> Result<Degree<Fixed<B>>> 
     where 
-        B: num::Int, 
-        (): Ok<A, B> {
+        B: int::Int {
         if B::IS_SIGNED {
             let n: i128 = 90;
             let n: B = unsafe {
@@ -464,11 +632,10 @@ where
         }.checked_mul(Self::scale::<A, _>()).ok_or(Error::Overflow)
     }
 
-
     #[inline]
     fn pi<const A: u8, B>() -> B 
     where 
-        B: num::Int {
+        B: int::Int {
         if B::IS_SIGNED {
             let pi: i128 = Self::signed_pi::<A>();
             let pi: B = unsafe {
@@ -483,6 +650,7 @@ where
         pi
     }
 
+    #[inline]
     fn signed_pi<const T: u8>() -> i128 {
         assert!(T != 0);
         assert!(T <= 37);
@@ -528,6 +696,7 @@ where
         }
     }
 
+    #[inline]
     fn unsigned_pi<const T: u8>() -> u128 {
         match T {
             1 => 31,
@@ -578,7 +747,7 @@ where
     #[inline]
     fn scale<const A: u8, B>() -> B 
     where
-        B: num::Int {
+        B: int::Int {
         if B::IS_SIGNED {
             let scale: i128 = Self::signed_scale::<A>();
             let scale: B = unsafe {
@@ -690,128 +859,367 @@ where
     }
 }
 
-pub trait Mode {}
-
-
 impl Engine for DefaultEngine {}
 
-impl Mode for DefaultMode {}
-impl Mode for RadianMode {}
-impl Mode for DegreeMode {}
+mod any_mode {
+    use super::*;
 
+    impl<const A: u8, B, C, D> Q<A, B, C, D> 
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        #[inline]
+        pub const fn new(n: B) -> Self {
+            Self {
+                n,
+                ph_0: core::marker::PhantomData,
+                ph_1: core::marker::PhantomData
+            }
+        }
 
-// # global
+        #[inline]
+        pub fn to_negative(self) -> Self {
+            Self::new(D::to_negative(self.n))
+        }
 
-impl<const A: u8, B, C, D> Default for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    fn default() -> Self {
-        Self::new(B::AS_0)
+        #[inline]
+        pub fn to_positive(self) -> Self {
+            Self::new(D::to_positive(self.n))
+        }
     }
-}
 
-impl<const A: u8, B, C, D> Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    pub const fn new(v: B) -> Self {
-        Self {
-            v,
-            m_0: ::core::marker::PhantomData,
-            m_1: ::core::marker::PhantomData
+    impl<const A: u8, B, C, D> From<B> for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        #[inline]
+        fn from(value: B) -> Self {
+            Self::new(value)
+        }
+    }
+
+    impl<const A: u8, B, C, D> Default for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        #[inline]
+        fn default() -> Self {
+            Self {
+                n: B::AS_0,
+                ph_0: core::marker::PhantomData,
+                ph_1: core::marker::PhantomData
+            }
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Add for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn add(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::add(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Sub for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn sub(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::sub(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Mul for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn mul(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::mul::<A, _>(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Div for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn div(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::div::<A, _>(x, y)?))   
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Rem for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn rem(self, rhs: Self) -> Self::Output {
+            let x = self.n;
+            let y = rhs.n;
+            Ok(Self::new(D::rem(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Shl for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn shl(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::shl(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::Shr for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Result<Self>;
+
+        #[inline]
+        fn shr(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Ok(Self::new(D::shr(x, y)?))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::BitAnd for Q<A, B, C, D> 
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Self;
+        
+        #[inline]
+        fn bitand(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Self::new(D::bitand(x, y))
+        }
+    }
+
+    impl<const A: u8, B, C, D> core::ops::BitOr for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        type Output = Self;
+
+        #[inline]
+        fn bitor(self, rhs: Self) -> Self::Output {
+            let x: B = self.n;
+            let y: B = rhs.n;
+            Self::new(D::bitor(x, y))
+        }
+    }
+
+    impl<const A: u8, B, C, D> PartialEq for Q<A, B, C, D>
+    where
+        B: int::Int,
+        C: Mode,
+        D: Engine {
+        fn eq(&self, other: &Self) -> bool {
+            self.n == other.n
         }
     }
 }
 
+mod default_mode {
+    use super::*;
 
-impl<const A: u8, B, C, D> Eq for Q<A, B, C, D> {}
-impl<const A: u8, B, C, D> PartialEq for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    fn eq(&self, other: &Self) -> bool {
-        self.v == other.v
+    impl<const A: u8, B, C> From<Q<A, B, RadianMode, C>> for Q<A, B, DefaultMode, C>
+    where
+        B: int::Int,
+        C: Engine {
+        fn from(value: Q<A, B, RadianMode, C>) -> Self {
+            Self::new(value.n)
+        }
+    }
+
+    impl<const A: u8, B, C> From<Q<A, B, DegreeMode, C>> for Q<A, B, DefaultMode, C>
+    where
+        B: int::Int,
+        C: Engine {
+        fn from(value: Q<A, B, DegreeMode, C>) -> Self {
+            Self::new(value.n)
+        }
     }
 }
 
+mod radian_mode {
+    use super::*;
 
-impl<const A: u8, B, C, D> ::core::ops::Add for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    type Output = Result<Self>;
+    impl<const A: u8, B, C> TryFrom<Q<A, B, DegreeMode, C>> for Q<A, B, RadianMode, C>
+    where
+        B: int::Int,
+        C: Engine {
+        type Error = Error;
 
-    fn add(self, rhs: Self) -> Self::Output {
-        let x: B = self.v;
-        let y: B = rhs.v;
-        Ok(Self::new(D::add(x, y)?))
+        fn try_from(value: Q<A, B, DegreeMode, C>) -> core::result::Result<Self, Self::Error> {
+            let ret: Self = C::to_radian::<A, _>(value.n)?.into();
+            Ok(ret)
+        }
+    }
+
+    impl<const A: u8, B, C> Q<A, B, RadianMode, C> 
+    where
+        B: int::Int,
+        C: Engine {
+        #[inline]
+        pub fn sec(self) -> Result<Self> {
+            let ret: Self = C::sec::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn csc(self) -> Result<Self> {
+            let ret: Self = C::csc::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn cot(self) -> Result<Self> {
+            let ret: Self = C::cot::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn atan(self) -> Result<Self> {
+            let ret: Self = C::atan::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn asin(self) -> Result<Self> {
+            let ret: Self = C::asin::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn acos(self) -> Result<Self> {
+            let ret: Self = C::acos::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+        
+        #[inline]
+        pub fn tan(self) -> Result<Self> {
+            let ret: Self = C::tan::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn sin(self) -> Result<Self> {
+            let ret: Self = C::sin::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
+
+        #[inline]
+        pub fn cos(self) -> Result<Self> {
+            let ret: Self = C::cos::<A, _>(self.n)?.into();
+            Ok(ret)
+        }
     }
 }
 
-impl<const A: u8, B, C, D> ::core::ops::Sub for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    type Output = Result<Self>;
+mod degree_mode {
+    use super::*;
 
-    fn sub(self, rhs: Self) -> Self::Output {
-        let x: B = self.v;
-        let y: B = rhs.v;
-        Ok(Self::new(D::sub(x, y)?))   
+    impl<const A: u8, B, C> TryFrom<Q<A, B, RadianMode, C>> for Q<A, B, DegreeMode, C>
+    where
+        B: int::Int,
+        C: Engine {
+        type Error = Error;
+
+        fn try_from(value: Q<A, B, RadianMode, C>) -> core::result::Result<Self, Self::Error> {
+            let ret: Self = C::to_degree::<A, _>(value.n)?.into();
+            Ok(ret)
+        }
     }
 }
 
-impl<const A: u8, B, C, D> ::core::ops::Mul for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    type Output = Result<Self>;
+#[allow(clippy::zero_prefixed_literal)]
+#[cfg(test)]
+mod test {
+    use super::*;
 
-    fn mul(self, rhs: Self) -> Self::Output {
-        let x: B = self.v;
-        let y: B = rhs.v;
-        Ok(Self::new(D::mul(x, y)?))
+    #[rstest::rstest]
+    #[case(5_00.into(), 7_50.into(), 12_50.into())]
+    #[case(0_50.into(), 7_50.into(), 8_00.into())]
+    #[case(5_00.into(), 0_50.into(), 5_50.into())]
+    #[case(0_01.into(), 0_01.into(), 0_02.into())]
+    #[case((u128::MAX - 0_01).into(), 0_01.into(), u128::MAX.into())]
+    #[case(0_00.into(), 0_01.into(), 0_01.into())]
+    fn add(#[case] x: Q2<u128>, #[case] y: Q2<u128>, #[case] cor: Q2<u128>) {
+        let ret: Q2<u128> = (x + y).ok().unwrap();
+        assert_eq!(ret, cor);
     }
-}
 
-impl<const A: u8, B, C, D> ::core::ops::Div for Q<A, B, C, D>
-where
-    B: num::Int,
-    C: Mode,
-    D: Engine {
-    type Output = Result<Self>;
-
-    fn div(self, rhs: Self) -> Self::Output {
-        let x: B = self.v;
-        let y: B = rhs.v;
-        Ok(Self::new(D::div(x, y)?))
+    #[rstest::rstest]
+    #[case(7_50.into(), 5_00.into(), 2_50.into())]
+    fn sub(#[case] x: Q2<u128>, #[case] y: Q2<u128>, #[case] cor: Q2<u128>) {
+        let ret: Q2<u128> = (x - y).ok().unwrap();
+        assert_eq!(ret, cor);
     }
-}
 
-
-// # default-mode
-
-impl<const A: u8, B, C> From<Q<A, B, RadianMode, C>> for Q<A, B, DefaultMode, C>
-where
-    B: num::Int,
-    C: Engine {
-    fn from(value: Q<A, B, RadianMode, C>) -> Self {
-        Self::new(value.v)
+    #[rstest::rstest]
+    #[case(7_50.into(), 5_00.into(), 37_50.into())]
+    #[case(7_50.into(), 0_50.into(), 3_75.into())]
+    #[case(0_50.into(), 7_50.into(), 3_75.into())]
+    fn mul(#[case] x: Q2<u128>, #[case] y: Q2<u128>, #[case] cor: Q2<u128>) {
+        let ret: Q2<u128> = (x * y).ok().unwrap();
+        assert_eq!(ret, cor);
     }
-}
 
-impl<const A: u8, B, C> From<Q<A, B, DegreeMode, C>> for Q<A, B, DefaultMode, C>
-where
-    B: num::Int,
-    C: Engine {
-    fn from(value: Q<A, B, DegreeMode, C>) -> Self {
-        Self::new(value.v)
+    #[rstest::rstest]
+    #[case(7_50.into(), 5_00.into(), 1_50.into())]
+    #[case(7_50.into(), 0_50.into(), 15_00.into())]
+    #[case(0_50.into(), 7_50.into(), 0_06.into())]
+    fn div(#[case] x: Q2<u128>, #[case] y: Q2<u128>, #[case] cor: Q2<u128>) {
+        let ret: Q2<u128> = (x / y).ok().unwrap();
+        assert_eq!(ret, cor);
+    }
+
+    #[rstest::rstest]
+    #[case(7_50.into(), 2_00.into(), 1_50.into())]
+    fn rem(#[case] x: Q2<u128>, #[case] y: Q2<u128>, #[case] cor: Q2<u128>) {
+        let ret: Q2<u128> = (x % y).ok().unwrap();
+        assert_eq!(ret, cor);
     }
 }

@@ -1,104 +1,367 @@
-macro_rules! ops {
-    ($($trait_name:ident $fn_name:ident $fn_rhs_name:ident $fn_rhs_ty:ty => $fn_out_ty:ty)*) => {
-        $(
-            pub trait $trait_name 
-            where
-                Self: Sized {
-                fn $fn_name(self, $fn_rhs_name: $fn_rhs_ty) -> $fn_out_ty;
-            }
-        )*
-    };
+use super::*;
+
+pub trait Overflowing 
+where
+    Self: OverflowingAdd,
+    Self: OverflowingSub,
+    Self: OverflowingMul,
+    Self: OverflowingDiv,
+    Self: OverflowingRem,
+    Self: OverflowingShl,
+    Self: OverflowingShr,
+    Self: OverflowingPow {}
+
+pub trait OverflowingAdd 
+where
+    Self: Sized {
+    fn overflowing_add(self, rhs: Self) -> (Self, bool);
 }
 
-macro_rules! ops_with_no_args {
-    ($($trait_name:ident $fn_name:ident => $fn_out_ty:ty)*) => {
-        $(
-            pub trait $trait_name
-            where
-                Self: Sized {
-                fn $fn_name(self) -> $fn_out_ty;
-            }
-        )*
-    };
+pub trait OverflowingSub
+where
+    Self: Sized {
+    fn overflowing_sub(self, rhs: Self) -> (Self, bool);
+}
+
+pub trait OverflowingMul
+where
+    Self: Sized {
+    fn overflowing_mul(self, rhs: Self) -> (Self, bool);
+}
+
+pub trait OverflowingDiv
+where
+    Self: Sized {
+    fn overflowing_div(self, rhs: Self) -> (Self, bool);
+}
+
+pub trait OverflowingRem
+where
+    Self: Sized {
+    fn overflowing_rem(self, rhs: Self) -> (Self, bool);
+}
+
+pub trait OverflowingShl
+where
+    Self: Sized {
+    fn overflowing_shl(self, rhs: u32) -> (Self, bool);
+}
+
+pub trait OverflowingShr
+where
+    Self: Sized {
+    fn overflowing_shr(self, rhs: u32) -> (Self, bool);
+}
+
+pub trait OverflowingPow
+where
+    Self: Sized {
+    fn overflowing_pow(self, exp: u32) -> (Self, bool);
+}
+
+impl<T> Overflowing for T
+where
+    T: OverflowingAdd,
+    T: OverflowingSub,
+    T: OverflowingMul,
+    T: OverflowingDiv,
+    T: OverflowingRem,
+    T: OverflowingShl,
+    T: OverflowingShr,
+    T: OverflowingPow {}
+
+
+// #region
+
+pub trait Wrapping
+where
+    Self: WrappingAdd,
+    Self: WrappingSub,
+    Self: WrappingMul,
+    Self: WrappingDiv,
+    Self: WrappingRem,
+    Self: WrappingPow,
+    Self: WrappingNeg {}
+
+pub trait WrappingAdd {
+    fn wrapping_add(self, rhs: Self) -> Self;
+}
+
+pub trait WrappingSub {
+    fn wrapping_sub(self, rhs: Self) -> Self;
+}
+
+pub trait WrappingMul {
+    fn wrapping_mul(self, rhs: Self) -> Self;
+}
+
+pub trait WrappingDiv {
+    fn wrapping_div(self, rhs: Self) -> Self;
+}
+
+pub trait WrappingRem {
+    fn wrapping_rem(self, rhs: Self) -> Self;
+}
+
+pub trait WrappingPow {
+    fn wrapping_pow(self, exp: u32) -> Self;
+}
+
+pub trait WrappingNeg {
+    fn wrapping_neg(self) -> Self;
+}
+
+impl<T> Wrapping for T
+where
+    T: WrappingAdd,
+    T: WrappingSub,
+    T: WrappingMul,
+    T: WrappingDiv,
+    T: WrappingRem,
+    T: WrappingPow,
+    T: WrappingNeg {}
+
+
+// #region
+
+pub trait Saturating
+where
+    Self: SaturatingAdd,
+    Self: SaturatingSub,
+    Self: SaturatingMul,
+    Self: SaturatingDiv {}
+
+pub trait SaturatingAdd {
+    fn saturating_add(self, rhs: Self) -> Self;
+}
+
+pub trait SaturatingSub {
+    fn saturating_sub(self, rhs: Self) -> Self;
+}
+
+pub trait SaturatingMul {
+    fn saturating_mul(self, rhs: Self) -> Self;
+}
+
+pub trait SaturatingDiv {
+    fn saturating_div(self, rhs: Self) -> Self;
+}
+
+impl<T> Saturating for T
+where
+    T: SaturatingAdd,
+    T: SaturatingSub,
+    T: SaturatingMul,
+    T: SaturatingDiv {}
+
+
+// #region
+
+pub trait Checked
+where
+    Self: CheckedAdd,
+    Self: CheckedSub,
+    Self: CheckedMul,
+    Self: CheckedDiv,
+    Self: CheckedShl,
+    Self: CheckedShr,
+    Self: CheckedPow {}
+
+pub trait CheckedAdd 
+where
+    Self: Sized {
+    fn checked_add(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedSub
+where
+    Self: Sized {
+    fn checked_sub(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedMul
+where
+    Self: Sized {
+    fn checked_mul(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedDiv
+where
+    Self: Sized {
+    fn checked_div(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedShl
+where
+    Self: Sized {
+    fn checked_shl(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedShr
+where
+    Self: Sized {
+    fn checked_shr(self, rhs: Self) -> Result<Self>;
+}
+
+pub trait CheckedPow
+where
+    Self: Sized {
+    fn checked_pow(self, rhs: Self) -> Result<Self>;
+}
+
+impl<T> Checked for T
+where
+    T: CheckedAdd,
+    T: CheckedSub,
+    T: CheckedMul,
+    T: CheckedDiv,
+    T: CheckedShl,
+    T: CheckedShr,
+    T: CheckedPow {}
+
+
+// #region
+
+pub trait ToRadian
+where
+    Self: Sized {
+    fn to_radian(self) -> Result<Self>;
+}
+
+pub trait ToDegree
+where
+    Self: Sized {
+    fn to_degree(self) -> Result<Self>;
 }
 
 
-pub trait TrigOps {
-    type Output;
-    fn tan(self) -> Self::Output;
-    fn sin(self) -> Self::Output;
-    fn cos(self) -> Self::Output;
-    fn arc_tan(self) -> Self::Output;
-    fn arc_sin(self) -> Self::Output;
-    fn arc_cos(self) -> Self::Output;
-    fn tanh(self) -> Self::Output;
-    fn sinh(self) -> Self::Output;
-    fn cosh(self) -> Self::Output;
+// #region
+
+pub trait Trig
+where
+    Self: Tan,
+    Self: Sin,
+    Self: Cos {}
+
+pub trait Tan 
+where
+    Self: Sized {
+    fn tan(self) -> Result<Self>;
 }
 
-
-
-ops_with_no_args!(
-    WrappingNeg wrapping_neg => Self
-    OverflowingNeg overflowing_neg => (Self, bool)
-    Abs abs => Self
-
-  
-    Tanh tanh => Self
-    Sinh sinh => Self
-    Cosh cosh => Self
-    ArcTan atan => Self
-    ArcSin asin => Self
-    ArcCos acos => Self
-    Ceil ceil => Self
-    Floor floor => Self
-    Trunc trunc => Self
-    ToDegree to_degree => Self
-    ToRadian to_radian => Self
-);
-
-ops!(
-    Add add rhs Self => Self
-    Sub sub rhs Self => Self
-    Mul mul rhs Self => Self
-    Div div rhs Self => Self
-    Shl shl rhs Self => Self
-    Shr shr rhs Self => Self
-    Rem rem rhs Self => Self
-    Pow pow exp u32 => Self
-    SaturatingAdd saturating_add rhs Self => Self
-    SaturatingSub saturating_sub rhs Self => Self
-    SaturatingMul saturating_mul rhs Self => Self
-    SaturatingDiv saturating_div rhs Self => Self
-    SaturatingPow saturating_pow exp u32 => Self
-    WrappingAdd wrapping_add rhs Self => Self
-    WrappingSub wrapping_sub rhs Self => Self
-    WrappingMul wrapping_mul rhs Self => Self
-    WrappingDiv wrapping_div rhs Self => Self
-    WrappingRem wrapping_rem rhs Self => Self
-    WrappingPow wrapping_pow exp u32 => Self
-    CheckedAdd checked_add rhs Self => Option<Self>
-    CheckedSub checked_sub rhs Self => Option<Self>
-    CheckedMul checked_mul rhs Self => Option<Self>
-    CheckedDiv checked_div rhs Self => Option<Self>
-    CheckedShl checked_shl rhs u32 => Option<Self>
-    CheckedShr checked_shr rhs u32 => Option<Self>
-    CheckedPow checked_pow rhs u32 => Option<Self>
-    CheckedIlog checked_ilog base Self => Option<u32>
-    OverflowingAdd overflowing_add rhs Self => (Self, bool)
-    OverflowingSub overflowing_sub rhs Self => (Self, bool)
-    OverflowingMul overflowing_mul rhs Self => (Self, bool)
-    OverflowingDiv overflowing_div rhs Self => (Self, bool)
-    OverflowingRem overflowing_rem rhs Self => (Self, bool)
-    OverflowingShl overflowing_shl rhs u32 => (Self, bool)
-    OverflowingShr overflowing_shr rhs u32 => (Self, bool)
-    OverflowingPow overflowing_pow exp u32 => (Self, bool)
-    UnboundShl unbound_shl rhs u32 => Self
-    UnboundShr unbound_shr rhs u32 => Self
-    Max max rhs Self => Self
-    Min min rhs Self => Self
-);
-
-pub trait Clamp {
-    fn clamp(self, min: Self, max: Self) -> Self;
+pub trait Sin 
+where
+    Self: Sized {
+    fn sin(self) -> Result<Self>;
 }
+
+pub trait Cos 
+where
+    Self: Sized {
+    fn cos(self) -> Result<Self>;
+}
+
+impl<T> Trig for T
+where
+    T: Tan,
+    T: Sin,
+    T: Cos {}
+
+
+// #region
+
+pub trait TrigHyperbolic
+where
+    Self: Tanh,
+    Self: Sinh,
+    Self: Cosh {}
+
+pub trait Tanh
+where
+    Self: Sized {
+    fn tanh(self) -> Result<Self>;
+}
+
+pub trait Sinh
+where
+    Self: Sized {
+    fn sinh(self) -> Result<Self>;
+}
+
+pub trait Cosh
+where
+    Self: Sized {
+    fn cosh(self) -> Result<Self>;
+}
+
+impl<T> TrigHyperbolic for T
+where
+    T: Tanh,
+    T: Sinh,
+    T: Cosh {}
+
+
+// #region
+
+pub trait TrigInverse
+where
+    Self: ArcTan,
+    Self: ArcSin,
+    Self: ArcCos {}
+
+pub trait ArcTan 
+where
+    Self: Sized {
+    fn atan(self) -> Result<Self>;
+}
+
+pub trait ArcSin
+where
+    Self: Sized {
+    fn asin(self) -> Result<Self>;
+}
+
+pub trait ArcCos
+where
+    Self: Sized {
+    fn acos(self) -> Result<Self>;
+}
+
+impl<T> TrigInverse for T 
+where
+    T: ArcTan,
+    T: ArcSin,
+    T: ArcCos {}
+
+
+// #region
+
+pub trait TrigReciprocal
+where
+    Self: Sec,
+    Self: Csc,
+    Self: Cot {}
+
+pub trait Sec 
+where
+    Self: Sized {
+    fn sec(self) -> Result<Self>;
+}
+
+pub trait Csc
+where
+    Self: Sized {
+    fn csc(self) -> Result<Self>;
+}
+
+pub trait Cot
+where
+    Self: Sized {
+    fn cot(self) -> Result<Self>;
+}
+
+impl<T> TrigReciprocal for T
+where
+    T: Sec,
+    T: Csc,
+    T: Cot {}
