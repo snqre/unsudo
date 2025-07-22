@@ -3,7 +3,7 @@ use super::*;
 #[inline]
 pub fn scale<const A: u8, B>() -> B 
 where
-    B: int::Int {
+    B: num::Int {
     if B::IS_SIGNED {
         let scale: i128 = signed_scale::<A>();
         let scale: B = unsafe {

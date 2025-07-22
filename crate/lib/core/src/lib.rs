@@ -1,5 +1,5 @@
 #![no_std]
-use toga::*;
+use modwire::expose;
 
 pub mod arithmetic;
 //pub mod ds;

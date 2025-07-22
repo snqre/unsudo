@@ -6,7 +6,7 @@ where
     #[inline]
     fn to_radian<const A: u8, B>(angle: Degree<Fixed<B>>) -> Result<Radian<Fixed<B>>>
     where
-        B: int::Int {
+        B: num::Int {
         let n: u8 = 180;
         let n: B = unsafe {
             n.try_into().unwrap_unchecked()
@@ -17,7 +17,7 @@ where
     #[inline]
     fn to_degree<const A: u8, B>(angle: Radian<Fixed<B>>) -> Result<Degree<Fixed<B>>>
     where
-        B: int::Int {
+        B: num::Int {
         let n: u8 = 180;
         let n: B = unsafe {
             n.try_into().unwrap_unchecked()

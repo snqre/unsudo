@@ -1,14 +1,15 @@
 use super::*;
 
-pub trait Engine<T> 
+pub trait Engine
 where
-    Self: EngineArithmeticFragment<T>,
+    Self: EngineArithmeticFragment,
     Self: EngineConversionFragment,
     Self: EngineMuldivFragment,
     Self: EngineSignFragment,
     Self: EngineTrigConversionFragment,
     Self: EngineTrigFragment,
-    T: num::Int {}
+    Self: EngineTrigHyperbolicFragment,
+    Self: EngineTrigReciprocalFragment {}
 
 impl<T> Engine for T
 where
@@ -17,4 +18,6 @@ where
     T: EngineMuldivFragment,
     T: EngineSignFragment,
     T: EngineTrigConversionFragment,
-    T: EngineTrigFragment {}
+    T: EngineTrigFragment,
+    T: EngineTrigHyperbolicFragment,
+    T: EngineTrigReciprocalFragment {}
