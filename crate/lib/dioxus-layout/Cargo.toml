@@ -1,4 +1,4 @@
-package.name = "dx-layout"
+package.name = "dioxus-layout"
 package.description = "A lightweight Dioxus component library for composing layouts."
 package.license = "Apache-2.0"
 package.keywords = [

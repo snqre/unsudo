@@ -1,4 +1,4 @@
-package.name = "dx-expose"
+package.name = "dioxus-low-level-props"
 package.version = "0.1.0"
 package.edition = "2021"
 package.description = "A lightweight Dioxus utility library for extending low-level HTML attributes, and events in higher-level components. Rust lacks a native rest/spread operator (ie. `...props` in JavaScript/React). This crate fills that gap with ergonomic helpers for attribute, and event drilling."

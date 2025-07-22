@@ -1,20 +1,20 @@
 use dioxus::prelude::*;
 
 modwire::expose!(
-    col_fill
-    col
-    grid_fill
-    grid_item
-    grid
-    page_item
-    page
-    row_fill
-    row
-    stack_fill
-    stack_item
-    stack
-    spacial_page_item
-    spacial_page
+    pub col_fill
+    pub col
+    pub grid_fill
+    pub grid_item
+    pub grid
+    pub page_item
+    pub page
+    pub row_fill
+    pub row
+    pub stack_fill
+    pub stack_item
+    pub stack
+    pub spacial_page_item
+    pub spacial_page
 );
 
 #[derive(Props)]

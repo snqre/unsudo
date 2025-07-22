@@ -1,5 +1,6 @@
 workspace.resolver = "3"
 workspace.members = [
+    "crate/app/summit",
     "crate/lib/dx-ctrl",
     "crate/lib/dx-expose",
     "crate/lib/dx-flag",

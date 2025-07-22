@@ -6,7 +6,9 @@ dependencies.dioxus-ctrl.workspace = true
 dependencies.dioxus-extendable.workspace = true
 dependencies.dioxus-layout.workspace = true
 dependencies.dioxus-window.workspace = true
-dependencies.modwire.workspace = true
+
+dependencies.modwire.version = ">=1.0.0,<1.0.0"
+dependencies.modwire.path = "../../lib/modwire"
 dependencies.gloo-timers.version = "*"
 dependencies.web-sys.version = "0.3.77"
 dependencies.dioxus.version = ">=0.6.0,<1.0.0"

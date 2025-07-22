@@ -1,6 +1,4 @@
-#![deny(warnings)]
-
-use ::dioxus::prelude::*;
+use dioxus::prelude::*;
 
 #[macro_export(local_inner_macros)]
 macro_rules! closure {
@@ -16,14 +14,14 @@ macro_rules! closure_ref {
     };
 }
 
-::modwire::expose!(
-    coordinate
-    cursor_coordinate
-    device
-    h
-    interval
-    scroll_h_percentage
-    scroll_v_percentage
-    timeout
-    w
+modwire::expose!(
+    pub coordinate
+    pub cursor_coordinate
+    pub device
+    pub h
+    pub interval
+    pub scroll_h_percentage
+    pub scroll_v_percentage
+    pub timeout
+    pub w
 );

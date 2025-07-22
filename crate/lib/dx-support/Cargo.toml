@@ -1,4 +1,0 @@
-package.name = "dx-support"
-package.version = "0.1.0"
-package.edition = "2021"
-dependencies.dioxus.version = ">=0.6.3,<1.0.0"
