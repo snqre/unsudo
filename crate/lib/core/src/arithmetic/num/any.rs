@@ -1,4 +1,4 @@
-pub trait Num
+pub trait Any
 where
     Self: Copy,
     Self: PartialEq,
@@ -14,7 +14,7 @@ where
     Self: core::ops::Rem<Output = Self>,
     Self: core::ops::RemAssign {}
 
-impl<T> Num for T
+impl<T> Any for T
 where
     T: Copy,
     T: PartialEq,

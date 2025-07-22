@@ -1,26 +1,20 @@
 use super::*;
 
-pub trait EngineArithmeticFragment 
-where
-    Self: EngineMuldivFragment {
+pub trait EngineArithmeticFragment<T> where Self: EngineMuldivFragment<T>, T: num::Int {
     #[inline]
-    fn add<T>(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>> 
-    where
-        T: int::Int {
+    fn add(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>> {
         x.checked_add(y).ok_or(Error::Overflow)
     }
 
     #[inline]
-    fn sub<T>(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>> 
-    where
-        T: int::Int {
+    fn sub(x: Fixed<T>, y: Fixed<T>) -> Result<Fixed<T>>{
         x.checked_sub(y).ok_or(Error::Underflow)
     }
 
     #[inline]
     fn mul<const A: u8, B>(x: Fixed<B>, y: Fixed<B>) -> Result<Fixed<B>>
     where
-        B: int::Int {
+        B: num::Int {
         Self::muldiv(x, y, scale::<A, _>())
     }
 

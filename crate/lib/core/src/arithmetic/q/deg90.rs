@@ -3,7 +3,7 @@ use super::*;
 #[inline]
 pub fn deg90<const A: u8, B>() -> Result<Degree<Fixed<B>>> 
 where 
-    B: int::Int {
+    B: num::Int {
     if B::IS_SIGNED {
         let n: i128 = 90;
         let n: B = unsafe {

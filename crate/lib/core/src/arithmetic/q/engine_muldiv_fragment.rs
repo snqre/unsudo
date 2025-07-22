@@ -1,10 +1,8 @@
 use super::*;
 
-pub trait EngineMuldivFragment {
+pub trait EngineMuldivFragment<T> where T: num::Int {
     #[inline]
-    fn muldiv<T>(x: T, y: T, z: T) -> Result<T> 
-    where
-        T: int::Int {
+    fn muldiv(x: T, y: T, z: T) -> Result<T> {
         if z == T::AS_0 {
             return Err(Error::DivByZero)
         }
@@ -37,9 +35,7 @@ pub trait EngineMuldivFragment {
 }
 
 #[inline]
-fn fold<T>(x: T, y: T, z: T) -> Result<T> 
-where 
-    T: int::Int {
+fn fold<T>(x: T, y: T, z: T) -> Result<T> where T: num::Int {
     if T::IS_SIGNED {
         fold_signed(x, y, z)
     } else {

@@ -6,6 +6,7 @@ modwire::expose!(
         deg90
     pub degree_mode
     pub engine_arithmetic_fragment
+    pub engine_conversion_fragment
     pub engine_muldiv_fragment
     pub engine_sign_fragment
     pub engine_trig_conversion_fragment
@@ -30,7 +31,7 @@ modwire::expose!(
 #[repr(transparent)]
 pub struct Q<const A: u8, B=u32, C=DefaultMode, D=DefaultEngine> 
 where
-    B: int::Int,
+    B: num::Int,
     C: Mode,
     D: Engine {
     n: B,
