@@ -4,11 +4,26 @@ use super::*;
 pub fn Home() -> Element {
     rsx!(
         dioxus_layout::Page {
-            content: rsx!(
-                dioxus_layout::PageItem {
-                    "Hello World"
+            scroll_snap: dioxus_layout::PageScrollSnap::Proximity,
+            style: r#"
+                background: grey;
+                color: red;
+            "#,
+            dioxus_layout::PageItem {
+                top: rsx!(
+                    
+                ),
+
+            }
+            dioxus_layout::PageItem {
+                div {
+                    style: r#"
+                        width: 200px;
+                        aspect-ratio: 1/1;
+                        background: red;
+                    "#
                 }
-            )
+            }
         }
     )
 }

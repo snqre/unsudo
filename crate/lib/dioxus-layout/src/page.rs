@@ -2,89 +2,73 @@ use super::*;
 
 pub static PAGE_OVERLAY_Z_INDEX: u64 = u64::MAX / 2;
 
+#[repr(u8)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub enum PageScrollSnap {
+    Mandatory,
+    Proximity
+}
+
 #[derive(Props)]
 #[derive(Clone)]
 #[derive(PartialEq)]
 pub struct PageProps {
+    pub scroll_snap: Option<PageScrollSnap>,
     pub class: Option<String>,
     pub style: Option<String>,
     pub overlay: Option<Element>,
-    pub content: Option<Element>
+    pub children: Option<Element>
 }
 
 #[component]
 pub fn Page(props: PageProps) -> Element {
     rsx!(
-        Holder {
-            class: props.class,
-            style: props.style,
-            Overlay { { props.overlay } }
-            Content { { props.content } }
-        }
-    )
-}
-
-#[component]
-fn Holder(props: CommonProps) -> Element {
-    rsx!(
         Stack {
             class: props.class,
             style: format!(
                 r#"
-                    flex: 1;
+                    justify-content: start;
                     {}
                     {}
                 "#,
-                stylesheet::FILL,
+                stylesheet::FILL_VIEW,
                 props.style.unwrap_or_default()
             ),
-            { props.children }
-        }
-    )
-}
-
-#[component]
-fn Overlay(props: CommonProps) -> Element {
-    rsx!(
-        StackItem {
-            z: PAGE_OVERLAY_Z_INDEX,
-            class: props.class,
-            style: format!(
-                r#"
-                    flex: 1;
-                    overflow-x: hidden;
-                    overflow-y: hidden;
-                    {}
-                    {}
-                "#,
-                stylesheet::FILL,
-                props.style.unwrap_or_default()
-            ),
-            { props.children }
-        }
-    )
-}
-
-#[component]
-fn Content(props: CommonProps) -> Element {
-    rsx!(
-        StackItem {
-            z: 0,
-            class: props.class,
-            style: format!(
-                r#"
-                    flex: 1;
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    scroll-snap-type: y mandatory;
-                    scroll-behaviour: smooth;
-                    {}
-                    {}
-                "#,
-                stylesheet::FILL,
-                props.style.unwrap_or_default()
-            ),
-            { props.children }
+            StackItem {
+                z: PAGE_OVERLAY_Z_INDEX,
+                style: format!(
+                    r#"
+                        justify-content: start;
+                        overflow-x: hidden;
+                        overflow-y: hidden;
+                        pointer-events: none;
+                        {}
+                    "#,
+                    stylesheet::FILL
+                ),
+                { props.overlay }
+            }
+            StackItem {
+                z: 0,
+                style: format!(
+                    r#"
+                        justify-content: start;
+                        overflow-x: hidden;
+                        overflow-y: auto;
+                        scroll-snap-type: {};
+                        scroll-behaviour: smooth;
+                        {}
+                    "#,
+                    match props.scroll_snap {
+                        Some(PageScrollSnap::Mandatory) => "y mandatory",
+                        Some(PageScrollSnap::Proximity) => "y proximity",
+                        None => "none"
+                    },
+                    stylesheet::FILL
+                ),
+                { props.children }
+            }
         }
     )
 }

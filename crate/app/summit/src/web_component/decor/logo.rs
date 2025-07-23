@@ -11,7 +11,7 @@ pub struct LogoProps {
 #[component]
 pub fn Logo(props: LogoProps) -> Element {
     rsx!(
-        Redirect {
+        dioxus_modifier::Redirect {
             to: "/",
             dioxus_layout::Row {
                 style: format!(

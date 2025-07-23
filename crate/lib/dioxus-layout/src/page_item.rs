@@ -19,6 +19,7 @@ pub fn PageItem(props: PageItemProps) -> Element {
             class: props.class,
             style: format!(
                 r#"
+                    flex: 1;
                     {}
                     {}
                 "#,

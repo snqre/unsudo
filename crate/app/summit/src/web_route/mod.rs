@@ -10,7 +10,5 @@ modwire::expose!(
 #[derive(PartialEq)]
 pub enum Route {
     #[route("/")]
-    Home {},
-    #[route("/logs")]
-    Logs {}
+    Home {}
 }

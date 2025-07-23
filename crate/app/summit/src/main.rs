@@ -1,13 +1,6 @@
 use dioxus::prelude::*;
 use dioxus::document;
 
-
-
-
-
-
-
-
 mod web;
 mod web_component;
 mod web_route;
