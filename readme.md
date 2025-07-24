@@ -38,3 +38,154 @@ impl MyTrait for MyStruct {
 
 // === Free Functions ===
 pub fn make_struct() -> MyStruct { ... }
+```
+
+```rust
+// avoid destructuring modules and keep the namespace clean. more verbosity is the cost of a clean namespace, and renaming entire sections of code becomes easier.
+use core::result;
+
+// public macro on top
+#[macro_export()]
+macro_rules! macro_0 {}
+macro_rules! macro_1 {}
+macro_rules! macro_2 {}
+
+// internally public macro middle
+macro_rules! macro_2 {}
+
+// private macro below
+macro_rules! macro_0 {}
+macro_rules! macro_1 {}
+macro_rules! macro_2 {}
+
+// public trait above
+pub trait Public {}
+
+// below
+trait Private {}
+
+
+
+pub struct HelloWorld {}
+
+impl HelloWorld {}
+
+impl Public for HelloWorld {}
+```
+
+
+
+```rust
+pub struct Engine;
+
+// The port/dependencies of the domain should be located within the same module as the type/struct/enum to allow for easier discoverability.
+impl car::Engine for Engine {
+    
+    // All required types should mostly be accesible from the same entry point.
+    fn vroom(&self) -> car::Result<&'static str> {
+        "vroom"
+    }
+}
+
+
+// default type of the module
+car::Car {
+
+}
+
+```
+
+### Import
+###### Yes
+```rust
+use ::serde;
+
+#[derive(serde::Serialize)]
+#[derive(serde::Deserialize)]
+struct Foo;
+```
+###### No
+```rust
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize)]
+#[derive(Deserialize)]
+struct Foo;
+```
+
+### Very Long Import
+###### No
+```rust
+use crate::shape;
+
+fn main() {
+    let circle: shape::circle::Circle = shape::circle::Circle::default();
+}
+```
+###### Yes
+```rust
+use crate::shape::circle;
+
+fn main() {
+    let circle: circle::Circle = circle::Circle::default();
+}
+```
+
+### Generics
+###### Yes
+```rust
+fn foo<T>()
+where
+    T: Sized,
+    T: Clone,
+    T: Copy {}
+```
+###### Yes
+```rust
+trait SizedCopy 
+where
+    Self: Sized,
+    Self: Clone,
+    Self: Copy {}
+
+impl<T> SizedCopy for T
+where
+    T: Sized,
+    T: Clone,
+    T: Copy {}
+
+fn foo<T: SizedCopy>() {}
+```
+###### No
+```rust
+fn foo<T: Sized + Clone + Copy>() {}
+```
+###### No
+```rust
+fn foo<T>()
+where
+    T Sized + Clone + Copy;
+```
+
+
+
+### Flatten Large Module
+
+###### No
+```rust
+mod module_0
+mod module_1
+mod module_2
+pub use module_0::*;
+pub use module_1::*;
+use module_2::*;
+```
+
+###### Yes
+```rust
+modwire::expose!(
+    pub module_0
+    pub module_1
+    module_2
+);
+```
