@@ -95,7 +95,11 @@ car::Car {
 
 ```
 
-### Import
+
+
+
+### Import #1
+
 ###### Yes
 ```rust
 use ::serde;
@@ -103,6 +107,7 @@ use ::serde;
 #[derive(serde::Serialize)]
 #[derive(serde::Deserialize)]
 struct Foo;
+
 ```
 ###### No
 ```rust
@@ -113,7 +118,9 @@ use serde::{Serialize, Deserialize};
 struct Foo;
 ```
 
-### Very Long Import
+
+### Import #2
+
 ###### No
 ```rust
 use crate::shape;
@@ -121,6 +128,7 @@ use crate::shape;
 fn main() {
     let circle: shape::circle::Circle = shape::circle::Circle::default();
 }
+
 ```
 ###### Yes
 ```rust
@@ -131,15 +139,53 @@ fn main() {
 }
 ```
 
-### Generics
-###### Yes
+
+
+
+### Generics & Trait Bounds
+When writing trait bounds in a `where` clause with one constraint per line:
+
 ```rust
 fn foo<T>()
 where
     T: Sized,
     T: Clone,
     T: Copy {}
+``` 
+
+You get cleaner IDE tooltips, better diffs, and easier visual scanning. Each trait is clearly separated, and IDEs like VS Code, IntelliJ Rust, or rust-analyzer will show better per-bound suggestions and signature previews.
+Compare this to the `+` form:
+
+```rust
+fn foo<T: Sized + Clone + Copy>() {}
 ```
+
+```rust
+fn foo<T>()
+where
+    T Sized + Clone + Copy;
+```
+
+* Harder to parse at a glance (especially with long generic bounds).
+* IDEs often collapse or truncate long inline constraints.
+* Less diff-friendly when adding/removing bounds.
+
+###### Yes
+```rust
+fn bar<T>()
+where
+    T: Sized,
+    T: Clone,
+    T: Copy {}
+```
+
+###### No
+```rust
+fn bar<T>()
+where
+    T Sized + Clone + Copy;
+```
+
 ###### Yes
 ```rust
 trait SizedCopy 
@@ -154,22 +200,26 @@ where
     T: Clone,
     T: Copy {}
 
-fn foo<T: SizedCopy>() {}
+fn bar<T: SizedCopy>() {}
 ```
+
 ###### No
 ```rust
-fn foo<T: Sized + Clone + Copy>() {}
+fn bar<T: Sized + Clone + Copy>() {}
 ```
-###### No
+
+
+### Module Flattening
+Avoid manually repeating `mod` and `use` for every module. Use `modwire::expose!` for flattened exports:
+
+###### Yes
 ```rust
-fn foo<T>()
-where
-    T Sized + Clone + Copy;
+modwire::expose!(
+    pub module_0
+    pub module_1
+    module_2
+);
 ```
-
-
-
-### Flatten Large Module
 
 ###### No
 ```rust
@@ -179,13 +229,4 @@ mod module_2
 pub use module_0::*;
 pub use module_1::*;
 use module_2::*;
-```
-
-###### Yes
-```rust
-modwire::expose!(
-    pub module_0
-    pub module_1
-    module_2
-);
 ```
