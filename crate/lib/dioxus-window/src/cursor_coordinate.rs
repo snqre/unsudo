@@ -7,23 +7,24 @@ use super::*;
 /// attached, or that any updates will occur if browser APIs fail.
 /// 
 /// Failures happen silently—no errors will be thrown or logged.
-pub fn use_cursor_coordinate() -> Signal<Coordinate> {
-    let coordinate: Signal<_> = use_signal(|| Coordinate {
-        x: 0.0f64,
-        y: 0.0f64
+pub fn use_cursor_coordinate() -> Signal<Point2D> {
+    let point: Signal<_> = use_signal(|| point_2d::Point2D {
+        x: 0.0,
+        y: 0.0
     });
 
     #[cfg(target_arch = "wasm32")]
     use_effect(move || {
-        use ::web_sys;
-        use ::web_sys::wasm_bindgen::closure;
-        use ::web_sys::wasm_bindgen::JsCast as _;
+        use web_sys;
+        use web_sys::wasm_bindgen::closure;
+        use web_sys::wasm_bindgen::JsCast as _;
+        
         let update: _ = {
-            let mut coordinate: Signal<_> = coordinate;
+            let mut point: Signal<_> = point;
             move |e: web_sys::MouseEvent| {
                 let x: f64 = e.client_x() as f64;
                 let y: f64 = e.client_y() as f64;
-                coordinate.set(Coordinate {
+                point.set(point_2d::Point2D {
                     x,
                     y
                 });
@@ -36,5 +37,5 @@ pub fn use_cursor_coordinate() -> Signal<Coordinate> {
         closure.forget();
     });
 
-    coordinate
+    point
 }

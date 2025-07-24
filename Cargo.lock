@@ -1263,6 +1263,7 @@ dependencies = [
 name = "dioxus-window"
 version = "0.1.0"
 dependencies = [
+ "core",
  "dioxus",
  "gloo-timers",
  "modwire",
