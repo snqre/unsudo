@@ -7,7 +7,7 @@ use super::*;
 /// attached, or that any updates will occur if browser APIs fail.
 /// 
 /// Failures happen silently—no errors will be thrown or logged.
-pub fn use_h() -> Signal<f64> {
+pub fn use_height() -> Signal<f64> {
     #[allow(unused_mut)]
     let mut h: Signal<f64> = use_signal(|| 0.0f64);
 
@@ -18,7 +18,7 @@ pub fn use_h() -> Signal<f64> {
             if let Some(window) = web_sys::window() {
                 if let Ok(value) = window.inner_height() {
                     if let Some(value) = value.as_f64() {
-                        h.set(value);
+                        height.set(value);
                     }
                 }
             }

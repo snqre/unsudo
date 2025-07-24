@@ -1,10 +1,7 @@
 use super::*;
 
-pub fn use_element_coordinate(identifier: &'static str) -> Signal<Point2D> {
-    let point: Signal<Point2D> = use_signal(|| point_2d::Point2D {
-        x: 0.0,
-        y: 0.0
-    });
+pub fn use_element_coordinate(identifier: &'static str) -> Signal<Coordinate> {
+    let point: Signal<_> = use_signal(|| (0.0, 0.0));
 
     use_effect({
         let mut point: Signal<_> = point.to_owned();
@@ -14,10 +11,7 @@ pub fn use_element_coordinate(identifier: &'static str) -> Signal<Point2D> {
                     let dom_rect: web_sys::DomRect = element.get_bounding_client_rect();
                     let dom_rect_x: f64 = dom_rect.x();
                     let dom_rect_y: f64 = dom_rect.y();
-                    point.set(point_2d::Point2D {
-                        x: dom_rect_x,
-                        y: dom_rect_y
-                    });
+                    point.set((dom_rect_x, dom_rect_y));
                 }
             });            
         }

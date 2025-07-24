@@ -7,7 +7,7 @@ use super::*;
 /// attached, or that any updates will occur if browser APIs fail.
 /// 
 /// Failures happen silently—no errors will be thrown or logged.
-pub fn use_w() -> Signal<f64> {
+pub fn use_width() -> Signal<f64> {
     #[allow(unused_mut)]
     let mut w: Signal<f64> = use_signal(|| 0.0f64);
 
@@ -18,7 +18,7 @@ pub fn use_w() -> Signal<f64> {
             if let Some(window) = web_sys::window() {
                 if let Ok(value) = window.inner_width() {
                     if let Some(value) = value.as_f64() {
-                        w.set(value);
+                        width.set(value);
                     }
                 }
             }
