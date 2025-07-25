@@ -1,33 +1,42 @@
-import * as exitCode from "reliq";
-import * as dotAPI from "@polkadot/api";
-import * as dotExt from "@polkadot/extension-dapp";
+import * as exit_code from "reliq";
+import * as dot_api from "@polkadot/api";
+import * as dot_ext from "@polkadot/extension-dapp";
 
-type Account = {
 
-}
 
-enum Error {
-    PolkadotExtensionNotFound
-}
 
-async function __connect() {
-    return exitCode.wrapAsync(async () => {
-        let extension = await dotExt.web3Enable("Unsudo");
-        if (extension.length === 0) {
-            return exitCode.Err(Error.PolkadotExtensionNotFound);
-        }
-        let accounts = await dotExt.web3Accounts();
-        return accounts[0]?.
-    });
+
+
+
+
+export async function connect(app_name: string) {
+    let wallets = await dot_ext.web3Enable(app_name);
+    (await wallets[0]?.metadata?.get()
+    
 }
 
 
-type Transaction = {
-    sender: string,
-    recipient: string,
-    amount: number
-};
+namespace wallet {
+    
+    export type Wallet = {
+        accounts: Array<account.Account>,
 
-async function forward_client_transaction_(): Promise<void> {
+    };
+}
 
+namespace account {
+
+    export type Account = {
+        address: string,
+        genesis_hash?: string,
+        name?: string,
+        kind?: KeyPair
+    };
+
+    export enum KeyPair {
+        Ed25519,
+        Sr25519,
+        Ecdsa,
+        Ethereum
+    }
 }
