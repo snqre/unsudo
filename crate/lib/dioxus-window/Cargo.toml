@@ -15,3 +15,9 @@ dependencies.web-sys.features = [
 ]
 dependencies.dioxus.version = ">=0.6.0,<1.0.0"
 dependencies.gloo-timers.version = "*"
+dependencies.serde.version = "*"
+dependencies.serde-wasm-bindgen = "*"
+dependencies.wasm-bindgen.version = "*"
+dependencies.paste.version = "*"
+dependencies.tokio = "1.46.1"
+dependencies.wasm-bindgen-futures = "0.4.50"

@@ -1267,6 +1267,12 @@ dependencies = [
  "dioxus",
  "gloo-timers",
  "modwire",
+ "paste",
+ "serde",
+ "serde-wasm-bindgen",
+ "tokio",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
  "web-sys",
 ]
 
