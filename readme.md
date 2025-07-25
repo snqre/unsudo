@@ -1,14 +1,16 @@
 ## Architecture
-### Module
+* [Type Driven Development](./doc/architecture/type-driven-development.md)
+
+#### Module
 * [Ambient](./doc/architecture/module/ambient.md)
 * [Hexagonal Architecture](./doc/architecture/module/hexagon-architecture.md)
 * [Hexagon](./doc/architecture/module/hexagon.md)
 * [Role](./doc/architecture/module/role.md)
 
-### Workspace
+#### Workspace
 * [Publish](./doc/architecture/workspace/publish.md)
 
-## Dev Ops
+#### Dev Ops
 * [Build](./doc/devops/build.md)
 * [Test](./doc/devops/test.md)
 
