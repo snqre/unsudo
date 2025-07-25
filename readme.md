@@ -8,6 +8,9 @@
 ### Workspace
 * [Publish](./doc/architecture/workspace/publish.md)
 
+## Dev Ops
+* [Build](./doc/devops/build.md)
+* [Test](./doc/devops/test.md)
 
 ## Style Guide
 This guide defines the preferred code structure and ordering for Rust modules in this project. The goal is to maximize clarity, encourage consistent patterns, and support abstraction-first design.
