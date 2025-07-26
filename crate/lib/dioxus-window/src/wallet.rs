@@ -87,8 +87,13 @@ pub enum ConnectionMode {
     NFC
 }
 
-pub async fn request_connection_to_polkadot_wallets() -> Result<Vec<Wallet>, JsValue> {
-    match bridge::request_connection_to_polkadot_wallets().await {
+pub struct ConnectionRequest {
+    pub source: Source,
+    pub protocols: Vec<Protocol>
+}
+
+pub async fn connect(requests: Vec<ConnectionRequest>) -> Result<Vec<Wallet>, JsValue> {
+    match bridge::connect().await {
         Ok(js_val) => serde_wasm_bindgen::from_value(js_val)
             .map_err(|e| JsValue::from_str(&format!("Deserialization failed: {:?}", e))),
         Err(err) => Err(err),
@@ -101,6 +106,6 @@ mod bridge {
     #[wasm_bindgen(module = "/src/wallet.ts")]
     extern "C" {
         #[wasm_bindgen(catch)]
-        pub async fn request_connection_to_polkadot_wallets() -> Result<JsValue, JsValue>;
+        pub async fn connect() -> Result<JsValue, JsValue>;
     }
 }
