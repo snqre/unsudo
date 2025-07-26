@@ -3,7 +3,7 @@ use std::time;
 use core::floating_coordinate::point_2d;
 
 modwire::expose!(
-    pub cursor_coordinate
+    pub wallet
     pub cursor_x
     pub cursor_y
     pub device
