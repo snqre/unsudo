@@ -1,0 +1,29 @@
+Script started on 2025-07-28 00:42:12+02:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="100" LINES="18"]
+[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m git push[Kbun run sscrip[K[K[K[K[K[K/script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[31merror[0m[2m: [0m[1mModuleNotFound resolving "src/native/hello.ts" (entry point)[0m
+[0m
+[2mBun v1.2.13 (Linux x64)[0m
+[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m bun run /script/build.ts
+[?2004l[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m cargo aadd [K[K[K[Kdd js-sys
+[?2004l[1m[32m    Updating[0m crates.io index
+[1m[32m      Adding[0m js-sys v0.3.77 to dependencies
+             Features:
+             [1m[32m+[0m std
+[?2004h
+[1;32m[]0;usr@nixos: ~/Git/unsudo/crate/lib/dioxus-windowusr@nixos:~/Git/unsudo/crate/lib/dioxus-window]$[0m 
+Script done on 2025-07-28 01:08:11+02:00 [COMMAND_EXIT_CODE="0"]

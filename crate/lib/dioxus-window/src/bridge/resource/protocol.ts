@@ -20,14 +20,14 @@ export enum Protocol {
     Sui
 }
 
-export const GROUP_UTXO: ReadonlyArray<Protocol> = [
+export const UTXO: ReadonlyArray<Protocol> = [
     Protocol.Bitcoin,
     Protocol.Dogecoin,
     Protocol.Litecoin,
     Protocol.Zcash
 ];
 
-export const GROUP_EVM: ReadonlyArray<Protocol> = [
+export const EVM: ReadonlyArray<Protocol> = [
     Protocol.Ethereum,
     Protocol.Arbitrum,
     Protocol.Optimism,
@@ -36,19 +36,19 @@ export const GROUP_EVM: ReadonlyArray<Protocol> = [
     Protocol.Avalanche
 ];
 
-export const GROUP_SUBSTRATE: ReadonlyArray<Protocol> = [
+export const SUBSTRATE: ReadonlyArray<Protocol> = [
     Protocol.Polkadot,
     Protocol.Kusama
 ];
 
 export function is_utxo(protocol: Protocol): boolean {
-    return GROUP_UTXO.includes(protocol);
+    return UTXO.includes(protocol);
 }
 
 export function is_substrate(protocol: Protocol): boolean {
-    return GROUP_SUBSTRATE.includes(protocol);
+    return SUBSTRATE.includes(protocol);
 }
 
 export function is_evm(protocol: Protocol): boolean {
-    return GROUP_EVM.includes(protocol);
+    return EVM.includes(protocol);
 }

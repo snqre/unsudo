@@ -1,8 +1,12 @@
 use dioxus::prelude::*;
+use web_sys::js_sys::Function;
 use std::time;
 use core::floating_coordinate::point_2d;
 
-modwire::expose!(
+mod ts;
+
+::modwire::expose!(
+    
     pub wallet
     pub cursor_x
     pub cursor_y
@@ -74,17 +78,7 @@ macro_rules! closure_ref {
     };
 }
 
-#[derive(Clone, PartialEq)]
-#[repr(u8)]
-pub enum Device {
-    Laptop4K,
-    LaptopL,
-    Laptop,
-    Tablet,
-    MobileL,
-    MobileM,
-    Mobile
-}
+
 
 pub struct Coordinate {
     pub x: f64,
@@ -96,22 +90,7 @@ pub struct Dimension {
     pub height: f64
 }
 
-pub fn use_device() -> Signal<Device> {
-    let w: Signal<_> = use_w();
-    let mut device: Signal<_> = use_signal(|| Device::Laptop);
 
-    match w() {
-        w if w >= 2560.0 => device.set(Device::Laptop4K),
-        w if w >= 1440.0 => device.set(Device::LaptopL),
-        w if w >= 1024.0 => device.set(Device::Laptop),
-        w if w >= 768.0 => device.set(Device::Tablet),
-        w if w >= 425.0 => device.set(Device::MobileL),
-        w if w >= 375.0 => device.set(Device::MobileM),
-        _ => device.set(Device::Mobile)
-    }
-
-    device
-}
 
 pub fn use_cursor_offset_from_element(identifier: &'static str) -> Signal<Coordinate> {
     let mut offset: Signal<Coordinate> = use_signal(|| Coordinate {
@@ -256,132 +235,150 @@ pub fn use_interval<T>(hook: T, ms: u32) {
 
 }
 
-pub fn use_element_coordinate(id: &'static str) -> Signal<(f64, f64)> {
-    let coordinate: Signal<(f64, f64)> = use_signal(|| (
-        0.0,
-        0.0
-    ));
 
-    let update: _ = move || {
-        if let Some(win) = web_sys::window() {
-            if let Some(doc) = win.document() {
-                if let Some(element) = doc.get_element_by_id(id) {
-                    let rect = element.get_bounding_client_rect();
-                    coordinate.set((
-                        rect.x(),
-                        rect.y()
-                    ));
-                }
-            }
-        }
-    };
 
-    use_effect(move || {
-        update();
+
+
+
+pub fn use_element_coordinate(identifier: &'static str) -> Signal<(f64, f64)> {
+    let mut ret: Signal<(f64, f64)> = use_signal(|| (0.0, 0.0));
+
+    use_animation_frame(move || {
+        web_sys::window()
+            .and_then(|c| c.document())
+            .and_then(|c| c.get_element_by_id(identifier))
+            .map(|c| c.get_bounding_client_rect())
+            .map(|c| (
+                c.x(),
+                c.y()
+            ))
+            .map(|(x, y)| ret.set((x, y)));
     });
 
-
+    ret
 }
 
 
 
+    use wasm_bindgen::prelude::*;
+    use wasm_bindgen::JsCast as _;
+
+mod animation {
+    use super::*;
+
+    use std::{cell::RefCell, rc::Rc};
 
 
-
-pub struct Browser;
-
-impl Browser {
-    pub fn fetch_window() -> Option<web_sys::Window> {
-        web_sys::window()
+    macro_rules! to_js_fn {
+        ($block:block) => {
+            Closure::wrap(Box::new(move || $block) as Box<dyn FnMut()>).as_ref().unchecked_ref()
+        };
     }
 
-    pub fn fetch_document() -> Option<web_sys::Document> {
-        Self::fetch_window()?.document()
-    }
-
-    pub fn fetch_element_pos_x(el_id: &str) {
-
-    }
-
-    pub fn fetch_element_pos_y(el_id: &str) {}
-
-    pub fn fetch_element_pos(el_id: &str) {}
-
-    pub async fn connect_to_polkadot_wallet() {
-
-    }
-}
-
-
-mod browser {
-    pub fn fetch_window() -> Option<web_sys::Window> {
-        web_sys::window()
-    }
-
-    pub fn fetch_document() -> Option<web_sys::Document> {
-        fetch_window()?.document()
-    }
-
-
-}
-
-
-pub struct WebGlue;
-
-impl WebGlue {
-    pub fn fetch_window() -> Option<web_sys::Window> {
-        web_sys::window()
-    }
-
-    
-}
-
-
-
-pub struct Element;
-
-impl Element {
-    pub fn fetch(id: &'static str) -> Option<web_sys::Element> {
-        Window::connect_to_document()?.get_element_by_id(id)
-    }
-
-    pub fn x() -> f32 {
-        if let Some(win) = web_sys::window() {
-            if let Some(doc) = win.document() {
-                if let Some(element) = doc.get_element_by_id(id) {
-                    let rect = element.get_bounding_client_rect();
-                    coordinate.set((
-                        rect.x(),
-                        rect.y()
-                    ));
-                }
+    pub fn use_animation_frame<A, B>(hook: B) 
+    where
+        B: 'static,
+        B: FnMut() {
+        let mut keep_alive: Signal<bool> = use_signal(|| true);
+        
+        let update: _ = move || {
+            if keep_alive() {
+                web_sys::window().unwrap().request_animation_frame(to_js_fn!({
+                    update();
+                }));
             }
-            0.0
-        }
-    }
+        };
 
-    pub fn rect() -> web_sys::DomRect {
+        use_effect(move || {
+            web_sys::window().unwrap().request_animation_frame(to_js_fn!({
+                
 
+            }));
+        });
     }
 }
 
 
 
+#[wasm_bindgen(module = "/src/wallet.ts")]
+extern "C" {
+    #[wasm_bindgen(js_name = on_animation_frame)]
+    fn on_animation_frame(event_handler: &Closure<dyn FnMut() -> bool>) -> Function;
+}
 
+/// Starts an animation frame loop and returns a function that stops it.
+pub fn on<F>(mut event_listener: F) -> impl FnOnce()
+where
+    F: FnMut() -> bool + 'static,
+{
+    let closure = Closure::wrap(Box::new(move || {
+        event_listener()
+    }) as Box<dyn FnMut() -> bool>);
 
-
-
-
-pub struct Window;
-
-impl Window {
-    pub fn connect_to_window() -> Option<web_sys::Window> {
-        web_sys::window()
-    }
-
-    pub fn connect_to_document() -> Option<web_sys::Document> {
-        Self::connect_to_window()?.document()
-    }
-
+    let stop_fn = on_animation_frame(&closure);
     
+    // Leak the closure if you want it to live for the loop duration.
+    // If you want to cancel safely later, store it instead.
+    closure.forget();
+
+    // Return a kill switch that stops the animation loop.
+    move || {
+        let _ = stop_fn.call0(&JsValue::NULL);
+    }
+}
+
+
+
+pub fn use_animation_frame<A, B>(mut hook: B) -> Signal<A> 
+where
+    B: 'static,
+    B: FnMut() -> A,
+    B: Clone {
+
+    use std::rc;
+    use std::cell;
+
+    type ClosureRef = rc::Rc<cell::RefCell<Option<Closure<dyn FnMut()>>>>;
+    
+    let ret: Signal<A> = use_signal(|| hook());
+    let c_ref: ClosureRef = rc::Rc::new(cell::RefCell::new(None)); 
+    let c_ref_clone: ClosureRef = c_ref.to_owned();
+    let c_ref_clone_0: ClosureRef = c_ref_clone.to_owned();
+
+    use_effect(move || {
+        let mut ret: Signal<A> = ret.to_owned();
+        let mut hook: B = hook.to_owned();
+        let c_ref: ClosureRef = c_ref_clone.to_owned();
+        let c_ref_clone: ClosureRef = c_ref_clone.to_owned();
+        let c: Closure<dyn FnMut()> = Closure::wrap(Box::new(move || {
+            ret.set(hook());
+            if let Some(window) = web_sys::window() {
+                let _ = window.request_animation_frame(
+                    c_ref
+                        .borrow()
+                        .as_ref()
+                        .unwrap()
+                        .as_ref()
+                        .unchecked_ref(),
+                );
+            }
+        }) as Box<dyn FnMut()>);
+        *c_ref_clone.borrow_mut() = Some(c);
+        if let Some(window) = web_sys::window() {
+            let _ = window.request_animation_frame(
+                c_ref_clone
+                    .borrow()
+                    .as_ref()
+                    .unwrap()
+                    .as_ref()
+                    .unchecked_ref(),
+            );
+        }
+    });
+
+    use_drop(move || {
+        c_ref_clone_0.borrow_mut().take();
+    });
+
+    ret
 }

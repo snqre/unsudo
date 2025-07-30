@@ -1,12 +1,10 @@
-#[allow(unused_imports)]
 use super::*;
+use std::sync;
 
-#[allow(unused_variables)]
 pub fn use_interval<T>(hook: T, ms: u32)
 where
     T: FnMut() + 'static {
-    #[allow(unused_variables)]
-    let hook: std::rc::Rc<_> = ::std::rc::Rc::new(::std::cell::RefCell::new(hook));
+    let hook: sync::Rc<_> = sync::Rc::new(sync::RefCell::new(hook));
         
     #[cfg(target_arch = "wasm32")]
     use_effect(move || {
@@ -17,4 +15,12 @@ where
             hook.borrow_mut()();
         });
     });
+}
+
+
+
+fn t() {
+    use_interval(|| {
+
+    }, 2000);
 }
