@@ -11,6 +11,13 @@ use ::wasm_bindgen::prelude::*;
 use ::serde_wasm_bindgen;
 
 #[macro_export]
+macro_rules! warn {
+    ($message:expr) => {
+        
+    };
+}
+
+#[macro_export]
 macro_rules! js_include {
     ($js_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*) -> $ret_ty:ty) => {
         paste::paste!(
@@ -36,19 +43,130 @@ macro_rules! js_include {
             }
         );
     };
+    ($js_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*)) => {
+        paste::paste!(
+            mod $fn_ident {
+                use super::*;
+
+                #[wasm_bindgen(module = $js_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident($($arg_ident: JsValue),*) -> Result<(), JsValue>;
+                }
+            }
+
+            pub fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<(), JsValue> {
+                $fn_ident::$fn_ident($(serde_wasm_bindgen::to_value(&$arg_ident).map_err(|e| {
+                    JsValue::from_str(&e.to_string())
+                })?),*)
+            }
+        );
+    };
+    ($js_path:literal::$fn_ident:ident() -> $ret_ty:ty) => {
+        paste::paste!(
+            mod $fn_ident {
+                use super::*;
+
+                #[wasm_bindgen(module = $js_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            pub fn $fn_ident() -> Result<$ret_ty, JsValue> {
+                let ret = $fn_ident::$fn_ident();
+                serde_wasm_bindgen::from_value(ret).map_err(|e| {
+                    JsValue::from_str(&e.to_string())
+                })
+            }
+        );
+    };
+    ($js_path:literal::$fn_ident:ident()) => {
+        paste::paste!(
+            mod $fn_ident {
+                use super::*;
+
+                #[wasm_bindgen(module = $js_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            #[inline]
+            pub fn $fn_ident() -> Result<(), JsValue> {
+                let ret = $fn_ident::$fn_ident()?;
+                if ret.is_undefined() || ret.is_null() {
+                    Ok(())
+                } else {
+                    warn!("...")
+                    Ok(())   
+                }
+            }
+        );
+    };
+
+
+
+
+
+
+
+    (async $file_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*)) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use super::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub async fn $fn_ident($($arg_ident: JsValue),*) -> Result<JsValue, JsValue>;
+                }
+            }
+
+            pub async fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<(), JsValue> {
+                let ret = [< __ $fn_ident >]::$fn_ident($(serde_wasm_bindgen::to_value(&$arg_ident).map_err(|e| {
+                    JsValue::from_str(&e.to_string())
+                })?),*).await?;
+                if !ret.is_undefined() || !ret.is_null() {
+                    warn!("");
+                    Ok(())
+                } else {
+                    Ok(())
+                }
+            }
+        );
+    };
+    (async $file_path:literal::$fn_ident:ident()) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use super::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            #[inline]
+            pub async fn $fn_ident() -> Result<(), JsValue> {
+                let ret = [< __ $fn_ident >]::$fn_ident().await?;
+                if !ret.is_undefined() || !ret.is_null() {
+                    warn!("...");
+                    Ok(())
+                } else {
+                    Ok(())
+                }
+            }
+        );
+    };
+    
 }
 
-
-
-js_include!("src/ts/event.ts"::hello_world(status: u8) -> u8);
-
-
-
-
-
-
 #[macro_export]
-macro_rules! js_value {
+macro_rules! val {
     ($value:expr) => {
         JsValue::from($value)
     };
