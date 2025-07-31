@@ -4,8 +4,6 @@ package.edition = "2021"
 package.publish = false
 dependencies.modwire.version = ">=0.1.0,<1.0.0"
 dependencies.modwire.path = "../modwire"
-dependencies.core.version = "*"
-dependencies.core.path = "../core"
 dependencies.web-sys.version = ">=0.3.77,<1.0.0"
 dependencies.web-sys.features = [
     "Window", 

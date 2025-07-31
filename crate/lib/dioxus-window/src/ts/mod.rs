@@ -1,14 +1,13 @@
 use super::*;
 
 pub fn on_timeout(ms: u32, event_handler: &js_sys::Function) {
-    let event_handler = js_fn!(move || -> f32 {
+    let event_handler = function!(move || -> f32 {
         0.0
     });
 }
 
 
-use ::wasm_bindgen::prelude::*;
-use ::serde_wasm_bindgen;
+
 
 #[macro_export]
 macro_rules! warn {
@@ -18,105 +17,28 @@ macro_rules! warn {
 }
 
 #[macro_export]
-macro_rules! js_include {
-    ($js_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*) -> $ret_ty:ty) => {
+macro_rules! bind {
+    (async $file_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*) -> $ret_ty:ty) => {
         paste::paste!(
-            mod $fn_ident {
-                use super::*;
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
 
-                #[wasm_bindgen(module = $js_path)]
+                #[wasm_bindgen(module = $file_path)]
                 extern "C" {
                     #[wasm_bindgen(catch)]
-                    pub fn $fn_ident($($arg_ident: JsValue),*) -> Result<JsValue, JsValue>;
+                    pub async fn $fn_ident($($arg_ident: JsValue),*) -> ::core::result::Result<JsValue, JsValue>;
                 }
             }
 
-            pub fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<$ret_ty, JsValue> {
-                let ret = $fn_ident::$fn_ident(
-                    $(serde_wasm_bindgen::to_value(&$arg_ident).map_err(|e| {
-                        JsValue::from_str(&e.to_string())
-                    })?),*
-                )?;
-                serde_wasm_bindgen::from_value(ret).map_err(|e| {
-                    JsValue::from_str(&e.to_string())
-                })
+            pub async fn $fn_ident($($arg_ident: $arg_ty),*) -> ::core::result::Result<$ret_ty, JsValue> {
+                to_err(::serde_wasm_bindgen::from_value([< __ $fn_ident >]::$fn_ident($(to_err(::serde_wasm_bindgen::to_value(&$arg_ident))?),*).await?))
             }
         );
     };
-    ($js_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*)) => {
-        paste::paste!(
-            mod $fn_ident {
-                use super::*;
-
-                #[wasm_bindgen(module = $js_path)]
-                extern "C" {
-                    #[wasm_bindgen(catch)]
-                    pub fn $fn_ident($($arg_ident: JsValue),*) -> Result<(), JsValue>;
-                }
-            }
-
-            pub fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<(), JsValue> {
-                $fn_ident::$fn_ident($(serde_wasm_bindgen::to_value(&$arg_ident).map_err(|e| {
-                    JsValue::from_str(&e.to_string())
-                })?),*)
-            }
-        );
-    };
-    ($js_path:literal::$fn_ident:ident() -> $ret_ty:ty) => {
-        paste::paste!(
-            mod $fn_ident {
-                use super::*;
-
-                #[wasm_bindgen(module = $js_path)]
-                extern "C" {
-                    #[wasm_bindgen(catch)]
-                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
-                }
-            }
-
-            pub fn $fn_ident() -> Result<$ret_ty, JsValue> {
-                let ret = $fn_ident::$fn_ident();
-                serde_wasm_bindgen::from_value(ret).map_err(|e| {
-                    JsValue::from_str(&e.to_string())
-                })
-            }
-        );
-    };
-    ($js_path:literal::$fn_ident:ident()) => {
-        paste::paste!(
-            mod $fn_ident {
-                use super::*;
-
-                #[wasm_bindgen(module = $js_path)]
-                extern "C" {
-                    #[wasm_bindgen(catch)]
-                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
-                }
-            }
-
-            #[inline]
-            pub fn $fn_ident() -> Result<(), JsValue> {
-                let ret = $fn_ident::$fn_ident()?;
-                if ret.is_undefined() || ret.is_null() {
-                    Ok(())
-                } else {
-                    warn!("...")
-                    Ok(())   
-                }
-            }
-        );
-    };
-
-
-
-
-
-
-
     (async $file_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*)) => {
         paste::paste!(
             mod [< __ $fn_ident >] {
-                use super::*;
+                use wasm_bindgen::prelude::*;
 
                 #[wasm_bindgen(module = $file_path)]
                 extern "C" {
@@ -125,12 +47,49 @@ macro_rules! js_include {
                 }
             }
 
-            pub async fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<(), JsValue> {
-                let ret = [< __ $fn_ident >]::$fn_ident($(serde_wasm_bindgen::to_value(&$arg_ident).map_err(|e| {
-                    JsValue::from_str(&e.to_string())
-                })?),*).await?;
+            pub async fn $fn_ident($($arg_ident: $arg_ty),*) -> Result<(), ::wasm_bindgen::JsValue> {
+                let ret: ::wasm_bindgen::JsValue = [< __ $fn_ident >]::$fn_ident($(to_err(::serde_wasm_bindgen::to_value(&$arg_ident))?),*).await?;
                 if !ret.is_undefined() || !ret.is_null() {
-                    warn!("");
+                    warn_unexpected_capture!($file_path, $fn_ident, ret);
+                }
+                Ok(())
+            }
+        );
+    };
+    (async $file_path:literal::$fn_ident:ident() -> $ret_ty:ty) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub async fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            pub async fn $fn_ident() -> ::core::result::Result<$ret_ty, ::wasm_bindgen::JsValue> {
+                to_err(::serde_wasm_bindgen::from_value([< __ $fn_ident >]::$fn_ident().await?))
+            }
+        );
+    };
+    (async $file_path:literal::$fn_ident:ident()) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub async fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            #[inline]
+            pub async fn $fn_ident() -> Result<(), JsValue> {
+                let ret: JsValue = [< __ $fn_ident >]::$fn_ident().await?;
+                if !ret.is_undefined() || !ret.is_null() {
+                    warn!(format!("Expected `undefined` or `null` from `{}` in `{}`, but got: {:?}", stringify!($fn_ident), $file_path, ret));
                     Ok(())
                 } else {
                     Ok(())
@@ -138,10 +97,48 @@ macro_rules! js_include {
             }
         );
     };
-    (async $file_path:literal::$fn_ident:ident()) => {
+    ($file_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*) -> $ret_ty:ty) => {
         paste::paste!(
             mod [< __ $fn_ident >] {
-                use super::*;
+                use ::wasm_bindgen::prelude::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident($($arg_ident: JsValue),*) -> ::core::result::Result<JsValue, JsValue>;
+                }
+            }
+
+            pub fn $fn_ident($($arg_ident: $arg_ty),*) -> ::core::result::Result<$ret_ty, ::wasm_bindgen::JsValue> {
+                to_err(::serde_wasm_bindgen::from_value([< __ $fn_ident >]::$fn_ident($(to_err(::serde_wasm_bindgen::to_value(&$arg_ident))?),*)?))
+            }
+        );
+    };
+    ($file_path:literal::$fn_ident:ident($($arg_ident:ident: $arg_ty:ty),*)) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident($($arg_ident: JsValue),*) -> ::core::result::Result<JsValue, JsValue>;
+                }
+            }
+
+            pub fn $fn_ident($($arg_ident: $arg_ty),*) -> ::core::result::Result<(), ::wasm_bindgen::JsValue> {
+                let ret = [< __ $fn_ident >]::$fn_ident($(to_err(::serde_wasm_bindgen::to_value(&$arg_ident))?),*)?;
+                if !ret.is_undefined() || !ret.is_null() {
+                    warn_unexpected_capture!($file_path, $fn_ident, ret);
+                }
+                Ok(())
+            }
+        );
+    };
+    ($file_path:literal::$fn_ident:ident() -> $ret_ty:ty) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
 
                 #[wasm_bindgen(module = $file_path)]
                 extern "C" {
@@ -151,18 +148,44 @@ macro_rules! js_include {
             }
 
             #[inline]
-            pub async fn $fn_ident() -> Result<(), JsValue> {
-                let ret = [< __ $fn_ident >]::$fn_ident().await?;
-                if !ret.is_undefined() || !ret.is_null() {
-                    warn!("...");
-                    Ok(())
-                } else {
-                    Ok(())
-                }
+            pub fn $fn_ident() -> Result<$ret_ty, ::wasm_bindgen::JsValue> {
+                to_err(::serde_wasm_bindgen::from_value([< __ $fn_ident >]::$fn_ident()?))
             }
         );
     };
-    
+    ($file_path:literal::$fn_ident:ident()) => {
+        paste::paste!(
+            mod [< __ $fn_ident >] {
+                use ::wasm_bindgen::prelude::*;
+
+                #[wasm_bindgen(module = $file_path)]
+                extern "C" {
+                    #[wasm_bindgen(catch)]
+                    pub fn $fn_ident() -> Result<JsValue, JsValue>;
+                }
+            }
+
+            #[inline]
+            pub fn $fn_ident() -> Result<(), JsValue> {
+                warn_unexpected_capture!($file_path, $fn_ident, [< __ $fn_ident >]::$fn_ident()?)
+            }
+        );
+    };
+}
+
+
+
+macro_rules! warn_unexpected_capture {
+    ($file_path:literal, $fn_ident:ident, $js_val:expr) => {
+        warn!(format!("Expected `undefined` or `null` from `{}` in `{}`, but got: `{:?}`", stringify!($fn_ident), $file_path, $js_val));
+    };
+}
+
+#[inline]
+fn to_err<A, B>(ret: ::core::result::Result<A, B>) -> ::core::result::Result<A, ::wasm_bindgen::JsValue> 
+where
+    B: ::core::fmt::Display {
+    ret.map_err(|e| ::wasm_bindgen::JsValue::from_str(&e.to_string()))
 }
 
 #[macro_export]
@@ -173,46 +196,46 @@ macro_rules! val {
 }
 
 #[macro_export]
-macro_rules! js_fn {
+macro_rules! function {
     (move || -> $ret_ty:ty $block:block) => {
-        Closure::wrap(Box::new(move || -> $ret_ty {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(move || -> $ret_ty {
             $block
-        }) as Box<dyn FnMut() -> $ret_ty>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut() -> $ret_ty>)
     };
     (move || $block:block) => {
-        Closure::wrap(Box::new(move || {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(move || {
             $block
-        }) as Box<dyn FnMut()>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut()>)
     };
     (move |$($arg_ident:ident: $arg_ty:ty),*| -> $ret_ty:ty $block:block) => {
-        Closure::wrap(Box::new(move |$($arg_ident: $arg_ty),*| -> $ret_ty {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(move |$($arg_ident: $arg_ty),*| -> $ret_ty {
             $block
-        }) as Box<dyn FnMut($($arg_ty),*) -> $ret_ty>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut($($arg_ty),*) -> $ret_ty>)
     };
     (move |$($arg_ident:ident: $arg_ty:ty),*| $block:block) => {
-        Closure::wrap(Box::new(move |$($arg_ident: $arg_ty),*| {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(move |$($arg_ident: $arg_ty),*| {
             $block
-        }) as Box<dyn FnMut($($arg_ty),*)>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut($($arg_ty),*)>)
     };
     (|| -> $ret_ty:ty $block:block) => {
-        Closure::wrap(Box::new(|| -> $ret_ty {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(|| -> $ret_ty {
             $block
-        }) as Box<dyn FnMut() -> $ret_ty>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut() -> $ret_ty>)
     };
     (|| $block:block) => {
-        Closure::wrap(Box::new(|| {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(|| {
             $block
-        }) as Box<dyn FnMut()>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut()>)
     };
     (|$($arg_ident:ident: $arg_ty:ty),*| -> $ret_ty:ty $block:block) => {
-        Closure::wrap(Box::new(|$($arg_ident: $arg_ty),*| -> $ret_ty {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(|$($arg_ident: $arg_ty),*| -> $ret_ty {
             $block
-        }) as Box<dyn FnMut($($arg_ty),*) -> $ret_ty>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut($($arg_ty),*) -> $ret_ty>)
     };
     (|$($arg_ident:ident: $arg_ty:ty),*| $block:block) => {
-        Closure::wrap(Box::new(|$($arg_ident: $arg_ty),*| {
+        ::wasm_bindgen::closure::Closure::wrap(::std::boxed::Box::new(|$($arg_ident: $arg_ty),*| {
             $block
-        }) as Box<dyn FnMut($($arg_ty),*)>)
+        }) as ::std::boxed::Box<dyn ::core::ops::FnMut($($arg_ty),*)>)
     };
 }
 
@@ -221,35 +244,44 @@ mod sig_test {
     use super::*;
 
     fn success() {
-        js_fn!(move || -> u8 {
+        bind!(async "/src/wallet.ts"::test_0(a: u8, b: u8, c: u8) -> u8);
+        bind!(async "/src/wallet.ts"::test_1(a: u8, b: u8, c: u8));
+        bind!(async "/src/wallet.ts"::test_2() -> u8);
+        bind!(async "/src/wallet.ts"::test_3());        
+        bind!("/src/wallet.ts"::test_4(a: u8, b: u8, c: u8) -> u8);
+        bind!("/src/wallet.ts"::test_5(a: u8, b: u8, c: u8));
+        bind!("/src/wallet.ts"::test_6() -> u8);
+        bind!("/src/wallet.ts"::test_7());
+
+        function!(move || -> u8 {
             200
         });
 
-        js_fn!(move || {
+        function!(move || {
             
         });
 
-        js_fn!(move |foo: u8| -> u8 {
+        function!(move |foo: u8| -> u8 {
             foo
         });
 
-        js_fn!(move |_foo: u8| {
+        function!(move |_foo: u8| {
             
         });
 
-        js_fn!(|| -> u8 {
+        function!(|| -> u8 {
             200
         });
 
-        js_fn!(|| {
+        function!(|| {
 
         });
 
-        js_fn!(|foo: u8| -> u8 {
+        function!(|foo: u8| -> u8 {
             foo
         });
 
-        js_fn!(|_foo: u8| {
+        function!(|_foo: u8| {
 
         });
     }
